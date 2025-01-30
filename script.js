@@ -2,33 +2,33 @@
 document.addEventListener("DOMContentLoaded", () => {
     const calendar = document.getElementById("calendar"); // Reference to the calendar container
 
-    // Array of surprises (mix of text and images) for the doors
-    const surprises = [
-        "❄️ Winter is coming!",
-        "🎄 Deck the halls!",
-        "🎁 Enjoy a hot chocolate!",
-        "🌟 Believe in the magic of Christmas!",
-        '<img src="https://via.placeholder.com/100?text=🎅" alt="Santa">',
-        '<img src="https://via.placeholder.com/100?text=🎁" alt="Gift">',
-        "☃️ Build a snowman today!",
-        "🎵 Sing your favorite carol!",
-        '<img src="https://via.placeholder.com/100?text=🎄" alt="Tree">',
-        "✨ May your days be merry!",
-        "🍪 Share some cookies!",
-        "🕯️ Light a festive candle!",
-        '<img src="https://via.placeholder.com/100?text=❄️" alt="Snowflake">',
-        "🎉 Celebrate with family!",
-        '<img src="https://via.placeholder.com/100?text=🌟" alt="Star">',
-        "💌 Send a kind note to someone!",
-        "🍬 Enjoy a sweet treat!",
-        '<img src="https://via.placeholder.com/100?text=☃️" alt="Snowman">',
-        "📖 Read a holiday story!",
-        "🎶 Listen to festive tunes!",
-        '<img src="https://via.placeholder.com/100?text=✨" alt="Sparkle">',
-        "🌲 Go for a winter walk!",
-        "💖 Spread holiday cheer!",
-        "🎀 Wrap up some gifts!"
-    ];
+// Array of surprises (mix of text and images) for the doors
+const surprises = [
+    "❄️ Winter is coming!",
+    "🎄 Deck the halls!",
+    "🎁 Enjoy a hot chocolate!",
+    "🌟 Believe in the magic of Christmas!",
+    "🎅 Santa is on his way!",
+    "🎀 Wrap up some gifts!",
+    "☃️ Build a snowman today!",
+    "🎵 Sing your favorite carol!",
+    "🦌 Rudolph is ready to fly!",
+    "✨ May your days be merry!",
+    "🍪 Share some cookies with a friend!",
+    "🕯️ Light a festive candle!",
+    "❄️ Snowflakes are unique, just like you!",
+    "🎉 Celebrate with family and friends!",
+    "🌟 A shining star to guide your way!",
+    "💌 Send a kind note to someone!",
+    "🍬 Enjoy a sweet treat!",
+    "🔔 Jingle bells, jingle bells!",
+    "📖 Read a holiday story!",
+    "🎶 Listen to festive tunes!",
+    "🎊 Throw a mini holiday party!",
+    "🌲 Go for a winter walk!",
+    "💖 Spread holiday cheer!",
+    "☕ Cozy up with a warm drink!"
+];
 
     // Generate an array of numbers 1 to 24 and shuffle them for random door numbers
     const doorNumbers = Array.from({ length: 24 }, (_, i) => i + 1).sort(() => Math.random() - 0.5);
@@ -62,4 +62,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
         calendar.appendChild(door); // Add the door to the calendar container
     });
+});
+document.getElementById("resetButton").addEventListener("click", () => {
+    localStorage.removeItem("openedDoors"); // Clear saved doors
+    location.reload(); // Refresh the page
 });
