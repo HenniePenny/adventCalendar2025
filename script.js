@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // Array of surprises (mix of text and images) for the doors
 const surprises = [
-    "❄️ Winter is coming!",
+    "❄️ Winter has come!",
     "🎄 Deck the halls!",
     "🎁 Enjoy a hot chocolate!",
     "🌟 Believe in the magic of Christmas!",
