@@ -36,7 +36,11 @@ h1 {
     display: flex; /* Center the content inside doors */
     align-items: center;
     justify-content: center;
-    height: 100px; /* Height of the doors */
+    /* Remove the fixed height: */
+    /* height: 100px; */
+    /* Instead, use min-height so doors remain consistent in size but can grow with text: */
+  min-height: 100px; 
+  height: auto;
     cursor: pointer; /* Pointer cursor on hover */
     transition: transform 0.3s, opacity 0.3s; /* Smooth animations */
 }
