@@ -2,32 +2,32 @@
 document.addEventListener("DOMContentLoaded", () => {
     const calendar = document.getElementById("calendar"); // Reference to the calendar container
 
-// Array of surprises (mix of text and images) for the doors
+// Array of surprises (fixed to correspond with specific doors)
 const surprises = [
-    "❄️ Winter has come!",
-    "🎄 Deck the halls!",
-    "🎁 Enjoy a hot chocolate!",
-    "🌟 Believe in the magic of Christmas!",
-    "🎅 Santa is on his way!",
-    "🎀 Wrap up some gifts!",
-    "☃️ Build a snowman today!",
-    "🎵 Sing your favorite carol!",
-    "🦌 Rudolph is ready to fly!",
-    "✨ May your days be merry!",
-    "🍪 Share some cookies with a friend!",
-    "🕯️ Light a festive candle!",
-    "❄️ Snowflakes are unique, just like you!",
-    "🎉 Celebrate with family and friends!",
-    "🌟 A shining star to guide your way!",
-    "💌 Send a kind note to someone!",
-    "🍬 Enjoy a sweet treat!",
-    "🔔 Jingle bells, jingle bells!",
-    "📖 Read a holiday story!",
-    "🎶 Listen to festive tunes!",
-    "🎊 Throw a mini holiday party!",
-    "🌲 Go for a winter walk!",
-    "💖 Spread holiday cheer!",
-    "☕ Cozy up with a warm drink!"
+    "❄️ Winter has come!",  // Door 1
+    "🎄 Deck the halls!",   // Door 2
+    "🎁 Enjoy a hot chocolate!", // Door 3
+    "🌟 Believe in the magic of Christmas!", // Door 4
+    "🎅 Santa is on his way!", // Door 5
+    "🎀 Wrap up some gifts!", // Door 6
+    "☃️ Build a snowman today!", // Door 7
+    "🎵 Sing your favorite carol!", // Door 8
+    "🦌 Rudolph is ready to fly!", // Door 9
+    "✨ May your days be merry!", // Door 10
+    "🍪 Share some cookies with a friend!", // Door 11
+    "🕯️ Light a festive candle!", // Door 12
+    "❄️ Snowflakes are unique, just like you!", // Door 13
+    "🎉 Celebrate with family and friends!", // Door 14
+    "🌟 A shining star to guide your way!", // Door 15
+    "💌 Send a kind note to someone!", // Door 16
+    "🍬 Enjoy a sweet treat!", // Door 17
+    "🔔 Jingle bells, jingle bells!", // Door 18
+    "📖 Read a holiday story!", // Door 19
+    "🎶 Listen to festive tunes!", // Door 20
+    "🎊 Throw a mini holiday party!", // Door 21
+    "🌲 Go for a winter walk!", // Door 22
+    "💖 Spread holiday cheer!", // Door 23
+    "☕ Cozy up with a warm drink!" // Door 24
 ];
 
     // Generate an array of numbers 1 to 24 and shuffle them for random door numbers
