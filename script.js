@@ -51,13 +51,14 @@ for (let day = 1; day <= 24; day++) {
 
         // Add a click event listener to the door
         door.addEventListener("click", () => {
-            if (!door.classList.contains("opened")) {
+            if (!openedDoors.includes(day)) {
                 door.classList.add("opened"); // Mark door as opened
                 door.innerHTML = surprises[day - 1]; // Show the surprise for the day
                 openedDoors.push(day); // Add the day to the list of opened doors
                 localStorage.setItem("openedDoors", JSON.stringify(openedDoors)); // Save the updated state to localStorage
             }
         });
+      
 
         calendar.appendChild(door); // Add the door to the calendar container
     });
