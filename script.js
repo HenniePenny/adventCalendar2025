@@ -44,7 +44,7 @@ for (let day = 1; day <= 24; day++) {
         // Check if the door has already been opened
         if (openedDoors.includes(day)) {
             door.classList.add("opened");
-            door.innerHTML = surprises[index]; // Show the content
+            door.innerHTML = surprises[day - 1]; // Use fixed index to display the surprise
         } else {
             door.textContent = day; // Display the door number
         }
