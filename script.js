@@ -30,6 +30,12 @@ const surprises = [
     "☕ Cozy up with a warm drink!" // Door 24
 ];
 
+// Retrieve the list of opened doors from localStorage (or initialize as an empty array)
+// If 'openedDoors' exists, it retrieves the stored array; otherwise, it defaults to []
+// The localStorage entry is created the first time a door is opened and saved.
+const openedDoors = JSON.parse(localStorage.getItem("openedDoors")) || [];
+
+
     // Generate an array of numbers 1 to 24 and shuffle them for random door numbers
     const doorNumbers = Array.from({ length: 24 }, (_, i) => i + 1).sort(() => Math.random() - 0.5);
 
@@ -63,7 +69,9 @@ const surprises = [
         calendar.appendChild(door); // Add the door to the calendar container
     });
 });
+
+// Reset button to clear opened doors and refresh the page
 document.getElementById("resetButton").addEventListener("click", () => {
-    localStorage.removeItem("openedDoors"); // Clear saved doors
+    localStorage.removeItem("openedDoors"); // Clear saved state in localStorage
     location.reload(); // Refresh the page
 });
