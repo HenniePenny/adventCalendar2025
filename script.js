@@ -35,8 +35,8 @@ const surprises = [
 // The localStorage entry is created the first time a door is opened and saved.
 const openedDoors = JSON.parse(localStorage.getItem("openedDoors")) || [];
 
-// Create doors dynamically
-    doorNumbers.forEach((day, index) => {
+// Create doors dynamically in fixed order (1-24)
+for (let day = 1; day <= 24; day++) {
         const door = document.createElement("div"); // Create a door element
         door.classList.add("door"); // Add the "door" class
         door.setAttribute("data-day", day); // Set the day as a custom attribute
