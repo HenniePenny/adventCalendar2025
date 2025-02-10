@@ -6,10 +6,10 @@ body {
     margin: 0;
     padding: 0;
     background-image: url(https://cdn.pixabay.com/photo/2020/05/20/10/17/christmas-5195815_960_720.jpg);
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-attachment: fixed;
-    background-size: cover;
+    background-repeat: no-repeat; /* Prevents the image from repeating */
+    background-position: center center; /* Centers the background image both horizontally and vertically */
+    background-attachment: fixed; /* Keeps the background image fixed when scrolling */
+    background-size: cover; /* Ensures the background image covers the entire viewport without distortion */
 }
 
 /* Page heading styles */
