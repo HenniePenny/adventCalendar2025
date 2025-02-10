@@ -35,14 +35,7 @@ const surprises = [
 // The localStorage entry is created the first time a door is opened and saved.
 const openedDoors = JSON.parse(localStorage.getItem("openedDoors")) || [];
 
-
-    // Generate an array of numbers 1 to 24 and shuffle them for random door numbers
-    const doorNumbers = Array.from({ length: 24 }, (_, i) => i + 1).sort(() => Math.random() - 0.5);
-
-    // Retrieve the list of opened doors from localStorage (or initialize it as an empty array)
-    const openedDoors = JSON.parse(localStorage.getItem("openedDoors")) || [];
-
-    // Create doors dynamically
+// Create doors dynamically
     doorNumbers.forEach((day, index) => {
         const door = document.createElement("div"); // Create a door element
         door.classList.add("door"); // Add the "door" class
