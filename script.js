@@ -50,6 +50,12 @@ document.addEventListener("DOMContentLoaded", () => {
             door.dataset.opened = "true"; // Store opened state in dataset
         } else {
             door.textContent = day; // Display the door number
+
+            // Lock future doors (cannot be clicked until their day)
+            if (day > currentDay) {
+                door.classList.add("locked"); // Add locked styling
+                door.dataset.locked = "true"; // Mark door as locked
+            }
         }
 
         // Add a click event listener to the door
