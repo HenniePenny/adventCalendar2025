@@ -76,6 +76,11 @@ h1 {
     opacity: 0.8; /* Slight transparency */
 }
 
+/* Enable Smooth Scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
 /* Responsive styles for smaller screens */
 @media (max-width: 500px) {
     #calendar {
