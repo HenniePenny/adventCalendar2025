@@ -60,8 +60,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Add a click event listener to the door
         door.addEventListener("click", () => {
-                if (door.dataset.locked === "true") return; // Prevent clicking locked doors
-                if (door.dataset.opened !== "true") { 
+            if (door.dataset.locked === "true") {
+                alert("🔒🎄 Locked! Open this door on the correct day.");
+                return;
+            } // Prevent clicking locked doors
+            if (door.dataset.opened !== "true") {
                 door.classList.add("opened"); // Mark door as opened
                 door.innerHTML = surprises[day - 1]; // Show the surprise for the day
                 openedDoors.push(day); // Add the day to the list of opened doors
