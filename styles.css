@@ -46,18 +46,18 @@ h1 {
 .door {
     background-color: #e74c3c; /* Red background for doors */
     color: white; /* White text for contrast */
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     font-weight: bold;
-    border: 2px solid #c0392b; /* Darker red border */
-    border-radius: 5px; /* Rounded corners */
+    border: 0.125rem solid #c0392b; /* Darker red border */
+    border-radius: 0.3125rem; /* Rounded corners */
     display: flex; /* Center the content inside doors */
     align-items: center;
     justify-content: center;
     /* Remove the fixed height: */
     /* height: 100px; */
     /* Instead, use min-height so doors remain consistent in size but can grow with text: */
-  min-height: 100px; 
-  height: auto;
+    min-height: 5rem; /* Ensure a consistent door size */
+    height: auto;
     cursor: pointer; /* Pointer cursor on hover */
     transition: transform 0.3s, opacity 0.3s; /* Smooth animations */
 }
