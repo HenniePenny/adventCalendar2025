@@ -1,6 +1,8 @@
 // Wait for the DOM to load before executing the script
 document.addEventListener("DOMContentLoaded", () => {
     const calendar = document.getElementById("calendar"); // Reference to the calendar container
+    const today = new Date(); // Get current date based on user's local time
+    const currentDay = today.getDate(); // Extract the current day of the month (1-31)
 
     // Array of surprises (fixed to correspond with specific doors)
     const surprises = [
@@ -48,10 +50,20 @@ document.addEventListener("DOMContentLoaded", () => {
             door.dataset.opened = "true"; // Store opened state in dataset
         } else {
             door.textContent = day; // Display the door number
+
+            // Lock future doors (cannot be clicked until their day)
+            if (day > currentDay) {
+                door.classList.add("locked"); // Add locked styling
+                door.dataset.locked = "true"; // Mark door as locked
+            }
         }
 
         // Add a click event listener to the door
         door.addEventListener("click", () => {
+            if (door.dataset.locked === "true") {
+                alert("🔒🎄 Locked! Open this door on the correct day.");
+                return;
+            } // Prevent clicking locked doors
             if (door.dataset.opened !== "true") {
                 door.classList.add("opened"); // Mark door as opened
                 door.innerHTML = surprises[day - 1]; // Show the surprise for the day
