@@ -1,6 +1,8 @@
 // Wait for the DOM to load before executing the script
 document.addEventListener("DOMContentLoaded", () => {
     const calendar = document.getElementById("calendar"); // Reference to the calendar container
+    const today = new Date(); // Get current date based on user's local time
+    const currentDay = today.getDate(); // Extract the current day of the month (1-31)
 
     // Array of surprises (fixed to correspond with specific doors)
     const surprises = [
