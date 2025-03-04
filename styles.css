@@ -35,11 +35,11 @@ h1 {
 /* Calendar grid container styles */
 #calendar {
     display: grid; /* Grid layout for doors */
-    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); /* Responsive grid */
-    gap: 10px; /* Space between doors */
-    max-width: 600px; /* Maximum width for the calendar */
+    grid-template-columns: repeat(auto-fit, minmax(3.75rem, 1fr)); /* Mobile-friendly grid */
+    gap: 0.5rem; /* Space between doors */
+    max-width: 90%; /* Responsive width */
     margin: 0 auto; /* Center the calendar */
-    padding: 10px;
+    padding: 0.625rem;
 }
 
 /* Individual door styles */
