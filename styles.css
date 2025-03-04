@@ -2,7 +2,7 @@
 
 /* General body styles for a festive feel */
 body {
-    font-family: 'Mountains of Christmas', cursive; /* Festive font */
+    font-family: 'Mountains of Christmas', cursive, sans-serif; /* Festive font with fallback */
     text-align: center;
     color: #333; /* Dark text for contrast */
     margin: 0;
