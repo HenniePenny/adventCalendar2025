@@ -61,6 +61,7 @@ h1 {
     padding: 0.5rem; /* Easier tapping */
     cursor: pointer; /* Pointer cursor on hover */
     transition: transform 0.3s, opacity 0.3s; /* Smooth animations */
+    margin: 0.3125rem; /*Add spacing between doors */
 }
 
 /* Door hover effect */
@@ -90,13 +91,21 @@ html {
 
     /* Calendar adjustments for larger screens */
     #calendar {
-        max-width: 37.5rem; /* Restrict width on large screens */
-        gap: 0.625rem; /* Increase spacing between doors */
+        width: 90vw; /* Use a percentage of the viewport width for better responsiveness */
+        max-width: 60rem; /* Allow expansion on wider screens */
+        gap: 0.5rem; /* Increased spacing between doors for better separation */ /* Increased spacing between doors */
     }
+
+    @media (min-width: 48rem) { /* Restrict to 8 columns only on large screens */
+        #calendar {
+            grid-template-columns: repeat(8, 1fr);
+        }
+    } /* Increased spacing between doors for better separation */ /* Increased spacing between doors */
 
     /* Larger doors for better visibility */
     .door {
         min-height: 6.25rem;
         font-size: 1.5rem;
+        padding: 0.75rem /*Slightly more padding*/
     }
 }
