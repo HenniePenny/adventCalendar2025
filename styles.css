@@ -57,7 +57,8 @@ h1 {
     /* height: 100px; */
     /* Instead, use min-height so doors remain consistent in size but can grow with text: */
     min-height: 5rem; /* Ensure a consistent door size */
-    height: auto;
+    min-width: 3.75rem; /* Improve tap accessibility */
+    padding: 0.5rem; /* Easier tapping */
     cursor: pointer; /* Pointer cursor on hover */
     transition: transform 0.3s, opacity 0.3s; /* Smooth animations */
 }
