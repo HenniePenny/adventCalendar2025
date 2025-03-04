@@ -16,6 +16,15 @@ body {
     background-size: cover; /* Ensures the background image covers the entire viewport without distortion */
 }
 
+/* Improve Background Scaling on Smaller Screens */
+@media (max-width: 25rem) { 
+    body {
+        background-size: contain; /* Prevents excessive cropping */
+        background-repeat: no-repeat; /* Avoid excessive tiling */
+        background-position: top center; /* Ensures visibility of key parts of the image */
+    }
+}
+
 /* Page heading styles */
 h1 {
     margin: 20px 0;
