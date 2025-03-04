@@ -81,14 +81,22 @@ html {
     scroll-behavior: smooth;
 }
 
-/* Responsive styles for smaller screens */
-@media (max-width: 500px) {
-    #calendar {
-        grid-template-columns: repeat(auto-fit, minmax(60px, 1fr)); /* Adjust door size */
+/* Larger Screens (Tablets and Desktops) */
+@media (min-width: 37.5rem) {
+    /* Larger heading size */
+    h1 {
+        font-size: 2.5rem;
     }
 
+    /* Calendar adjustments for larger screens */
+    #calendar {
+        max-width: 37.5rem; /* Restrict width on large screens */
+        gap: 0.625rem; /* Increase spacing between doors */
+    }
+
+    /* Larger doors for better visibility */
     .door {
-        height: 80px; /* Smaller height for doors */
-        font-size: 1.2rem; /* Smaller text */
+        min-height: 6.25rem;
+        font-size: 1.5rem;
     }
 }
