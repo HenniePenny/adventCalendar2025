@@ -1,4 +1,3 @@
-<script>
   // Check if user prefers reduced motion
   const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
   if (mediaQuery && mediaQuery.matches) {
@@ -97,4 +96,4 @@
     // Start the animation loop
     animate();
   }
-</script>
+  console.log("Snow script is running...");
