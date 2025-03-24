@@ -16,6 +16,45 @@ body {
     background-size: cover; /* Ensures background covers the viewport */
 }
 
+/*************************************
+ * SNOW CANVAS ANIMATION (DESKTOP ONLY)
+ * WITH MOTION REDUCTION SUPPORT
+ *************************************/
+
+/* 
+  1) Desktop-first approach:
+     We only show the snow canvas on devices with
+     a minimum width of 768px (you can adjust
+     this breakpoint to your preference).
+*/
+@media (min-width: 768px) {
+    #snowCanvas {
+      /* Fill the entire screen area */
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+  
+      /* Ensure the snow is on top of everything else */
+      z-index: 9999;
+  
+      /* Prevent user interaction (clicks, etc.) */
+      pointer-events: none;
+    }
+  }
+  
+  /* 
+    2) Respect prefers-reduced-motion:
+       If the user has reduced motion enabled, 
+       we hide or disable the snow effect.
+  */
+  @media (prefers-reduced-motion: reduce) {
+    #snowCanvas {
+      display: none !important;
+    }
+  }  
+
 /* Page heading styles */
 h1 {
     margin: 1rem 0;
