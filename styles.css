@@ -1,3 +1,21 @@
+/* Mobile-First Base Styles */
+
+/* General body styles for a festive feel */
+body {
+    font-family: 'Mountains of Christmas', cursive, sans-serif; /* Festive font with fallback */
+    text-align: center;
+    color: #333; /* Dark text for contrast */
+    margin: 0;
+    padding: 0;
+    font-size: 1rem; /* Ensures readability */
+    line-height: 1.5; /* Improves text spacing */
+    background-image: url(https://cdn.pixabay.com/photo/2020/05/20/10/17/christmas-5195815_960_720.jpg);
+    background-repeat: no-repeat; /* Prevents image repetition */
+    background-position: center center; /* Centers the background image */
+    background-attachment: fixed; /* Keeps background static while scrolling */
+    background-size: cover; /* Ensures background covers the viewport */
+}
+
 /*************************************
  * SNOW CANVAS ANIMATION (DESKTOP ONLY)
  * WITH MOTION REDUCTION SUPPORT
@@ -37,53 +55,37 @@
     }
   }  
 
-/* General body styles for a festive feel */
-body {
-    font-family: 'Mountains of Christmas', cursive; /* Festive font */
-    text-align: center;
-    color: #333; /* Dark text for contrast */
-    margin: 0;
-    padding: 0;
-    background-image: url(https://cdn.pixabay.com/photo/2020/05/20/10/17/christmas-5195815_960_720.jpg);
-    background-repeat: no-repeat; /* Prevents the image from repeating */
-    background-position: center center; /* Centers the background image both horizontally and vertically */
-    background-attachment: fixed; /* Keeps the background image fixed when scrolling */
-    background-size: cover; /* Ensures the background image covers the entire viewport without distortion */
-}
-
 /* Page heading styles */
 h1 {
-    margin: 20px 0;
+    margin: 1rem 0;
     color: #d35400; /* Warm orange color for festive feel */
-    font-size: 2.5rem;
+    font-size: 2rem;
 }
 
 /* Calendar grid container styles */
 #calendar {
     display: grid; /* Grid layout for doors */
-    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); /* Responsive grid */
-    gap: 10px; /* Space between doors */
-    max-width: 600px; /* Maximum width for the calendar */
+    grid-template-columns: repeat(auto-fit, minmax(3.75rem, 1fr)); /* Mobile-friendly grid */
+    gap: 0.75rem; /* Space between doors */
+    max-width: 90%; /* Responsive width */
     margin: 0 auto; /* Center the calendar */
-    padding: 10px;
+    padding: 0.625rem;
 }
 
 /* Individual door styles */
 .door {
     background-color: #e74c3c; /* Red background for doors */
     color: white; /* White text for contrast */
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     font-weight: bold;
-    border: 2px solid #c0392b; /* Darker red border */
-    border-radius: 5px; /* Rounded corners */
-    display: flex; /* Center the content inside doors */
+    border: 0.125rem solid #c0392b; /* Darker red border */
+    border-radius: 0.3125rem; /* Rounded corners */
+    display: flex; /* Center content inside doors */
     align-items: center;
     justify-content: center;
-    /* Remove the fixed height: */
-    /* height: 100px; */
-    /* Instead, use min-height so doors remain consistent in size but can grow with text: */
-  min-height: 100px; 
-  height: auto;
+    min-height: 5rem; /* Ensure a consistent door size */
+    min-width: 3.75rem; /* Improve tap accessibility */
+    padding: 0.5rem; /* Easier tapping */
     cursor: pointer; /* Pointer cursor on hover */
     transition: transform 0.3s, opacity 0.3s; /* Smooth animations */
 }
@@ -101,14 +103,62 @@ h1 {
     opacity: 0.8; /* Slight transparency */
 }
 
-/* Responsive styles for smaller screens */
-@media (max-width: 500px) {
-    #calendar {
-        grid-template-columns: repeat(auto-fit, minmax(60px, 1fr)); /* Adjust door size */
-    }
+/* Enable Smooth Scrolling */
+html {
+    scroll-behavior: smooth;
+}
 
+/* Responsive Breakpoints */
+
+@media (min-width: 30rem) { /* 480px */
+    #calendar {
+        max-width: 28rem;
+        gap: 1.5rem;
+    }
     .door {
-        height: 80px; /* Smaller height for doors */
-        font-size: 1.2rem; /* Smaller text */
+        min-height: 5.5rem;
+        font-size: 1.3rem;
+    }
+}
+
+@media (min-width: 48rem) { /* 768px */
+    h1 {
+        font-size: 2.25rem;
+    }
+    #calendar {
+        max-width: 40rem;
+        gap: 1.5rem;
+    }
+    .door {
+        min-height: 6rem;
+        font-size: 1.4rem;
+    }
+}
+
+@media (min-width: 64rem) { /* 1024px */
+    h1 {
+        font-size: 2.5rem;
+    }
+    #calendar {
+        max-width: 50rem;
+        gap: 1.75rem;
+    }
+    .door {
+        min-height: 6.5rem;
+        font-size: 1.5rem;
+    }
+}
+
+@media (min-width: 80rem) { /* 1280px */
+    h1 {
+        font-size: 2.75rem;
+    }
+    #calendar {
+        max-width: 60rem;
+        gap: 1.8rem;
+    }
+    .door {
+        min-height: 7rem;
+        font-size: 1.6rem;
     }
 }
