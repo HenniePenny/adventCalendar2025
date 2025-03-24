@@ -95,5 +95,4 @@
 
     // Start the animation loop
     animate();
-  }
-  console.log("Snow script is running...");
+  };
