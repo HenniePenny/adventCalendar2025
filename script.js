@@ -1,3 +1,8 @@
+// ✅ Detect touch devices and mark the <body>
+if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+    document.body.classList.add('touch-device');
+}
+
 // Wait for the DOM to load before executing the script
 document.addEventListener("DOMContentLoaded", () => {
     const calendar = document.getElementById("calendar"); // Reference to the calendar container
