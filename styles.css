@@ -82,7 +82,7 @@ h1 {
     color: white; /* White text for contrast */
     font-size: 1.2rem;
     font-weight: bold;
-    border: 0.125rem solid #c0392b; /* Darker red border */
+    border: 0.25rem solid #2e8b57; /* Green border */
     border-radius: 0.3125rem; /* Rounded corners */
     display: flex; /* Center content inside doors */
     align-items: center;
@@ -97,6 +97,11 @@ h1 {
 /* Door hover effect */
 .door:hover {
     transform: scale(1.05); /* Slight zoom-in effect */
+    animation: doorGlow 2s infinite alternate;
+}
+
+body.touch-device .door.opened {
+    animation: doorGlow 2s infinite alternate;
 }
 
 /* Style for opened doors */
@@ -164,5 +169,14 @@ html {
     .door {
         min-height: 7rem;
         font-size: 1.6rem;
+    }
+}
+
+@keyframes doorGlow {
+    from {
+        box-shadow: 0 0 0.5rem #2e8b57;
+    }
+    to {
+        box-shadow: 0 0 1rem #2e8b57;
     }
 }
