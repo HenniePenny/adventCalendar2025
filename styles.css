@@ -78,9 +78,7 @@ h1 {
     color: white; /* White text for contrast */
     font-size: 1.2rem;
     font-weight: bold;
-
     border: 0.25rem solid #2e8b57; /* Green border */
-    
     border-radius: 0.3125rem; /* Rounded corners */
     display: flex; /* Center content inside doors */
     align-items: center;
@@ -90,15 +88,12 @@ h1 {
     padding: 0.5rem; /* Easier tapping */
     cursor: pointer; /* Pointer cursor on hover */
     transition: transform 0.3s, opacity 0.3s; /* Smooth animations */
-
-    /* 🎄 Add glow effect */
-    box-shadow: 0 0 0.5rem #2e8b57;
-    animation: doorGlow 2s infinite alternate;
 }
 
 /* Door hover effect */
 .door:hover {
     transform: scale(1.05); /* Slight zoom-in effect */
+    animation: doorGlow 2s infinite alternate;
 }
 
 /* Style for opened doors */
