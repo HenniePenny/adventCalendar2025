@@ -96,13 +96,8 @@ h1 {
     animation: doorGlow 2s infinite alternate;
 }
 
-/*************************************
- * Glow effect on opened doors (touch devices only)
- *************************************/
-@media (hover: none) and (pointer: coarse) {
-    .door.opened {
-        animation: doorGlow 2s infinite alternate;
-    }
+body.touch-device .door.opened {
+    animation: doorGlow 2s infinite alternate;
 }
 
 /* Style for opened doors */
