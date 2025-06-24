@@ -1,10 +1,11 @@
-// ✅ Detect touch devices and mark the <body>
-if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
-    document.body.classList.add('touch-device');
-}
-
 // Wait for the DOM to load before executing the script
 document.addEventListener("DOMContentLoaded", () => {
+    // ✅ Detect touch support and add a class to <body>
+    if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+        document.body.classList.add('touch-device');
+        console.log("Touch device detected – .touch-device class added.");
+    }
+
     const calendar = document.getElementById("calendar"); // Reference to the calendar container
     const today = new Date(); // Get current date based on user's local time
     const currentDay = today.getDate(); // Extract the current day of the month (1-31)
