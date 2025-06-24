@@ -15,7 +15,11 @@ body {
     background-attachment: fixed; /* Keeps background static while scrolling */
     background-size: cover; /* Ensures background covers the viewport */
 }
-
+@media (pointer: fine) {
+  body {
+    cursor: url('assets/candycane_32x32.png') 4 4, auto;
+  }
+}
 /*************************************
  * SNOW CANVAS ANIMATION (DESKTOP ONLY)
  * WITH MOTION REDUCTION SUPPORT
@@ -86,7 +90,7 @@ h1 {
     min-height: 5rem; /* Ensure a consistent door size */
     min-width: 3.75rem; /* Improve tap accessibility */
     padding: 0.5rem; /* Easier tapping */
-    cursor: pointer; /* Pointer cursor on hover */
+    cursor: inherit; /* Cursor is inherited */
     transition: transform 0.3s, opacity 0.3s; /* Smooth animations */
 }
 
