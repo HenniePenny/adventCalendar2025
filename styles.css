@@ -14,6 +14,7 @@ body {
     background-position: center center; /* Centers the background image */
     background-attachment: fixed; /* Keeps background static while scrolling */
     background-size: cover; /* Ensures background covers the viewport */
+    cursor: url('assets/candy-cane.cur'), auto; /* Custom cursor */
 }
 
 /*************************************
@@ -86,7 +87,7 @@ h1 {
     min-height: 5rem; /* Ensure a consistent door size */
     min-width: 3.75rem; /* Improve tap accessibility */
     padding: 0.5rem; /* Easier tapping */
-    cursor: pointer; /* Pointer cursor on hover */
+    cursor: inherit; /* Cursor is inherited */
     transition: transform 0.3s, opacity 0.3s; /* Smooth animations */
 }
 
@@ -161,4 +162,12 @@ html {
         min-height: 7rem;
         font-size: 1.6rem;
     }
+}
+
+/* Apply the candy cane cursor only on devices with a fine pointer (e.g., mouse).
+   Mobile devices with touch input will ignore this and use the default touch behavior. */
+@media (pointer: fine) {
+  body {
+    cursor: url('assets/candy-cane.cur'), auto;
+  }
 }
