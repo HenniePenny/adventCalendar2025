@@ -166,11 +166,3 @@ html {
         font-size: 1.6rem;
     }
 }
-
-/* Apply the candy cane cursor only on devices with a fine pointer (e.g., mouse).
-   Mobile devices with touch input will ignore this and use the default touch behavior. */
-@media (pointer: fine) {
-  body {
-    cursor: url('assets/candy-cane.cur'), auto;
-  }
-}
