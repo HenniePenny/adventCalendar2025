@@ -14,9 +14,12 @@ body {
     background-position: center center; /* Centers the background image */
     background-attachment: fixed; /* Keeps background static while scrolling */
     background-size: cover; /* Ensures background covers the viewport */
-    cursor: url('assets/candy-cane.cur'), auto; /* Custom cursor */
 }
-
+@media (pointer: fine) {
+  body {
+    cursor: url('assets/candycane_32x32.png') 4 4, auto;
+  }
+}
 /*************************************
  * SNOW CANVAS ANIMATION (DESKTOP ONLY)
  * WITH MOTION REDUCTION SUPPORT
