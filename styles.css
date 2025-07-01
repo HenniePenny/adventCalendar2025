@@ -193,3 +193,45 @@ html {
         box-shadow: 0 0 1rem #2e8b57;
     }
 }
+
+/*************************************
+ * IMAGE MODAL (RESPONSIVE POPUP VIEWER)
+ *************************************/
+.modal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 9999;
+}
+
+.modal[aria-hidden="false"] {
+  display: flex;
+}
+
+.modal-content {
+  position: relative;
+  max-width: 90vw;
+  max-height: 90vh;
+  padding: 0.5rem;
+}
+
+.modal-content img {
+  width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+}
+
+.modal-close {
+  position: absolute;
+  top: -1rem;
+  right: -1rem;
+  font-size: 2rem;
+  background: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  line-height: 1;
+}
