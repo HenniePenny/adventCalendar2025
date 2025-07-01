@@ -137,6 +137,7 @@ html {
     #calendar {
         max-width: 40rem;
         gap: 1.5rem;
+        grid-template-columns: repeat(6, 1fr); /* Force 6 doors per row */
     }
     .door {
         min-height: 6rem;
