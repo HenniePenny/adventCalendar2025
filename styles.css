@@ -59,6 +59,13 @@ body {
     }
   }  
 
+  @media (max-width: 767px) {
+  #snowCanvas {
+    display: none;
+    height: 0;
+  }
+}
+
 /* Page heading styles */
 h1 {
     margin: 1rem 0;
