@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Array of surprises (fixed to correspond with specific doors)
     const surprises = [
-        "❄️ Winter has come!",  // Door 1
+        '<img src="/assets/santa_over_berlin.webp" alt="Santa flying over Berlin at night" loading="lazy" style="max-width: 100%; height: auto; border-radius: 0.5rem;" />',  // Door 1
         "🎄 Deck the halls!",   // Door 2
         "🎁 Enjoy a hot chocolate!", // Door 3
         "🌟 Believe in the magic of Christmas!", // Door 4

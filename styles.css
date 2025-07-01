@@ -119,6 +119,11 @@ body.touch-device .door.opened {
     opacity: 0.8; /* Slight transparency */
 }
 
+.door.opened img {
+  max-height: 10rem;
+  object-fit: contain;
+}
+
 /* Enable Smooth Scrolling */
 html {
     scroll-behavior: smooth;
