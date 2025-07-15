@@ -46,6 +46,37 @@ document.addEventListener("DOMContentLoaded", () => {
     // The localStorage entry is created the first time a door is opened and saved.
     const openedDoors = JSON.parse(localStorage.getItem("openedDoors")) || [];
 
+    // Sound setup (desktop-only)
+    const isDesktop = window.matchMedia("(min-width: 768px)").matches &&
+                      window.matchMedia("(pointer: fine)").matches;
+
+    let isSoundOn = false;
+    let hohoho;
+
+    if (isDesktop) {
+        hohoho = new Audio("assets/hohoho.mp3");
+
+        const toggleLabel = document.createElement("label");
+        toggleLabel.className = "sound-toggle";
+        toggleLabel.innerHTML = `
+            <input type="checkbox" id="soundToggle">
+            🔊 Enable "Ho Ho Ho" Sound
+        `;
+
+        const container = document.getElementById("soundToggleContainer");
+        if (container) container.appendChild(toggleLabel);
+
+        if (localStorage.getItem("soundEnabled") === "true") {
+            isSoundOn = true;
+            toggleLabel.querySelector("#soundToggle").checked = true;
+        }
+
+        toggleLabel.querySelector("#soundToggle").addEventListener("change", (e) => {
+            isSoundOn = e.target.checked;
+            localStorage.setItem("soundEnabled", isSoundOn);
+        });
+    }
+
     // Create doors dynamically in fixed order (1-24)
     for (let day = 1; day <= 24; day++) {
         const door = document.createElement("div"); // Create a door element
@@ -68,34 +99,42 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         // Add a click event listener to the door
-        door.addEventListener("click", () => {
-            if (door.dataset.locked === "true") {
-                alert("🔒🎄 Locked! Open this door on the correct day.");
-                return;
-            }
-            if (door.dataset.opened !== "true") {
-                door.classList.add("opened");
-                const content = surprises[day - 1];
-                door.innerHTML = content;
-                openedDoors.push(day);
-                localStorage.setItem("openedDoors", JSON.stringify(openedDoors));
-                door.dataset.opened = "true";
+       // Add a click event listener to the door
+door.addEventListener("click", () => {
+    if (door.dataset.locked === "true") {
+        alert("🔒🎄 Locked! Open this door on the correct day.");
+        return;
+    }
 
-                // 👉 NEW: Trigger modal popup immediately if content contains an image
-                if (content.includes("<img")) {
-                    const temp = document.createElement("div");
-                    temp.innerHTML = content;
-                    const img = temp.querySelector("img");
+    if (door.dataset.opened !== "true") {
+        door.classList.add("opened"); // Mark door as opened
+        const content = surprises[day - 1];
+        door.innerHTML = content; // Show the surprise for the day
+        openedDoors.push(day); // Add the day to the list of opened doors
+        localStorage.setItem("openedDoors", JSON.stringify(openedDoors)); // Save the updated state to localStorage
+        door.dataset.opened = "true"; // Mark as opened in dataset
 
-                    if (img) {
-                        modalImage.src = img.src;
-                        modalImage.alt = img.alt;
-                        modal.setAttribute("aria-hidden", "false");
-                        closeBtn.focus();
-                    }
-                }
+        // Play sound if enabled
+        if (isDesktop && isSoundOn && hohoho) {
+            hohoho.currentTime = 0;
+            hohoho.play().catch(err => console.log("Audio playback failed:", err));
+        }
+
+        // Trigger modal popup immediately if content contains an image
+        if (content.includes("<img")) {
+            const temp = document.createElement("div");
+            temp.innerHTML = content;
+            const img = temp.querySelector("img");
+
+            if (img) {
+                modalImage.src = img.src;
+                modalImage.alt = img.alt;
+                modal.setAttribute("aria-hidden", "false");
+                closeBtn.focus();
             }
-        });
+        }
+    }
+});
 
         calendar.appendChild(door);
     }
