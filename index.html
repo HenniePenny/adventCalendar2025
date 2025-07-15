@@ -19,14 +19,24 @@
 <body>
     <!-- Canvas for the falling snow animation -->
     <canvas id="snowCanvas"></canvas>
+  
     <!-- Main heading for the page -->
     <h1>Festive Advent Calendar</h1>
+  
     <!-- Calendar container where doors will be dynamically generated -->
     <div id="calendar"></div>
+  
     <!-- Control container where reset button and sound toggle will be generated for desktop only -->
-     <div id="controls">
-    <button id="resetButton">Reset</button>
-    <div id="soundToggleContainer"></div>
+    <div id="controls">
+      <button id="resetButton">Reset</button>
+      <div id="soundToggleContainer"></div>
+    </div>
+
+    <div id="imageModal" class="modal" aria-hidden="true">
+      <div class="modal-content" role="dialog" aria-modal="true">
+          <button class="modal-close" aria-label="Close modal">&times;</button>
+          <img id="modalImage" alt="" />
+      </div>
     </div>
 </body>
 
