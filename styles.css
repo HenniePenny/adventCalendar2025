@@ -195,43 +195,71 @@ html {
 }
 
 /*************************************
- * IMAGE MODAL (RESPONSIVE POPUP VIEWER)
+ * SECTION: Modal Styles (Image Popup)
  *************************************/
+/*************************************
+ * IMAGE MODAL (RESPONSIVE, MOBILE-FIRST)
+ * - Fullscreen overlay for displaying images
+ * - Scales smoothly across screen sizes
+ * - Closes with button or background click
+ *************************************/
+
+/* Modal wrapper covers entire screen with dark overlay */
 .modal {
-  position: fixed;
-  inset: 0;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  background-color: rgba(0, 0, 0, 0.8);
-  z-index: 9999;
+  position: fixed;          /* Stay in place while scrolling */
+  inset: 0;                 /* Top, right, bottom, left = 0 */
+  display: none;            /* Hidden by default */
+  align-items: center;      /* Center content vertically */
+  justify-content: center;  /* Center content horizontally */
+  background-color: rgba(0, 0, 0, 0.85); /* Dark semi-transparent background */
+  z-index: 9999;            /* On top of everything else */
+  padding: 1rem;            /* Space around modal on small screens */
 }
 
+/* Show the modal when aria-hidden is false */
 .modal[aria-hidden="false"] {
   display: flex;
 }
 
+/* Container for the modal content (image) */
 .modal-content {
-  position: relative;
-  max-width: 90vw;
-  max-height: 90vh;
-  padding: 0.5rem;
-}
-
-.modal-content img {
-  width: 100%;
+  position: relative;       /* Needed for positioning close button */
+  max-width: 90vw;          /* Max width: 90% of viewport width */
+  max-height: 90vh;         /* Max height: 90% of viewport height */
+  width: auto;              /* Shrinks to fit content */
   height: auto;
-  border-radius: 0.5rem;
+  overflow: hidden;         /* Prevent scrollbars inside modal */
+  border-radius: 0.75rem;   /* Rounded corners */
+  background-color: transparent; /* No background box for content */
 }
 
+/* The image inside the modal */
+.modal-content img {
+  display: block;
+  width: 100%;              /* Image fills modal content width */
+  height: auto;             /* Keep aspect ratio */
+  max-height: 80vh;         /* Prevent image from getting too tall */
+  object-fit: contain;      /* Keep full image visible */
+  border-radius: 0.5rem;    /* Slightly rounded image corners */
+}
+
+/* The close button in the top-right corner */
 .modal-close {
   position: absolute;
-  top: -1rem;
-  right: -1rem;
-  font-size: 2rem;
-  background: white;
-  border: none;
-  border-radius: 50%;
-  cursor: pointer;
-  line-height: 1;
+  top: 0.5rem;              /* Push down slightly from the top */
+  right: 0.5rem;            /* Push in slightly from the right */
+  font-size: 2rem;          /* Big X */
+  background: white;      /* Visible on dark background */
+  border: none;             /* Remove default button border */
+  border-radius: 50%;       /* Circular button */
+   cursor: pointer;         /* Show pointer on hover */
+  line-height: 1;           /* Prevent extra vertical spacing */
+  box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.3); /* Subtle shadow */
+}
+
+/* Optional: prevent huge modals on large screens */
+@media (min-width: 1024px) {
+  .modal-content img {
+    max-width: 800px;       /* Limit max image width on desktops */
+  }
 }
