@@ -188,3 +188,23 @@ html {
         box-shadow: 0 0 1rem #2e8b57;
     }
 }
+
+/* Style for the sound toggle button */
+#controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin: 1rem auto;
+}
+
+.sound-toggle {
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.sound-toggle input {
+  margin-right: 0.5rem;
+}
