@@ -43,6 +43,37 @@ document.addEventListener("DOMContentLoaded", () => {
     // The localStorage entry is created the first time a door is opened and saved.
     const openedDoors = JSON.parse(localStorage.getItem("openedDoors")) || [];
 
+    // Sound setup (desktop-only)
+    const isDesktop = window.matchMedia("(min-width: 768px)").matches &&
+                      window.matchMedia("(pointer: fine)").matches;
+
+    let isSoundOn = false;
+    let hohoho;
+
+    if (isDesktop) {
+        hohoho = new Audio("assets/hohoho.mp3");
+
+        const toggleLabel = document.createElement("label");
+        toggleLabel.className = "sound-toggle";
+        toggleLabel.innerHTML = `
+            <input type="checkbox" id="soundToggle">
+            🔊 Enable "Ho Ho Ho" Sound
+        `;
+
+        const container = document.getElementById("soundToggleContainer");
+        if (container) container.appendChild(toggleLabel);
+
+        if (localStorage.getItem("soundEnabled") === "true") {
+            isSoundOn = true;
+            toggleLabel.querySelector("#soundToggle").checked = true;
+        }
+
+        toggleLabel.querySelector("#soundToggle").addEventListener("change", (e) => {
+            isSoundOn = e.target.checked;
+            localStorage.setItem("soundEnabled", isSoundOn);
+        });
+    }
+
     // Create doors dynamically in fixed order (1-24)
     for (let day = 1; day <= 24; day++) {
         const door = document.createElement("div"); // Create a door element
@@ -76,6 +107,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 openedDoors.push(day); // Add the day to the list of opened doors
                 localStorage.setItem("openedDoors", JSON.stringify(openedDoors)); // Save the updated state to localStorage
                 door.dataset.opened = "true"; // Mark as opened in dataset
+
+                // Play sound if enabled
+                if (isDesktop && isSoundOn && hohoho) {
+                    hohoho.currentTime = 0;
+                    hohoho.play().catch(err => console.log("Audio playback failed:", err));
+                }
             }
         });
 
