@@ -15,15 +15,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Array of surprises (fixed to correspond with specific doors)
     const surprises = [
-        '<img src="assets/santa_over_berlin.webp" alt="Santa flying over Berlin at night" loading="lazy" style="max-width: 100%; height: auto; border-radius: 0.5rem;" />',  // Door 1
-        '<img src="assets/surprises/crop-legs-beverage-near-fireplace-scarf_withText.webp" alt="Cozy fireplace scene with hot cocoa" loading="lazy" style="max-width: 100%; height: auto; border-radius: 0.5rem;"/>',   // Door 2
-        '<img src="assets/surprises/christmas_cat_santaclaws_green.webp" alt="A cat peeking through branches of a Christmas tree" loading="lazy" style="max-width: 100%; height: auto; border-radius: 0.5rem;"/>', // Door 3
-        '<img src="assets/surprises/christmas_wish_two_lines_white_glow.webp" alt="Cozy fireplace scene with hot cocoa" loading="lazy" style="max-width: 100%; height: auto; border-radius: 0.5rem;"/>', // Door 4
-       '<img src="assets/surprises/pexels-brigitte-tohm-36757-263875_withText.webp" alt="a snowman figurine with sparkling lights in background" loading="lazy" style="max-width: 100%; height: auto; border-radius: 0.5rem;"/>', // Door 5
-        '<img src="assets/surprises/pexels-chrissykrueger-29905345_withText.webp" alt="a pile of candies apples" loading="lazy" style="max-width: 100%; height: auto; border-radius: 0.5rem;"/>', // Door 6
-        "☃️ Build a snowman today!", // Door 7
-        "🎵 Sing your favorite carol!", // Door 8
-        "🦌 Rudolph is ready to fly!", // Door 9
+        '<img src="assets/surprises/berlin-sugar-love.png" alt="gingerbread hearts" loading="lazy" style="max-width: 100%; height: auto; border-radius: 0.5rem;" />',  // Door 1
+        '<img src="assets/surprises/cozy-vibes.webp" alt="Cozy fireplace scene with hot cocoa" loading="lazy" style="max-width: 100%; height: auto; border-radius: 0.5rem;"/>',   // Door 2
+        '<img src="assets/surprises/christmas_cat_santaclaws.webp" alt="A cat peeking through branches of a Christmas tree" loading="lazy" style="max-width: 100%; height: auto; border-radius: 0.5rem;"/>', // Door 3
+        '<img src="assets/surprises/spreading-christmas-cheer.webp" alt="toy car transporting a toy christmas tree on roof" loading="lazy" style="max-width: 100%; height: auto; border-radius: 0.5rem;"/>', // Door 4
+        '<img src="assets/surprises/chillin-snowmies.webp" alt="a snowman figurine with sparkling lights in background" loading="lazy" style="max-width: 100%; height: auto; border-radius: 0.5rem;"/>', // Door 5
+        '<img src="assets/surprises/powered-by-sugar.webp" alt="a pile of candied apples" loading="lazy" style="max-width: 100%; height: auto; border-radius: 0.5rem;"/>', // Door 6
+        '<img src="assets/surprises/carols-echo-in-square.png" alt="Gendarmenmarkt Christmas market at night" loading="lazy" style="max-width: 100%; height: auto; border-radius: 0.5rem;"/>', // Door 7
+        '<img src="assets/surprises/dreams-shine-brighter.png" alt="fassade at night with projected stars" loading="lazy" style="max-width: 100%; height: auto; border-radius: 0.5rem;"/>', // Door 8
+        '<img src="assets/surprises/elf-esteem.webp" alt="a pile of candied apples" loading="lazy" style="max-width: 100%; height: auto; border-radius: 0.5rem;"/>', // Door 9
         "✨ May your days be merry!", // Door 10
         "🍪 Share some cookies with a friend!", // Door 11
         "🕯️ Light a festive candle!", // Door 12
