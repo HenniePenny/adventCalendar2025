@@ -15,30 +15,30 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Array of surprises (fixed to correspond with specific doors)
     const surprises = [
-        '<img src="assets/surprises/berlin-sugar-love.png" alt="gingerbread hearts" loading="lazy" style="max-width: 100%; height: auto; border-radius: 0.5rem;" />',  // Door 1
-        '<img src="assets/surprises/cozy-vibes.webp" alt="Cozy fireplace scene with hot cocoa" loading="lazy" style="max-width: 100%; height: auto; border-radius: 0.5rem;"/>',   // Door 2
-        '<img src="assets/surprises/christmas_cat_santaclaws.webp" alt="A cat peeking through branches of a Christmas tree" loading="lazy" style="max-width: 100%; height: auto; border-radius: 0.5rem;"/>', // Door 3
-        '<img src="assets/surprises/spreading-christmas-cheer.webp" alt="toy car transporting a toy christmas tree on roof" loading="lazy" style="max-width: 100%; height: auto; border-radius: 0.5rem;"/>', // Door 4
-        '<img src="assets/surprises/chillin-snowmies.webp" alt="a snowman figurine with sparkling lights in background" loading="lazy" style="max-width: 100%; height: auto; border-radius: 0.5rem;"/>', // Door 5
-        '<img src="assets/surprises/powered-by-sugar.webp" alt="a pile of candied apples" loading="lazy" style="max-width: 100%; height: auto; border-radius: 0.5rem;"/>', // Door 6
-        '<img src="assets/surprises/carols-echo-in-square.png" alt="Gendarmenmarkt Christmas market at night" loading="lazy" style="max-width: 100%; height: auto; border-radius: 0.5rem;"/>', // Door 7
-        '<img src="assets/surprises/dreams-shine-brighter.png" alt="fassade at night with projected stars" loading="lazy" style="max-width: 100%; height: auto; border-radius: 0.5rem;"/>', // Door 8
-        '<img src="assets/surprises/elf-esteem.webp" alt="a pile of candied apples" loading="lazy" style="max-width: 100%; height: auto; border-radius: 0.5rem;"/>', // Door 9
-        "✨ May your days be merry!", // Door 10
-        "🍪 Share some cookies with a friend!", // Door 11
-        "🕯️ Light a festive candle!", // Door 12
-        "❄️ Snowflakes are unique, just like you!", // Door 13
-        "🎉 Celebrate with family and friends!", // Door 14
-        "🌟 A shining star to guide your way!", // Door 15
-        "💌 Send a kind note to someone!", // Door 16
-        "🍬 Enjoy a sweet treat!", // Door 17
-        "🔔 Jingle bells, jingle bells!", // Door 18
-        "📖 Read a holiday story!", // Door 19
-        "🎶 Listen to festive tunes!", // Door 20
-        "🎊 Throw a mini holiday party!", // Door 21
-        "🌲 Go for a winter walk!", // Door 22
-        "💖 Spread holiday cheer!", // Door 23
-        "☕ Cozy up with a warm drink!" // Door 24
+        '<img src="assets/surprises/berlin-sugar-love.png" alt="Festive gingerbread hearts with Berlin Christmas market charm and sweet holiday love" loading="lazy" style="max-width: 100%; height: auto; border-radius: 0.5rem;" />',  // Door 1
+        '<img src="assets/surprises/cozy-vibes.webp" alt="Warm and cozy fireplace scene with steaming hot cocoa creating perfect winter comfort" loading="lazy" style="max-width: 100%; height: auto; border-radius: 0.5rem;"/>',   // Door 2
+        '<img src="assets/surprises/christmas_cat_santaclaws.webp" alt="Adorable cat playfully peeking through decorated Christmas tree branches with festive curiosity" loading="lazy" style="max-width: 100%; height: auto; border-radius: 0.5rem;"/>', // Door 3
+        '<img src="assets/surprises/spreading-christmas-cheer.webp" alt="Charming toy car carrying a miniature Christmas tree on its roof, spreading holiday cheer" loading="lazy" style="max-width: 100%; height: auto; border-radius: 0.5rem;"/>', // Door 4
+        '<img src="assets/surprises/chillin-snowmies.webp" alt="Delightful snowman figurine surrounded by twinkling sparkling lights creating magical winter atmosphere" loading="lazy" style="max-width: 100%; height: auto; border-radius: 0.5rem;"/>', // Door 5
+        '<img src="assets/surprises/powered-by-sugar.webp" alt="Tempting pile of glossy candied apples glistening with sweet sugar coating and holiday indulgence" loading="lazy" style="max-width: 100%; height: auto; border-radius: 0.5rem;"/>', // Door 6
+        '<img src="assets/surprises/carols-echo-in-square.png" alt="Enchanting Gendarmenmarkt Christmas market illuminated at night with carols echoing through the historic square" loading="lazy" style="max-width: 100%; height: auto; border-radius: 0.5rem;"/>', // Door 7
+        '<img src="assets/surprises/dreams-shine-brighter.png" alt="Magnificent building facade at night with projected stars making dreams shine brighter during Christmas" loading="lazy" style="max-width: 100%; height: auto; border-radius: 0.5rem;"/>', // Door 8
+        '<img src="assets/surprises/elf-esteem.webp" alt="Festive elf-themed scene with holiday treats boosting Christmas elf-esteem and seasonal joy" loading="lazy" style="max-width: 100%; height: auto; border-radius: 0.5rem;"/>', // Door 9
+        '<img src="assets/surprises/history-hope-sparkle.png" alt="Sparkling Christmas lights creating hope and making your days merry with festive magic" loading="lazy" style="max-width: 100%; height: auto; border-radius: 0.5rem;"/>', // Door 10
+        '<img src="assets/surprises/one-toast-at-a-time.webp" alt="Warm scene of sharing cookies with friends, one toast at a time during Christmas celebration" loading="lazy" style="max-width: 100%; height: auto; border-radius: 0.5rem;"/>', // Door 11
+        '<img src="assets/surprises/ornaments.webp" alt="Beautiful festive candles surrounded by elegant Christmas ornaments creating warm holiday ambiance" loading="lazy" style="max-width: 100%; height: auto; border-radius: 0.5rem;"/>', // Door 12
+        '<img src="assets/surprises/no-reindeer-no-problem.webp" alt="Unique snowflake patterns showing that like people, no reindeer needed when Christmas magic is everywhere" loading="lazy" style="max-width: 100%; height: auto; border-radius: 0.5rem;"/>', // Door 13
+        '<img src="assets/surprises/joy-in-motion.png" alt="Joyful celebration scene with family and friends sharing Christmas happiness in motion" loading="lazy" style="max-width: 100%; height: auto; border-radius: 0.5rem;"/>', // Door 14
+        '<img src="assets/surprises/standing-tall-shining.png" alt="Magnificent shining Christmas star standing tall to guide your way through the holidays" loading="lazy" style="max-width: 100%; height: auto; border-radius: 0.5rem;"/>', // Door 15
+        '<img src="assets/surprises/peace-joy-sparkle.png" alt="Peaceful Christmas message encouraging sending kind notes with sparkling joy and holiday spirit" loading="lazy" style="max-width: 100%; height: auto; border-radius: 0.5rem;"/>', // Door 16
+        '<img src="assets/surprises/sip-sparkle-repeat.png" alt="Sweet Christmas treats with sip, sparkle, and repeat vibes for perfect holiday indulgence" loading="lazy" style="max-width: 100%; height: auto; border-radius: 0.5rem;"/>', // Door 17
+        '<img src="assets/surprises/tis-the-season.png" alt="Classic Christmas bells jingling with festive cheer celebrating that tis the season to be jolly" loading="lazy" style="max-width: 100%; height: auto; border-radius: 0.5rem;"/>', // Door 18
+        '<img src="assets/surprises/storybook-christmas.png" alt="Magical storybook Christmas scene perfect for reading enchanting holiday tales by the fire" loading="lazy" style="max-width: 100%; height: auto; border-radius: 0.5rem;"/>', // Door 19
+        '<img src="assets/surprises/next-stop-magic.png" alt="Festive music scene with Christmas tunes filling the air, next stop is pure holiday magic" loading="lazy" style="max-width: 100%; height: auto; border-radius: 0.5rem;"/>', // Door 20
+        '<img src="assets/surprises/rising-joy-Berlin-style.png" alt="Mini holiday party celebration with Berlin-style rising joy and festive atmosphere throughout the city" loading="lazy" style="max-width: 100%; height: auto; border-radius: 0.5rem;"/>', // Door 21
+        '<img src="assets/surprises/path-to-cheer.png" alt="Beautiful winter walk scene showing the scenic path to Christmas cheer through snowy landscapes" loading="lazy" style="max-width: 100%; height: auto; border-radius: 0.5rem;"/>', // Door 22
+        '<img src="assets/surprises/santa-wants-extras.webp" alt="Heartwarming scene of spreading Christmas cheer with Santa wanting extra holiday love and joy" loading="lazy" style="max-width: 100%; height: auto; border-radius: 0.5rem;"/>', // Door 23
+        '<img src="assets/surprises/sugar-glue-dreams.webp" alt="Cozy Christmas moment with warm drink creating sugar-sweet dreams by the fireplace" loading="lazy" style="max-width: 100%; height: auto; border-radius: 0.5rem;"/>' // Door 24
     ];
 
     // Retrieve the list of opened doors from localStorage (or initialize as an empty array)
