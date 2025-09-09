@@ -128,7 +128,7 @@ body.touch-device .door.opened {
 .door.locked {
   opacity: 0.6;
   filter: grayscale(0.2);
-  cursor: not-allowed;
+  cursor: url('assets/christmas-ornament_small.png') 8 8, not-allowed;
 }
 
 /* Accessibility: Focus outline */
