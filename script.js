@@ -209,8 +209,9 @@ door.addEventListener("click", () => {
 
     if (door.dataset.opened !== "true") {
         door.classList.add("opened"); // Mark door as opened
-        const content = surprises[day - 1];
-        door.innerHTML = content; // Show the surprise for the day
+        const surprise = surprises[day - 1];
+        renderDoorPreview(door, surprise); // Show a compact preview in the door
+  
         openedDoors.push(day); // Add the day to the list of opened doors
         localStorage.setItem("openedDoors", JSON.stringify(openedDoors)); // Save the updated state to localStorage
         door.dataset.opened = "true"; // Mark as opened in dataset
@@ -221,19 +222,9 @@ door.addEventListener("click", () => {
             hohoho.play().catch(err => console.log("Audio playback failed:", err));
         }
 
-        // Trigger modal popup immediately if content contains an image
-        if (content.includes("<img")) {
-            const temp = document.createElement("div");
-            temp.innerHTML = content;
-            const img = temp.querySelector("img");
-
-            if (img) {
-                modalImage.src = img.src;
-                modalImage.alt = img.alt;
-                modal.setAttribute("aria-hidden", "false");
-                closeBtn.focus();
-            }
-        }
+        // Open the universal modal for any type
+            renderSurprise(surprise);
+            openModal();
     }
 });
 
