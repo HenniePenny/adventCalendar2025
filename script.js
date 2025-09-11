@@ -6,10 +6,12 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log("Touch device detected – .touch-device class added.");
     }
 
+    // Initialize variables, point at the universal modal added in HTML
     const calendar = document.getElementById("calendar"); // Reference to the calendar container
-    const modal = document.getElementById("imageModal");
-    const modalImage = document.getElementById("modalImage");
-    const closeBtn = document.querySelector(".modal-close");
+    const modal = document.getElementById("surpriseModal");
+    const dialog = modal.querySelector(".modal-dialog");
+    const modalBody = document.getElementById("modalBody");
+
     const today = new Date(); // Get current date based on user's local time
     const currentDay = today.getDate(); // Extract the current day of the month (1-31)
 
