@@ -32,12 +32,27 @@
       <div id="soundToggleContainer"></div>
     </div>
 
-    <div id="imageModal" class="modal" aria-hidden="true">
-      <div class="modal-content" role="dialog" aria-modal="true">
-          <button class="modal-close" aria-label="Close modal">&times;</button>
-          <img id="modalImage" alt="" />
+
+    <!-- Universal modal for images, text, or YouTube -->
+    <div id="surpriseModal" class="modal" aria-hidden="true">
+      <!-- Click outside to close -->
+      <div class="modal-backdrop" data-close></div>
+
+      <!-- Focusable dialog wrapper -->
+      <div class="modal-dialog" role="dialog" aria-modal="true"
+          aria-labelledby="modalTitle" aria-describedby="modalBody" tabindex="-1">
+        <button class="modal-close" type="button" aria-label="Close" data-close>
+          <span aria-hidden="true">×</span>
+        </button>
+
+        <div class="modal-content">
+          <!-- Screen-reader title (keep or style visibly if you prefer) -->
+          <h2 id="modalTitle" class="sr-only">Surprise</h2>
+          <div id="modalBody"></div>
+        </div>
       </div>
     </div>
+
 </body>
 
 </html>
