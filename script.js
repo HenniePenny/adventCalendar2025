@@ -15,6 +15,96 @@ document.addEventListener("DOMContentLoaded", () => {
     const today = new Date(); // Get current date based on user's local time
     const currentDay = today.getDate(); // Extract the current day of the month (1-31)
 
+    // --- Universal helpers ---
+    function getYouTubeId(input) {
+    if (!input) return null;
+    if (/^[a-zA-Z0-9_-]{11}$/.test(input)) return input;
+    try {
+        const u = new URL(input);
+        if (u.hostname.includes("youtube.com")) return u.searchParams.get("v");
+        if (u.hostname === "youtu.be") return u.pathname.slice(1);
+    } catch {}
+    return null;
+    }
+
+    function openModal() {
+    modal.setAttribute("aria-hidden", "false");
+    // focus the dialog for a11y (requires tabindex="-1" on .modal-dialog)
+    if (dialog) dialog.focus();
+    document.addEventListener("keydown", onEsc);
+    }
+
+    function closeModal() {
+    modal.setAttribute("aria-hidden", "true");
+    modalBody.innerHTML = ""; // clear (stops any video too)
+    document.removeEventListener("keydown", onEsc);
+    }
+
+    function onEsc(e) {
+    if (e.key === "Escape") closeModal();
+    }
+
+    // Click outside or on any [data-close] element closes modal
+    modal.addEventListener("click", (e) => {
+    if (e.target.matches("[data-close]") || e.target.classList.contains("modal-backdrop")) {
+        closeModal();
+    }
+    });
+
+    // Render full surprise into the modal body
+    function renderSurprise(s) {
+    modalBody.innerHTML = "";
+    if (!s || !s.type) {
+        modalBody.textContent = "Nothing here yet. Come back later!";
+        return;
+    }
+    switch (s.type) {
+        case "image": {
+        const img = document.createElement("img");
+        img.src = s.src; img.alt = s.alt || ""; img.loading = "lazy";
+        modalBody.appendChild(img);
+        break;
+        }
+        case "text": {
+        const wrap = document.createElement("div");
+        wrap.className = "modal-text";
+        if (s.title) {
+            const h = document.createElement("h3");
+            h.textContent = s.title; wrap.appendChild(h);
+        }
+        const p = document.createElement("p");
+        p.textContent = s.body || ""; wrap.appendChild(p);
+        modalBody.appendChild(wrap);
+        break;
+        }
+        case "youtube": {
+        const id = getYouTubeId(s.url || s.id);
+        if (!id) { modalBody.textContent = "Video unavailable."; break; }
+        const box = document.createElement("div"); box.className = "modal-video";
+        const iframe = document.createElement("iframe");
+        iframe.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&modestbranding=1`;
+        iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+        iframe.allowFullscreen = true; iframe.title = s.title || "Video";
+        box.appendChild(iframe); modalBody.appendChild(box);
+        break;
+        }
+        default:
+        modalBody.textContent = "Unknown surprise type.";
+    }
+    }
+
+    // Optional: render a compact preview inside the door itself
+    function renderDoorPreview(doorEl, s) {
+    if (!s) return;
+    if (s.type === "image") {
+        doorEl.innerHTML = `<img src="${s.src}" alt="${s.alt || ""}" loading="lazy" style="max-width:100%;height:auto;border-radius:.5rem">`;
+    } else if (s.type === "text") {
+        doorEl.innerHTML = `<div class="door-text" style="padding:.25rem .5rem;font-size:.9rem;line-height:1.3">${s.title || s.body || "Text"}</div>`;
+    } else if (s.type === "youtube") {
+        doorEl.innerHTML = `<div class="door-video" style="font-size:.9rem">▶ ${s.title || "Watch video"}</div>`;
+    }
+    }
+
 // Surprises array (1 per door, in order).
 // Each surprise is an object with a `type` and related fields:
 //
