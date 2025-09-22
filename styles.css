@@ -9,11 +9,13 @@ body {
     padding: 0;
     font-size: 1rem; /* Ensures readability */
     line-height: 1.5; /* Improves text spacing */
-    background-image: url(https://cdn.pixabay.com/photo/2020/05/20/10/17/christmas-5195815_960_720.jpg);
-    background-repeat: no-repeat; /* Prevents image repetition */
-    background-position: center center; /* Centers the background image */
-    background-attachment: fixed; /* Keeps background static while scrolling */
-    background-size: cover; /* Ensures background covers the viewport */
+    /*Mobile-first background image (smallest version)*/
+    background-color: #f6faff; /* Fallback color */
+    background-image: url('assets/bg_christmas-5195815_640.webp');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    background-attachment: scroll; /* Changed: was fixed, now scroll for mobile */
 }
 @media (pointer: fine) {
   body {
