@@ -124,6 +124,19 @@ body.touch-device .door.opened {
   object-fit: contain;
 }
 
+/* Style for locked doors */
+.door.locked {
+  opacity: 0.6;
+  filter: grayscale(0.2);
+  cursor: url('assets/christmas-ornament_small.png') 8 8, not-allowed;
+}
+
+/* Accessibility: Focus outline */
+.door:focus {
+  outline: 3px solid #2e8b57;
+  outline-offset: 2px;
+}
+
 /* Enable Smooth Scrolling */
 html {
     scroll-behavior: smooth;
