@@ -115,7 +115,6 @@ body.touch-device .door.opened {
 .door.opened {
     background-color: #2ecc71; /* Green background to indicate opened doors */
     color: #fff; /* White text for contrast */
-    pointer-events: none; /* Disable further clicks */
     opacity: 0.8; /* Slight transparency */
 }
 
