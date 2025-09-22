@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Click outside or on any [data-close] element closes modal
     modal.addEventListener("click", (e) => {
-    if (e.target.matches("[data-close]") || e.target.classList.contains("modal-backdrop")) {
+    if (e.target.closest("[data-close]") || e.target.classList.contains("modal-backdrop")) {
         closeModal();
     }
     });
@@ -122,7 +122,7 @@ document.addEventListener("DOMContentLoaded", () => {
     { type: "image", src: "assets/surprises/spreading-christmas-cheer.webp", alt: "Charming toy car carrying a miniature Christmas tree on its roof, spreading holiday cheer" }, // Door 4
     { type: "image", src: "assets/surprises/chillin-snowmies.webp", alt: "Delightful snowman figurine surrounded by twinkling sparkling lights creating magical winter atmosphere" }, // Door 5
     { type: "image", src: "assets/surprises/powered-by-sugar.webp", alt: "Tempting pile of glossy candied apples glistening with sweet sugar coating and holiday indulgence" }, // Door 6
-    { type: "image", src: "assets/surprises/carols-echo-in-square.png", alt: "Enchanting Gendarmenmarkt Christmas market illuminated at night with carols echoing through the historic square" }, // Door 7
+    { type: "youtube", url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ", title: "Holiday vibes 🎄" }, // Door 7
     { type: "image", src: "assets/surprises/dreams-shine-brighter.png", alt: "Magnificent building facade at night with projected stars making dreams shine brighter during Christmas" }, // Door 8
     { type: "image", src: "assets/surprises/elf-esteem.webp", alt: "Festive elf-themed scene with holiday treats boosting Christmas elf-esteem and seasonal joy" }, // Door 9
     { type: "image", src: "assets/surprises/history-hope-sparkle.png", alt: "Sparkling Christmas lights creating hope and making your days merry with festive magic" }, // Door 10

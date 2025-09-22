@@ -40,9 +40,6 @@ body {
       width: 100%;
       height: 100%;
   
-      /* Ensure the snow is on top of everything else */
-      z-index: 9999;
-  
       /* Prevent user interaction (clicks, etc.) */
       pointer-events: none;
     }
@@ -278,17 +275,8 @@ html {
   outline: none;
 }
 
-/* Optional: Match spacing with sound toggle */
-#controls {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
-  margin: 1rem auto;
-}
-
 /*************************************
- * SECTION: Modal Styles (Image Popup)
+ * SECTION: Modal Styles (Universal Popup)
  *************************************/
 /*************************************
  * IMAGE MODAL (RESPONSIVE, MOBILE-FIRST)
@@ -299,14 +287,14 @@ html {
 
 /* Modal wrapper covers entire screen with dark overlay */
 .modal {
-  position: fixed;          /* Stay in place while scrolling */
-  inset: 0;                 /* Top, right, bottom, left = 0 */
-  display: none;            /* Hidden by default */
-  align-items: center;      /* Center content vertically */
-  justify-content: center;  /* Center content horizontally */
-  background-color: rgba(0, 0, 0, 0.85); /* Dark semi-transparent background */
-  z-index: 9999;            /* On top of everything else */
-  padding: 1rem;            /* Space around modal on small screens */
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.85);
+  padding: 1rem;
+  z-index: 10000; /* above #snowCanvas */
 }
 
 /* Show the modal when aria-hidden is false */
@@ -314,68 +302,18 @@ html {
   display: flex;
 }
 
-/* Container for the modal content (image) */
-.modal-content {
-  position: relative;       /* Needed for positioning close button */
-  max-width: 90vw;          /* Max width: 90% of viewport width */
-  max-height: 90vh;         /* Max height: 90% of viewport height */
-  width: auto;              /* Shrinks to fit content */
-  height: auto;
-  overflow: hidden;         /* Prevent scrollbars inside modal */
-  border-radius: 0.75rem;   /* Rounded corners */
-  background-color: transparent; /* No background box for content */
-}
-
-/* The image inside the modal */
-.modal-content img {
-  display: block;
-  width: 100%;              /* Image fills modal content width */
-  height: auto;             /* Keep aspect ratio */
-  max-height: 80vh;         /* Prevent image from getting too tall */
-  object-fit: contain;      /* Keep full image visible */
-  border-radius: 0.5rem;    /* Slightly rounded image corners */
-}
-
-/* The close button in the top-right corner */
-.modal-close {
-  position: absolute;
-  top: 0.5rem;              /* Push down slightly from the top */
-  right: 0.5rem;            /* Push in slightly from the right */
-  font-size: 2rem;          /* Big X */
-  background: white;      /* Visible on dark background */
-  border: none;             /* Remove default button border */
-  border-radius: 50%;       /* Circular button */
-   cursor: pointer;         /* Show pointer on hover */
-  line-height: 1;           /* Prevent extra vertical spacing */
-  box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.3); /* Subtle shadow */
-}
-
-/* Optional: prevent huge modals on large screens */
-@media (min-width: 1024px) {
-  .modal-content img {
-    max-width: 800px;       /* Limit max image width on desktops */
-  }
-}
-
-/* Visually hidden but screen-reader accessible */
-.sr-only {
-  position: absolute !important;
-  width: 1px; height: 1px;
-  padding: 0; margin: -1px;
-  overflow: hidden; clip: rect(0, 0, 0, 0);
-  white-space: nowrap; border: 0;
-}
-
 /* Backdrop layer for click-to-close */
 .modal-backdrop {
   position: absolute;
   inset: 0;
   background: rgba(0,0,0,.85);
+  z-index: 1; /* backdrop is below dialog */
 }
 
 /* Dialog container (the white box) */
 .modal-dialog {
   position: relative;
+  z-index: 2; /* above backdrop */
   max-width: min(92vw, 760px);
   margin: 6vh auto;
   border-radius: 0.75rem;
@@ -384,16 +322,62 @@ html {
   box-shadow: 0 20px 60px rgba(0,0,0,.25);
 }
 
-/* Generic content wrapper */
-.modal-content { padding: 1.25rem; }
+/* The white card that holds content */
+.modal-content {
+  position: relative; /* anchor for .modal-close */
+  max-width: 90vw;
+  max-height: 90vh;
+  width: auto;
+  height: auto;
+  overflow: hidden;
+  border-radius: 0.75rem;
+  background-color: transparent;
+  padding: 1.25rem;
+}
+
+/* Images inside modal */
+.modal-content img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 80vh;
+  object-fit: contain;
+  border-radius: 0.5rem;
+}
+
+/* The close button in the top-right corner */
+.modal-close {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  font-size: 2rem;
+  background: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  line-height: 1;
+  box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.3);
+  z-index: 3; /* above content */
+}
 
 /* Text content styles */
 .modal-text h3 { margin: 0 0 .5rem; font-size: 1.25rem; }
-.modal-text p { margin: 0; line-height: 1.6; }
+.modal-text p  { margin: 0; line-height: 1.6; }
 
 /* 16:9 video wrapper */
 .modal-video { position: relative; width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 12px; overflow: hidden; }
 .modal-video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
 
-/* Ensure the modal sits above the snow canvas */
-.modal { z-index: 10000; } /* was 9999; bump above #snowCanvas */
+/* Visually hidden but screen-reader accessible */
+.sr-only {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0,0,0,0);
+  white-space: nowrap; border: 0;
+}
+
+/* Optional: prevent huge modals on large screens */
+@media (min-width: 1024px) {
+  .modal-content img { max-width: 800px; }
+}
