@@ -17,6 +17,21 @@ body {
     background-size: cover;
     background-attachment: scroll; /* Changed: was fixed, now scroll for mobile */
 }
+
+/*Tablet & small desktop background (medium version)*/
+@media (min-width: 48rem) { /* 768px */
+  body {
+    background-image: url('assets/bg_christmas-5195815_1280.webp');
+  }
+}
+
+/*Large desktop background (largest version)*/
+@media (min-width: 80rem) { /* 1280px */
+  body {
+    background-image: url('assets/bg-1920.webp');
+  }
+}
+
 @media (pointer: fine) {
   body {
     cursor: url('assets/candycane_32x32.png') 4 4, auto;
