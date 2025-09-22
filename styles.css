@@ -28,7 +28,7 @@ body {
 /*Large desktop background (largest version)*/
 @media (min-width: 80rem) { /* 1280px */
   body {
-    background-image: url('assets/bg-1920.webp');
+    background-image: url('assets/bg_christmas-5195815_1920.webp');
   }
 }
 
