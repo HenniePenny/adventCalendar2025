@@ -199,33 +199,34 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }
 
-        // Add a click event listener to the door
-       // Add a click event listener to the door
+// Add a click event listener to the door
 door.addEventListener("click", () => {
     if (door.dataset.locked === "true") {
         alert("🔒🎄 Locked! Open this door on the correct day.");
         return;
     }
 
+    const surprise = surprises[day - 1];
+
+    // First-time open: mark and preview + save state
     if (door.dataset.opened !== "true") {
-        door.classList.add("opened"); // Mark door as opened
-        const surprise = surprises[day - 1];
-        renderDoorPreview(door, surprise); // Show a compact preview in the door
-  
-        openedDoors.push(day); // Add the day to the list of opened doors
-        localStorage.setItem("openedDoors", JSON.stringify(openedDoors)); // Save the updated state to localStorage
-        door.dataset.opened = "true"; // Mark as opened in dataset
+        door.classList.add("opened");
+        renderDoorPreview(door, surprise);
+
+        openedDoors.push(day);
+        localStorage.setItem("openedDoors", JSON.stringify(openedDoors));
+        door.dataset.opened = "true";
 
         // Play sound if enabled
         if (isDesktop && isSoundOn && hohoho) {
             hohoho.currentTime = 0;
             hohoho.play().catch(err => console.log("Audio playback failed:", err));
         }
-
-        // Open the universal modal for any type
-            renderSurprise(surprise);
-            openModal();
     }
+
+    // Always open the universal modal (first time and subsequent clicks)
+    renderSurprise(surprise);
+    openModal();
 });
 
         calendar.appendChild(door);
@@ -240,42 +241,3 @@ if (resetButton) {
         location.reload(); // Refresh the page
     });
 }
-
-/*************************************
- * IMAGE MODAL LOGIC
- * - Enlarges surprise images on click
- * - Touch-friendly and keyboard-accessible
- * - Opens full-size view in a popup (modal)
- * - Closes on ESC, overlay click, or button
- *************************************/
-document.addEventListener("DOMContentLoaded", () => {
-  const modal = document.getElementById("imageModal");
-  const modalImage = document.getElementById("modalImage");
-  const closeBtn = modal.querySelector(".modal-close");
-
-  // Open modal when any image inside an opened door is clicked
-document.getElementById("calendar").addEventListener("click", (e) => {
-  const img = e.target;
-  console.log("Click detected on:", e.target);
-  if (img.tagName === "IMG" && img.closest(".door.opened")) {
-    modalImage.src = img.src;
-    modalImage.alt = img.alt;
-    modal.setAttribute("aria-hidden", "false");
-    closeBtn.focus();
-  }
-});
-
-  // Close modal
-  function closeModal() {
-    modal.setAttribute("aria-hidden", "true");
-    modalImage.src = "";
-  }
-
-  closeBtn.addEventListener("click", closeModal);
-  modal.addEventListener("click", (e) => {
-    if (e.target === modal) closeModal();
-  });
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") closeModal();
-  });
-});
