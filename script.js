@@ -16,16 +16,27 @@ document.addEventListener("DOMContentLoaded", () => {
     const currentDay = today.getDate(); // Extract the current day of the month (1-31)
 
     // --- Universal helpers ---
-    function getYouTubeId(input) {
-    if (!input) return null;
-    if (/^[a-zA-Z0-9_-]{11}$/.test(input)) return input;
-    try {
-        const u = new URL(input);
-        if (u.hostname.includes("youtube.com")) return u.searchParams.get("v");
-        if (u.hostname === "youtu.be") return u.pathname.slice(1);
-    } catch {}
-    return null;
+function getYouTubeId(input) {
+  if (!input) return null;
+  // raw ID
+  if (/^[a-zA-Z0-9_-]{11}$/.test(input)) return input;
+
+  try {
+    const u = new URL(input);
+    const host = u.hostname.replace(/^www\./, "");
+    // youtu.be/<id>
+    if (host === "youtu.be") return u.pathname.slice(1).split("/")[0];
+    // youtube.com/watch?v=<id>
+    if (host === "youtube.com" || host === "m.youtube.com" || host === "youtube-nocookie.com") {
+      if (u.pathname.startsWith("/watch")) return u.searchParams.get("v");
+      // youtube.com/embed/<id>
+      if (u.pathname.startsWith("/embed/")) return u.pathname.split("/")[2];
+      // youtube.com/shorts/<id>
+      if (u.pathname.startsWith("/shorts/")) return u.pathname.split("/")[2] || u.pathname.split("/")[1];
     }
+  } catch {}
+  return null;
+}
 
     function openModal() {
     modal.setAttribute("aria-hidden", "false");
