@@ -1,5 +1,16 @@
 /* Mobile-First Base Styles */
 
+/* Ensure background always covers viewport height */
+html {
+  height: 100%;                 /* make html fill full height */
+  background-color: #f6faff;    /* match body fallback to avoid gaps */
+}
+
+body {
+  min-height: 100vh;   /* fallback for most browsers */
+  min-height: 100svh;  /* dynamic small viewport height (iOS Safari fix) */
+}
+
 /* General body styles for a festive feel */
 body {
     font-family: 'Mountains of Christmas', cursive, sans-serif; /* Festive font with fallback */
