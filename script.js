@@ -88,17 +88,33 @@ function getYouTubeId(input) {
         modalBody.appendChild(wrap);
         break;
         }
+        
         case "youtube": {
         const id = getYouTubeId(s.url || s.id);
-        if (!id) { modalBody.textContent = "Video unavailable."; break; }
-        const box = document.createElement("div"); box.className = "modal-video";
+        if (!id) { 
+            modalBody.textContent = "Video unavailable."; 
+            break; 
+        }
+
+        // Pause hohoho if it's playing
+        if (hohoho && !hohoho.paused) {
+            hohoho.pause();
+        }
+
+        const box = document.createElement("div");
+        box.className = "modal-video";
+
         const iframe = document.createElement("iframe");
-        iframe.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&modestbranding=1`;
+        iframe.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&modestbranding=1&mute=1`; 
         iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
-        iframe.allowFullscreen = true; iframe.title = s.title || "Video";
-        box.appendChild(iframe); modalBody.appendChild(box);
+        iframe.allowFullscreen = true;
+        iframe.title = s.title || "Video";
+
+        box.appendChild(iframe);
+        modalBody.appendChild(box);
         break;
         }
+
         default:
         modalBody.textContent = "Unknown surprise type.";
     }
