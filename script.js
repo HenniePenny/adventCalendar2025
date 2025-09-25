@@ -91,30 +91,41 @@ function getYouTubeId(input) {
         
         case "youtube": {
         const id = getYouTubeId(s.url || s.id);
-        if (!id) { 
-            modalBody.textContent = "Video unavailable."; 
-            break; 
-        }
+        if (!id) { modalBody.textContent = "Video unavailable."; break; }
 
         // Pause hohoho if it's playing
-        if (hohoho && !hohoho.paused) {
-            hohoho.pause();
-        }
+        if (hohoho && !hohoho.paused) { try { hohoho.pause(); } catch {} }
 
         const box = document.createElement("div");
         box.className = "modal-video";
 
         const iframe = document.createElement("iframe");
-        iframe.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&modestbranding=1&mute=1`; 
+
+        // Use regular youtube.com/embed first (more permissive than nocookie in some setups)
+        const base = `https://www.youtube.com/embed/${id}`;
+        const params = new URLSearchParams({
+            autoplay: "0",          // ← start un-autoplayed to rule out autoplay blocks
+            rel: "0",
+            modestbranding: "1",
+            playsinline: "1",
+            enablejsapi: "1",
+            origin: location.origin // ← important on localhost
+        });
+        iframe.src = `${base}?${params.toString()}`;
+
+        // Permissions
         iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
         iframe.allowFullscreen = true;
         iframe.title = s.title || "Video";
+
+        // Helpful on Safari / privacy setups
+        iframe.referrerPolicy = "strict-origin-when-cross-origin";
 
         box.appendChild(iframe);
         modalBody.appendChild(box);
         break;
         }
-
+        
         default:
         modalBody.textContent = "Unknown surprise type.";
     }
@@ -149,7 +160,11 @@ function getYouTubeId(input) {
     { type: "image", src: "assets/surprises/spreading-christmas-cheer.webp", alt: "Charming toy car carrying a miniature Christmas tree on its roof, spreading holiday cheer" }, // Door 4
     { type: "image", src: "assets/surprises/chillin-snowmies.webp", alt: "Delightful snowman figurine surrounded by twinkling sparkling lights creating magical winter atmosphere" }, // Door 5
     { type: "image", src: "assets/surprises/powered-by-sugar.webp", alt: "Tempting pile of glossy candied apples glistening with sweet sugar coating and holiday indulgence" }, // Door 6
-    { type: "youtube", url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ", title: "Holiday vibes 🎄" }, // Door 7
+{ 
+  type: "youtube", 
+  url: "https://www.youtube.com/watch?v=YE7VzlLtp-4", 
+  title: "Big Buck Bunny 🐇" 
+}, // Door 7
     { type: "image", src: "assets/surprises/dreams-shine-brighter.png", alt: "Magnificent building facade at night with projected stars making dreams shine brighter during Christmas" }, // Door 8
     { type: "image", src: "assets/surprises/elf-esteem.webp", alt: "Festive elf-themed scene with holiday treats boosting Christmas elf-esteem and seasonal joy" }, // Door 9
     { type: "image", src: "assets/surprises/history-hope-sparkle.png", alt: "Sparkling Christmas lights creating hope and making your days merry with festive magic" }, // Door 10
