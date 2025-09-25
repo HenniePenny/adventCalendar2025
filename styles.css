@@ -96,7 +96,8 @@ body {
 
 /* Page heading styles */
 h1 {
-    margin: 1rem 0;
+    margin-block-start: 0;         /* ensures that there is no white gap at the top */
+    margin-block-end: 1rem;        /* keep the bottom spacing */
     color: #d35400; /* Warm orange color for festive feel */
     font-size: 2rem;
 }
