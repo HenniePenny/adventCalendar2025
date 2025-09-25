@@ -244,8 +244,8 @@ door.addEventListener("click", () => {
         localStorage.setItem("openedDoors", JSON.stringify(openedDoors));
         door.dataset.opened = "true";
 
-        // Play sound if enabled
-        if (isDesktop && isSoundOn && hohoho) {
+   // Play sound if enabled (but not for YouTube)
+    if (surprise.type !== "youtube" && isDesktop && isSoundOn && hohoho) {
             hohoho.currentTime = 0;
             hohoho.play().catch(err => console.log("Audio playback failed:", err));
         }
