@@ -13,6 +13,29 @@ document.addEventListener("DOMContentLoaded", () => {
     const today = new Date(); // Get current date based on user's local time
     const currentDay = today.getDate(); // Extract the current day of the month (1-31)
 
+    // --- DATE-GATING CONFIG ---
+    // Set the month/year that the calendar is "live" for.
+    // October = 9, December = 11 (0-based months)
+    const targetYear = 2025;
+    const targetMonth = 9; // October for testing; change to 11 for December
+
+    // Normalize "today" to midnight for clean comparisons
+    const currentDate = new Date(
+        today.getFullYear(), 
+        today.getMonth(), 
+        today.getDate()
+    ).getTime();
+
+    // Is the calendar currently in its target month/year?
+    const isTargetWindow = (today.getFullYear() === targetYear && today.getMonth() === targetMonth);
+
+    // Use a month-scoped storage key so October/December progress don't mix
+    const openedDoorsKey = `openedDoors-${targetYear}-${targetMonth + 1}`;
+
+    // Retrieve month-scoped opened doors (fallback to empty array)
+    const openedDoorsScoped = JSON.parse(localStorage.getItem(openedDoorsKey)) || [];
+
+
     // Array of surprises (fixed to correspond with specific doors)
     const surprises = [
         '<img src="assets/surprises/berlin-sugar-love.png" alt="Festive gingerbread hearts with Berlin Christmas market charm and sweet holiday love" loading="lazy" style="max-width: 100%; height: auto; border-radius: 0.5rem;" />',  // Door 1
