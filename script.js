@@ -164,6 +164,10 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }
     }
+});
+
+        calendar.appendChild(door);
+    }
 
     // Reset button to clear opened doors and refresh the page
     const resetButton = document.getElementById("resetButton");
@@ -173,11 +177,6 @@ document.addEventListener("DOMContentLoaded", () => {
         localStorage.removeItem(openedDoorsKey); // scoped key
         location.reload(); // Refresh the page
     });
-}
-
-});
-
-        calendar.appendChild(door);
     }
 });
 
