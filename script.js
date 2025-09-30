@@ -130,13 +130,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Add a click event listener to the door
        // Add a click event listener to the door
-    door.addEventListener("click", () => {
+        door.addEventListener("click", () => {
         if (door.dataset.locked === "true") {
         alert("🔒🎄 Locked! Open this door on the correct day.");
         return;
-     }
+        }
 
-    if (door.dataset.opened !== "true") {
+        if (door.dataset.opened !== "true") {
         door.classList.add("opened"); // Mark door as opened
         const content = surprises[day - 1];
         door.innerHTML = content; // Show the surprise for the day
@@ -164,20 +164,24 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }
     }
+
+    // Reset button to clear opened doors and refresh the page
+    const resetButton = document.getElementById("resetButton");
+    if (resetButton) {
+        resetButton.addEventListener("click", () => {
+        localStorage.removeItem("openedDoors"); // legacy key
+        localStorage.removeItem(openedDoorsKey); // scoped key
+        location.reload(); // Refresh the page
+    });
+}
+
 });
 
         calendar.appendChild(door);
     }
 });
 
-// Reset button to clear opened doors and refresh the page
-const resetButton = document.getElementById("resetButton");
-if (resetButton) {
-    resetButton.addEventListener("click", () => {
-        localStorage.removeItem("openedDoors"); // Clear saved state in localStorage
-        location.reload(); // Refresh the page
-    });
-}
+
 
 /*************************************
  * IMAGE MODAL LOGIC
