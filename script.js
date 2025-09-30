@@ -13,29 +13,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const today = new Date(); // Get current date based on user's local time
     const currentDay = today.getDate(); // Extract the current day of the month (1-31)
 
-    // --- DATE-GATING CONFIG ---
-    // Set the month/year that the calendar is "live" for.
-    // October = 9, December = 11 (0-based months)
-    const targetYear = 2025;
-    const targetMonth = 9; // October for testing; change to 11 for December
-
-    // Normalize "today" to midnight for clean comparisons
-    const currentDate = new Date(
-        today.getFullYear(), 
-        today.getMonth(), 
-        today.getDate()
-    ).getTime();
-
-    // Is the calendar currently in its target month/year?
-    const isTargetWindow = (today.getFullYear() === targetYear && today.getMonth() === targetMonth);
-
-    // Use a month-scoped storage key so October/December progress don't mix
-    const openedDoorsKey = `openedDoors-${targetYear}-${targetMonth + 1}`;
-
-    // Retrieve month-scoped opened doors (fallback to empty array)
-    const openedDoorsScoped = JSON.parse(localStorage.getItem(openedDoorsKey)) || [];
-
-
     // Array of surprises (fixed to correspond with specific doors)
     const surprises = [
         '<img src="assets/surprises/berlin-sugar-love.png" alt="Festive gingerbread hearts with Berlin Christmas market charm and sweet holiday love" loading="lazy" style="max-width: 100%; height: auto; border-radius: 0.5rem;" />',  // Door 1
@@ -106,48 +83,41 @@ document.addEventListener("DOMContentLoaded", () => {
         door.classList.add("door"); // Add the "door" class
         door.setAttribute("data-day", day); // Set the day as a custom attribute
 
-        // Intended unlock date (midnight) for this day in the target month/year
-        const unlockDate = new Date(targetYear, targetMonth, day).setHours(0, 0, 0, 0);
-
         // Check if the door has already been opened
         if (openedDoors.includes(day)) {
-            // Already opened for this target window
             door.classList.add("opened");
             door.innerHTML = surprises[day - 1]; // Use fixed index to display the surprise
             door.dataset.opened = "true"; // Store opened state in dataset
         } else {
             door.textContent = day; // Display the door number
 
-        // Lock if we're outside the target month/year,
-        // or we're in the window but the door's date hasn't arrived yet.
-        const shouldLock = !isTargetWindow || currentDate < unlockDate;
-
-        if (shouldLock) {
-            door.classList.add("locked");
-            door.dataset.locked = "true";
+            // Lock future doors (cannot be clicked until their day)
+            if (day > currentDay) {
+                door.classList.add("locked"); // Add locked styling
+                door.dataset.locked = "true"; // Mark door as locked
             }
         }
 
         // Add a click event listener to the door
        // Add a click event listener to the door
-        door.addEventListener("click", () => {
-        if (door.dataset.locked === "true") {
+door.addEventListener("click", () => {
+    if (door.dataset.locked === "true") {
         alert("🔒🎄 Locked! Open this door on the correct day.");
         return;
-        }
+    }
 
-        if (door.dataset.opened !== "true") {
+    if (door.dataset.opened !== "true") {
         door.classList.add("opened"); // Mark door as opened
         const content = surprises[day - 1];
         door.innerHTML = content; // Show the surprise for the day
-        openedDoorsScoped.push(day); // Add the day to the list of opened doors
-        localStorage.setItem(openedDoorsKey, JSON.stringify(openedDoorsScoped)); // Save the updated state to localStorage
+        openedDoors.push(day); // Add the day to the list of opened doors
+        localStorage.setItem("openedDoors", JSON.stringify(openedDoors)); // Save the updated state to localStorage
         door.dataset.opened = "true"; // Mark as opened in dataset
 
-        // Sound (uses your existing isDesktop / isSoundOn / hohoho)
+        // Play sound if enabled
         if (isDesktop && isSoundOn && hohoho) {
-        hohoho.currentTime = 0;
-        hohoho.play().catch(err => console.log("Audio playback failed:", err));
+            hohoho.currentTime = 0;
+            hohoho.play().catch(err => console.log("Audio playback failed:", err));
         }
 
         // Trigger modal popup immediately if content contains an image
@@ -156,11 +126,11 @@ document.addEventListener("DOMContentLoaded", () => {
             temp.innerHTML = content;
             const img = temp.querySelector("img");
 
-        if (img) {
-            modalImage.src = img.src;
-            modalImage.alt = img.alt;
-            modal.setAttribute("aria-hidden", "false");
-            closeBtn.focus();
+            if (img) {
+                modalImage.src = img.src;
+                modalImage.alt = img.alt;
+                modal.setAttribute("aria-hidden", "false");
+                closeBtn.focus();
             }
         }
     }
@@ -168,19 +138,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
         calendar.appendChild(door);
     }
-
-    // Reset button to clear opened doors and refresh the page
-    const resetButton = document.getElementById("resetButton");
-    if (resetButton) {
-        resetButton.addEventListener("click", () => {
-        localStorage.removeItem("openedDoors"); // legacy key
-        localStorage.removeItem(openedDoorsKey); // scoped key
-        location.reload(); // Refresh the page
-    });
-    }
 });
 
-
+// Reset button to clear opened doors and refresh the page
+const resetButton = document.getElementById("resetButton");
+if (resetButton) {
+    resetButton.addEventListener("click", () => {
+        localStorage.removeItem("openedDoors"); // Clear saved state in localStorage
+        location.reload(); // Refresh the page
+    });
+}
 
 /*************************************
  * IMAGE MODAL LOGIC
