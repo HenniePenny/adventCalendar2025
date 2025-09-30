@@ -1,5 +1,16 @@
 /* Mobile-First Base Styles */
 
+/* Ensure background always covers viewport height */
+html {
+  height: 100%;                 /* make html fill full height */
+  background-color: #f6faff;    /* match body fallback to avoid gaps */
+}
+
+body {
+  min-height: 100vh;   /* fallback for most browsers */
+  min-height: 100svh;  /* dynamic small viewport height (iOS Safari fix) */
+}
+
 /* General body styles for a festive feel */
 body {
     font-family: 'Mountains of Christmas', cursive, sans-serif; /* Festive font with fallback */
@@ -9,12 +20,29 @@ body {
     padding: 0;
     font-size: 1rem; /* Ensures readability */
     line-height: 1.5; /* Improves text spacing */
-    background-image: url(https://cdn.pixabay.com/photo/2020/05/20/10/17/christmas-5195815_960_720.jpg);
-    background-repeat: no-repeat; /* Prevents image repetition */
-    background-position: center center; /* Centers the background image */
-    background-attachment: fixed; /* Keeps background static while scrolling */
-    background-size: cover; /* Ensures background covers the viewport */
+    /*Mobile-first background image (smallest version)*/
+    background-color: #f6faff; /* Fallback color */
+    background-image: url('assets/bg_christmas-5195815_640.webp');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    background-attachment: scroll; /* Changed: was fixed, now scroll for mobile */
 }
+
+/*Tablet & small desktop background (medium version)*/
+@media (min-width: 48rem) { /* 768px */
+  body {
+    background-image: url('assets/bg_christmas-5195815_1280.webp');
+  }
+}
+
+/*Large desktop background (largest version)*/
+@media (min-width: 80rem) { /* 1280px */
+  body {
+    background-image: url('assets/bg_christmas-5195815_1920.webp');
+  }
+}
+
 @media (pointer: fine) {
   body {
     cursor: url('assets/candycane_32x32.png') 4 4, auto;
@@ -65,7 +93,8 @@ body {
 
 /* Page heading styles */
 h1 {
-    margin: 1rem 0;
+    margin-block-start: 0;         /* ensures that there is no white gap at the top */
+    margin-block-end: 1rem;        /* keep the bottom spacing */
     color: #d35400; /* Warm orange color for festive feel */
     font-size: 2rem;
 }
