@@ -48,6 +48,7 @@ function getYouTubeId(input) {
     function closeModal() {
     modal.setAttribute("aria-hidden", "true");
     modalBody.innerHTML = ""; // clear (stops any video too)
+    modal.classList.remove("modal--media");
     document.removeEventListener("keydown", onEsc);
     }
 
@@ -71,11 +72,15 @@ function getYouTubeId(input) {
     }
     switch (s.type) {
         case "image": {
-        const img = document.createElement("img");
-        img.src = s.src; img.alt = s.alt || ""; img.loading = "lazy";
-        modalBody.appendChild(img);
-        break;
+            modal.classList.add("modal--media");   // add the class before appending
+            const img = document.createElement("img");
+            img.src = s.src;
+            img.alt = s.alt || "";
+            img.loading = "lazy";
+            modalBody.appendChild(img);
+            break;
         }
+
         case "text": {
         const wrap = document.createElement("div");
         wrap.className = "modal-text";
@@ -90,6 +95,7 @@ function getYouTubeId(input) {
         }
         
         case "youtube": {
+        modal.classList.add("modal--media");   // add the class before appending
         const id = getYouTubeId(s.url || s.id);
         if (!id) { modalBody.textContent = "Video unavailable."; break; }
 
