@@ -183,7 +183,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // ----- Surprises -----
   const surprises = [
-    { type: "image", src: "assets/surprises/berlin-sugar-love.png", alt: "Festive gingerbread hearts with Berlin Christmas market charm and sweet holiday love" }, // 1
+    { type: "image", src: "assets/surprises/berlin-sugar-love.png", alt: "Festive gingerbread hearts with Berlin Christmas market charm and sweet holiday love" }, // 
     { type: "image", src: "assets/surprises/cozy-vibes.webp", alt: "Warm and cozy fireplace scene with steaming hot cocoa creating perfect winter comfort" }, // 2
     { type: "image", src: "assets/surprises/christmas_cat_santaclaws.webp", alt: "Adorable cat playfully peeking through decorated Christmas tree branches with festive curiosity" }, // 3
     { type: "image", src: "assets/surprises/spreading-christmas-cheer.webp", alt: "Charming toy car carrying a miniature Christmas tree on its roof, spreading holiday cheer" }, // 4
@@ -243,8 +243,26 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   }
 
+// Generate a fixed random order of doors (saved once in localStorage)
+let doorOrder = JSON.parse(localStorage.getItem("doorOrder"));
+
+if (!doorOrder) {
+  // Create array [1, 2, ..., 24]
+  doorOrder = Array.from({ length: 24 }, (_, i) => i + 1);
+
+  // Fisher–Yates shuffle
+  for (let i = doorOrder.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [doorOrder[i], doorOrder[j]] = [doorOrder[j], doorOrder[i]];
+  }
+
+  // Save it so the order stays the same across reloads
+  localStorage.setItem("doorOrder", JSON.stringify(doorOrder));
+}
+
+
   // ----- Build doors -----
-  for (let day = 1; day <= 24; day++) {
+  for (const day of doorOrder) {
     const door = document.createElement("div");
     door.classList.add("door");
     door.setAttribute("data-day", day);
@@ -310,9 +328,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const resetButton = document.getElementById("resetButton");
   if (resetButton) {
     resetButton.addEventListener("click", () => {
-      localStorage.removeItem("openedDoors"); // legacy key (if present)
-      localStorage.removeItem(openedDoorsKey); // scoped key
-      location.reload();
+        localStorage.removeItem("openedDoors"); // legacy key (if present)
+        localStorage.removeItem("doorOrder");   // remove the saved random layout
+        localStorage.removeItem(openedDoorsKey); // remove the current scoped key
+        location.reload();                      // reload page to redraw everything
     });
   }
 });
