@@ -1,147 +1,172 @@
-/* Mobile-First Base Styles */
+/* =========================================================
+   ADVENT CALENDAR 2025 — CLEAN RESPONSIVE STYLESHEET
+   ========================================================= */
 
-/* Ensure background always covers viewport height */
+/* 🎨 Google Font Import */
+@import url('https://fonts.googleapis.com/css2?family=Henny+Penny&display=swap');
+
+/* =========================================================
+   BASE + LAYOUT
+   ========================================================= */
+
+/* Ensure full-height coverage and smooth scrolling */
 html {
-  height: 100%;                 /* make html fill full height */
-  background-color: #f6faff;    /* match body fallback to avoid gaps */
+  height: 100%;
+  background-color: #f6faff;
+  scroll-behavior: smooth;
 }
 
+/* Global body styles (mobile-first) */
 body {
-  min-height: 100vh;   /* fallback for most browsers */
-  min-height: 100svh;  /* dynamic small viewport height (iOS Safari fix) */
+  min-height: 100vh;
+  min-height: 100svh; /* iOS Safari fix */
+  font-family: 'Henny Penny', cursive, sans-serif;
+  text-align: center;
+  color: #333;
+  margin: 0;
+  padding: 0;
+  font-size: 1rem;
+  line-height: 1.5;
+  background-color: #f6faff;
+  background-image: url('assets/bg_christmas-5195815_640.webp');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  background-attachment: scroll; /* scroll for mobile performance */
 }
 
-/* General body styles for a festive feel */
-body {
-    font-family: 'Mountains of Christmas', cursive, sans-serif; /* Festive font with fallback */
-    text-align: center;
-    color: #333; /* Dark text for contrast */
-    margin: 0;
-    padding: 0;
-    font-size: 1rem; /* Ensures readability */
-    line-height: 1.5; /* Improves text spacing */
-    /*Mobile-first background image (smallest version)*/
-    background-color: #f6faff; /* Fallback color */
-    background-image: url('assets/bg_christmas-5195815_640.webp');
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-size: cover;
-    background-attachment: scroll; /* Changed: was fixed, now scroll for mobile */
-}
-
-/*Tablet & small desktop background (medium version)*/
+/* Responsive background image upgrades */
 @media (min-width: 48rem) { /* 768px */
   body {
     background-image: url('assets/bg_christmas-5195815_1280.webp');
   }
 }
 
-/*Large desktop background (largest version)*/
 @media (min-width: 80rem) { /* 1280px */
   body {
     background-image: url('assets/bg_christmas-5195815_1920.webp');
   }
 }
 
+/* Custom candy-cane cursor for pointer devices */
 @media (pointer: fine) {
   body {
     cursor: url('assets/candycane_32x32.png') 4 4, auto;
   }
 }
-/*************************************
- * SNOW CANVAS ANIMATION (DESKTOP ONLY)
- * WITH MOTION REDUCTION SUPPORT
- *************************************/
 
-/* 
-  1) Desktop-first approach:
-     We only show the snow canvas on devices with
-     a minimum width of 768px (you can adjust
-     this breakpoint to your preference).
-*/
+/* =========================================================
+   SNOW CANVAS ANIMATION (DESKTOP ONLY)
+   ========================================================= */
 @media (min-width: 768px) {
-    #snowCanvas {
-      /* Fill the entire screen area */
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-  
-      /* Prevent user interaction (clicks, etc.) */
-      pointer-events: none;
-    }
+  #snowCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
   }
-  
-  /* 
-    2) Respect prefers-reduced-motion:
-       If the user has reduced motion enabled, 
-       we hide or disable the snow effect.
-  */
-  @media (prefers-reduced-motion: reduce) {
-    #snowCanvas {
-      display: none !important;
-    }
-  }  
+}
 
-  @media (max-width: 767px) {
+/* Respect reduced-motion preference */
+@media (prefers-reduced-motion: reduce) {
+  #snowCanvas {
+    display: none !important;
+  }
+}
+
+@media (max-width: 767px) {
   #snowCanvas {
     display: none;
     height: 0;
   }
 }
 
-/* Page heading styles */
+/* =========================================================
+   PAGE HEADING
+   ========================================================= */
 h1 {
-    margin-block-start: 0;         /* ensures that there is no white gap at the top */
-    margin-block-end: 1rem;        /* keep the bottom spacing */
-    color: #d35400; /* Warm orange color for festive feel */
-    font-size: 2rem;
+  margin-block-start: 0;
+  margin-block-end: 1rem;
+  padding-top: clamp(1rem, 4vh, 2rem);
+  font-family: "Henny Penny", cursive;
+  font-size: 2.25rem; /* mobile base */
+  background: repeating-linear-gradient(
+    -45deg,
+    #ff2b2b 0 10px,
+    #fffaf7 10px 20px
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: brightness(1.3) contrast(1.2);
+  text-shadow:
+    0 0 6px rgba(255, 255, 255, 0.4),
+    2px 2px 6px rgba(0, 0, 0, 0.7);
+  letter-spacing: 2px;
+  text-transform: uppercase;
 }
 
-/* Calendar grid container styles */
+/* Progressive font scaling */
+@media (min-width: 48rem) { /* tablet */
+  h1 { font-size: 3rem; }
+}
+
+@media (min-width: 64rem) { /* small desktop */
+  h1 { font-size: 3.5rem; }
+}
+
+@media (min-width: 80rem) { /* large desktop */
+  h1 { font-size: 4rem; }
+}
+
+/* =========================================================
+   CALENDAR GRID + DOORS
+   ========================================================= */
 #calendar {
-    display: grid; /* Grid layout for doors */
-    grid-template-columns: repeat(auto-fit, minmax(3.75rem, 1fr)); /* Mobile-friendly grid */
-    gap: 0.75rem; /* Space between doors */
-    max-width: 90%; /* Responsive width */
-    margin: 0 auto; /* Center the calendar */
-    padding: 0.625rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(3.75rem, 1fr));
+  gap: 0.75rem;
+  max-width: 90%;
+  margin: 0 auto;
+  padding: 0.625rem;
 }
 
-/* Individual door styles */
 .door {
-    background-color: #e74c3c; /* Red background for doors */
-    color: white; /* White text for contrast */
-    font-size: 1.2rem;
-    font-weight: bold;
-    border: 0.25rem solid #2e8b57; /* Green border */
-    border-radius: 0.3125rem; /* Rounded corners */
-    display: flex; /* Center content inside doors */
-    align-items: center;
-    justify-content: center;
-    min-height: 5rem; /* Ensure a consistent door size */
-    min-width: 3.75rem; /* Improve tap accessibility */
-    padding: 0.5rem; /* Easier tapping */
-    cursor: inherit; /* Cursor is inherited */
-    transition: transform 0.3s, opacity 0.3s; /* Smooth animations */
+  background-color: #e74c3c;
+  color: white;
+  font-size: 1.2rem;
+  font-weight: bold;
+  border: 0.25rem solid #2e8b57;
+  border-radius: 0.3125rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 5rem;
+  min-width: 3.75rem;
+  padding: 0.5rem;
+  cursor: inherit;
+  transition: transform 0.3s, opacity 0.3s;
 }
 
-/* Door hover effect */
-.door:hover {
-    transform: scale(1.05); /* Slight zoom-in effect */
+/* Hover animation only on non-touch devices */
+@media (hover: hover) and (pointer: fine) {
+  .door:hover {
+    transform: scale(1.05);
     animation: doorGlow 2s infinite alternate;
+  }
 }
 
+/* Glow animation for opened doors (touch devices) */
 body.touch-device .door.opened {
-    animation: doorGlow 2s infinite alternate;
+  animation: doorGlow 2s infinite alternate;
 }
 
-/* Style for opened doors */
+/* Opened doors */
 .door.opened {
-    background-color: #2ecc71; /* Green background to indicate opened doors */
-    color: #fff; /* White text for contrast */
-    opacity: 0.8; /* Slight transparency */
+  background-color: #2ecc71;
+  color: #fff;
+  opacity: 0.8;
 }
 
 .door.opened img {
@@ -149,90 +174,49 @@ body.touch-device .door.opened {
   object-fit: contain;
 }
 
-/* Style for locked doors */
+/* Locked doors */
 .door.locked {
   opacity: 0.6;
   filter: grayscale(0.2);
   cursor: url('assets/christmas-ornament_small.png') 8 8, not-allowed;
 }
 
-/* Accessibility: Focus outline */
+/* Focus outline (keyboard accessibility) */
 .door:focus {
   outline: 3px solid #2e8b57;
   outline-offset: 2px;
 }
 
-/* Enable Smooth Scrolling */
-html {
-    scroll-behavior: smooth;
+/* Door glow animation */
+@keyframes doorGlow {
+  from { box-shadow: 0 0 0.5rem #2e8b57; }
+  to   { box-shadow: 0 0 1rem #2e8b57; }
 }
 
-/* Responsive Breakpoints */
-
+/* Responsive grid tuning */
 @media (min-width: 30rem) { /* 480px */
-    #calendar {
-        max-width: 28rem;
-        gap: 1.5rem;
-    }
-    .door {
-        min-height: 5.5rem;
-        font-size: 1.3rem;
-    }
+  #calendar { max-width: 28rem; gap: 1.5rem; }
+  .door { min-height: 5.5rem; font-size: 1.3rem; }
 }
 
 @media (min-width: 48rem) { /* 768px */
-    h1 {
-        font-size: 2.25rem;
-    }
-    #calendar {
-        max-width: 40rem;
-        gap: 1.5rem;
-        grid-template-columns: repeat(6, 1fr); /* Force 6 doors per row */
-    }
-    .door {
-        min-height: 6rem;
-        font-size: 1.4rem;
-    }
+  #calendar { max-width: 40rem; gap: 1.5rem; grid-template-columns: repeat(6, 1fr); }
+  .door { min-height: 6rem; font-size: 1.4rem; }
 }
 
 @media (min-width: 64rem) { /* 1024px */
-    h1 {
-        font-size: 2.5rem;
-    }
-    #calendar {
-        max-width: 50rem;
-        gap: 1.75rem;
-    }
-    .door {
-        min-height: 6.5rem;
-        font-size: 1.5rem;
-    }
+  #calendar { max-width: 50rem; gap: 1.75rem; }
+  .door { min-height: 6.5rem; font-size: 1.5rem; }
 }
 
 @media (min-width: 80rem) { /* 1280px */
-    h1 {
-        font-size: 2.75rem;
-    }
-    #calendar {
-        max-width: 60rem;
-        gap: 1.8rem;
-    }
-    .door {
-        min-height: 7rem;
-        font-size: 1.6rem;
-    }
+  #calendar { max-width: 60rem; gap: 1.8rem; }
+  .door { min-height: 7rem; font-size: 1.6rem; }
 }
 
-@keyframes doorGlow {
-    from {
-        box-shadow: 0 0 0.5rem #2e8b57;
-    }
-    to {
-        box-shadow: 0 0 1rem #2e8b57;
-    }
-}
-
-/* Style for the sound toggle button */
+/* =========================================================
+   CONTROLS
+   ========================================================= */
 #controls {
   display: flex;
   justify-content: center;
@@ -241,7 +225,6 @@ html {
   margin: 1rem auto;
 }
 
-/* Style the sound toggle label container */
 .sound-toggle {
   font-size: 1rem;
   display: flex;
@@ -255,7 +238,7 @@ html {
   cursor: pointer;
 }
 
-/* Hide default checkbox */
+/* Custom checkbox */
 .sound-toggle input[type="checkbox"] {
   appearance: none;
   width: 1.2rem;
@@ -267,13 +250,11 @@ html {
   cursor: pointer;
 }
 
-/* Checked state with green background */
 .sound-toggle input[type="checkbox"]:checked {
-  background-color: #2ecc71; /* same as opened doors */
+  background-color: #2ecc71;
   border-color: #27ae60;
 }
 
-/* Add a checkmark using a pseudo-element */
 .sound-toggle input[type="checkbox"]:checked::after {
   content: '✔';
   color: white;
@@ -283,11 +264,11 @@ html {
   left: 0.15rem;
 }
 
-/* Style the reset button */
+/* Reset button */
 #resetButton {
   font-size: 1rem;
   padding: 0.5rem 1.25rem;
-  background-color: #2ecc71; /* same as opened doors */
+  background-color: #2ecc71;
   color: #fff;
   border: none;
   border-radius: 0.5rem;
@@ -296,7 +277,6 @@ html {
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-/* Hover and focus effect */
 #resetButton:hover,
 #resetButton:focus {
   background-color: #27ae60;
@@ -304,17 +284,9 @@ html {
   outline: none;
 }
 
-/*************************************
- * SECTION: Modal Styles (Universal Popup)
- *************************************/
-/*************************************
- * IMAGE MODAL (RESPONSIVE, MOBILE-FIRST)
- * - Fullscreen overlay for displaying images
- * - Scales smoothly across screen sizes
- * - Closes with button or background click
- *************************************/
-
-/* Modal wrapper covers entire screen with dark overlay */
+/* =========================================================
+   MODAL STYLES
+   ========================================================= */
 .modal {
   position: fixed;
   inset: 0;
@@ -323,49 +295,41 @@ html {
   justify-content: center;
   background-color: rgba(0, 0, 0, 0.85);
   padding: 1rem;
-  z-index: 10000; /* above #snowCanvas */
+  z-index: 10000;
 }
 
-/* Show the modal when aria-hidden is false */
-.modal[aria-hidden="false"] {
-  display: flex;
-}
+.modal[aria-hidden="false"] { display: flex; }
 
-/* Backdrop layer for click-to-close */
 .modal-backdrop {
   position: absolute;
   inset: 0;
   background: rgba(0,0,0,.85);
-  z-index: 1; /* backdrop is below dialog */
+  z-index: 1;
 }
 
-/* Dialog container (the white box) */
 .modal-dialog {
   position: relative;
   z-index: 2;
-  width: min(92vw, 760px);        /* ← concrete width so content can fit */
+  width: min(92vw, 760px);
   margin: 6vh auto;
   border-radius: 0.75rem;
-  overflow: hidden;               /* keep rounded corners */
+  overflow: hidden;
   background: #fff;
   box-shadow: 0 20px 60px rgba(0,0,0,.25);
 }
 
-/* The white card that holds content */
 .modal-content {
-  position: relative;
   display: block;
-  width: 100%;                    /* ← fill dialog width */
-  box-sizing: border-box;         /* ← include padding in width so nothing overflows */
+  width: 100%;
   height: auto;
   max-height: 90vh;
   overflow: hidden;
   border-radius: 0.75rem;
   background-color: transparent;
   padding: 1.25rem;
+  box-sizing: border-box;
 }
 
-/* Images inside modal */
 .modal-content img {
   display: block;
   width: 100%;
@@ -375,7 +339,6 @@ html {
   border-radius: 0.5rem;
 }
 
-/* The close button in the top-right corner */
 .modal-close {
   position: absolute;
   top: 0.5rem;
@@ -387,66 +350,41 @@ html {
   cursor: pointer;
   line-height: 1;
   box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.3);
-  z-index: 3; /* above content */
+  z-index: 3;
 }
-
-/* Text content styles */
-.modal-text h3 { margin: 0 0 .5rem; font-size: 1.25rem; }
-.modal-text p  { margin: 0; line-height: 1.6; }
 
 /* 16:9 video wrapper */
-.modal-video { position: relative; width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 12px; overflow: hidden; }
-.modal-video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.modal-video {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16/9;
+  background: #000;
+  border-radius: 12px;
+  overflow: hidden;
+}
 
-/* Fallback if aspect-ratio is not supported */
+.modal-video iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
 @supports not (aspect-ratio: 1 / 1) {
-  .modal-video { 
-    height: 0; 
-    padding-top: 56.25%; /* 16:9 aspect ratio */
+  .modal-video {
+    height: 0;
+    padding-top: 56.25%;
   }
-  .modal-video iframe { 
-    position: absolute; 
-    inset: 0; 
-    width: 100%; 
-    height: 100%; 
-  }
-}
-
-/* Visually hidden but screen-reader accessible */
-.sr-only {
-  position: absolute !important;
-  width: 1px; height: 1px;
-  padding: 0; margin: -1px;
-  overflow: hidden; clip: rect(0,0,0,0);
-  white-space: nowrap; border: 0;
-}
-
-/* Optional: prevent huge modals on large screens */
-@media (min-width: 1024px) {
-  .modal-content img { max-width: 800px; }
-}
-
-/* Mobile optimization for very narrow screens */
-@media (max-width: 400px) {
-  .modal-dialog {
-    width: 95vw;          /* use more of the screen width */
-    margin: 4vh auto;     /* reduce top/bottom spacing */
-    border-radius: 0.5rem;
-  }
-
-  .modal-content {
-    padding: 0.75rem;     /* tighter padding */
-    border-radius: 0.5rem;
-  }
-
-  .modal-close {
-    top: 0.25rem;         /* bring X button closer in */
-    right: 0.25rem;
-    font-size: 1.5rem;    /* slightly smaller X */
+  .modal-video iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
   }
 }
 
-/* When showing media (image or video), remove the white card chrome */
+/* Clean media version (for full-screen images/videos) */
 .modal--media .modal-dialog {
   background: transparent;
   box-shadow: none;
@@ -455,10 +393,22 @@ html {
 .modal--media .modal-content {
   padding: 0;
   background: transparent;
-  border-radius: 0; /* optional: full-bleed */
+  border-radius: 0;
 }
 
-/* Make the close button still visible over dark backgrounds */
 .modal--media .modal-close {
   background: rgba(255,255,255,.9);
+}
+
+/* Force-hide screen-reader-only text */
+h2.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
 }
