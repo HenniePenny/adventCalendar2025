@@ -12,30 +12,69 @@ document.addEventListener("DOMContentLoaded", () => {
   const dialog = modal.querySelector(".modal-dialog"); // tabindex="-1" in HTML
   const modalBody = document.getElementById("modalBody");
 
-  // ----- Date-gating config -----
+  // ----- Date-gating config (future-proof and public-friendly) -----
   const today = new Date();
-  const targetYear = 2025;
-  const targetMonth = 9; // 0-based: 9=Oct (testing), 11=Dec (production)
 
-  // Normalize today's date to midnight for comparisons
+  /**
+   * 🎄 Automatically set the target month and year
+   * 
+   * - December (month index 11) is the “official” advent calendar period.
+   * - The year always matches the current year automatically.
+   * - No need to update this file each year — it will stay current forever.
+   */
+  const targetYear = today.getFullYear();
+  const targetMonth = 11; // 0-based: 11 = December
+
+  /**
+   * 🧩 Developer testing mode
+   * 
+   * - When TRUE, all doors remain unlocked regardless of date.
+   * - Automatically enabled when it’s *not* December.
+   * - Anyone can force it manually by setting FORCE_TESTING_MODE = true.
+   */
+  const FORCE_TESTING_MODE = false;
+  const autoTestingMode = today.getMonth() !== targetMonth;
+  const testingMode = FORCE_TESTING_MODE || autoTestingMode;
+
+  if (testingMode) {
+    console.log(
+      `🎁 Advent Calendar testing mode active — all doors unlocked for easy preview (${today.toLocaleString("default", { month: "long" })} ${today.getFullYear()}).`
+    );
+  }
+
+  /**
+   * 📅 Normalize today’s date to midnight (no hours/minutes)
+   * Used for comparing against each door’s unlock date.
+   */
   const currentDateMs = new Date(
     today.getFullYear(),
     today.getMonth(),
     today.getDate()
   ).getTime();
 
-  // Are we in the target month/year?
+  /**
+   * 🎅 Check if we’re in the correct calendar window (December of target year)
+   * Used to manage locking behavior when testing mode is off.
+   */
   const isTargetWindow =
     today.getFullYear() === targetYear && today.getMonth() === targetMonth;
 
-  // Month-scoped storage key so Oct/Dec progress don't mix
+  /**
+   * 🔑 Create a scoped localStorage key for this specific calendar run
+   * Ensures that progress doesn’t mix between months or years.
+   * Example: openedDoors-2025-12
+   */
   const openedDoorsKey = `openedDoors-${targetYear}-${String(
     targetMonth + 1
   ).padStart(2, "0")}`;
 
-  // Month-scoped opened doors
+  /**
+   * 🎁 Retrieve any previously opened doors for this calendar instance
+   * (So that user progress is remembered between reloads)
+   */
   const openedDoorsScoped =
     JSON.parse(localStorage.getItem(openedDoorsKey)) || [];
+
 
   // ----- Helpers -----
   function getYouTubeId(input) {
@@ -209,6 +248,37 @@ const surprises = [
   { type: "image", src: "assets/surprises/sugar-glue-dreams.webp", alt: "Cozy Christmas moment with warm drink creating sugar-sweet dreams by the fireplace" }, // 24
 ];
 
+// ----- Multilingual "locked door" messages -----
+function getLockedMessage() {
+const userLang = navigator.language || navigator.userLanguage;
+const isGerman = userLang && userLang.toLowerCase().startsWith("de");
+
+
+const messages = isGerman
+? [
+"Geduld, kleiner Wichtel! Diese Tür öffnet sich erst, wenn die Weihnachtsmagie bereit ist.",
+"Hoppla! Selbst der Weihnachtsmann darf nicht vorher gucken 🎅.",
+"Netter Versuch – aber diese Tür wickelt noch ihr Geheimnis ein 🎁.",
+"Zu früh! Die Wichtel sind noch mitten im Plätzchenbacken 🍪.",
+"Immer langsam mt den jungen Rentieren! Diese Tür braucht noch einen Moment 🦌.",
+"Diese Tür steht noch auf der Liste der unartigen Kinder – schau später nochmal vorbei 😜.",
+"🎄 Die Zukunft ist festlich… aber *heute* noch nicht. Komm später wieder!",
+"Der Weihnachtsmann prüft hier noch einmal alles ganz genau – versuch’s am richtigen Tag nochmal!"
+]
+: [
+"Patience, little elf! This door opens when the Christmas magic says so.",
+"Whoa there! Even Santa can’t peek early 🎅.",
+"Nice try, but this door’s still wrapping its surprise! 🎁",
+"Too early! The elves are still baking today’s cookies 🍪.",
+"Hold your reindeer! This door isn’t ready yet 🦌.",
+"This one’s still on the naughty list — check back later! 😜",
+"🎄 The future is festive… but not *today*. Come back later!",
+"Santa’s still double-checking this one. Try again on the right day!"
+];
+
+
+return messages[Math.floor(Math.random() * messages.length)];
+}
 
   // ----- Sound (all devices) -----
   let isSoundOn = false;
@@ -280,16 +350,16 @@ if (!doorOrder) {
       door.textContent = day;
 
       // Lock outside window OR before unlock date
-      //const shouldLock = !isTargetWindow || currentDateMs < unlockDateMs;
-      //if (shouldLock) {
+      // const shouldLock = !isTargetWindow || currentDateMs < unlockDateMs;
+      // if (shouldLock) {
       //  door.classList.add("locked");
       //  door.dataset.locked = "true";
-      //}
+      // }
     }
 
     door.addEventListener("click", () => {
       if (door.dataset.locked === "true") {
-        alert("🔒🎄 Locked! Open this door on the correct day.");
+        alert(getLockedMessage());
         return;
       }
 
