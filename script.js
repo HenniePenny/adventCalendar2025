@@ -367,12 +367,12 @@ if (!doorOrder) {
     } else {
       door.textContent = day;
 
-      // Lock outside window OR before unlock date
-      // const shouldLock = !isTargetWindow || currentDateMs < unlockDateMs;
-      // if (shouldLock) {
-      //  door.classList.add("locked");
-      //  door.dataset.locked = "true";
-      // }
+     // Lock outside window OR before unlock date
+      const shouldLock = !isTargetWindow || currentDateMs < unlockDateMs;
+      if (shouldLock) {
+       door.classList.add("locked");
+       door.dataset.locked = "true";
+      }
     }
 
     door.addEventListener("click", () => {
