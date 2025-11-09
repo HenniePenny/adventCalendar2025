@@ -210,39 +210,34 @@ const surprises = [
 ];
 
 
-  // ----- Sound (desktop-only) -----
-  const isDesktop =
-    window.matchMedia("(min-width: 768px)").matches &&
-    window.matchMedia("(pointer: fine)").matches;
-
+  // ----- Sound (all devices) -----
   let isSoundOn = false;
   let hohoho;
 
-  if (isDesktop) {
-    hohoho = new Audio("assets/hohoho.mp3");
+  hohoho = new Audio("assets/hohoho.mp3");
 
-    const toggleLabel = document.createElement("label");
-    toggleLabel.className = "sound-toggle";
-    toggleLabel.innerHTML = `
-      <input type="checkbox" id="soundToggle">
-      🔊 Enable "Ho Ho Ho" Sound
-    `;
+  const toggleLabel = document.createElement("label");
+  toggleLabel.className = "sound-toggle";
+  toggleLabel.innerHTML = `
+    <input type="checkbox" id="soundToggle">
+    🔊 Enable "Ho Ho Ho" Sound
+  `;
 
-    const container = document.getElementById("soundToggleContainer");
-    if (container) container.appendChild(toggleLabel);
+  const container = document.getElementById("soundToggleContainer");
+  if (container) container.appendChild(toggleLabel);
 
-    if (localStorage.getItem("soundEnabled") === "true") {
-      isSoundOn = true;
-      toggleLabel.querySelector("#soundToggle").checked = true;
-    }
-
-    toggleLabel
-      .querySelector("#soundToggle")
-      .addEventListener("change", (e) => {
-        isSoundOn = e.target.checked;
-        localStorage.setItem("soundEnabled", isSoundOn);
-      });
+  if (localStorage.getItem("soundEnabled") === "true") {
+    isSoundOn = true;
+    toggleLabel.querySelector("#soundToggle").checked = true;
   }
+
+  toggleLabel
+    .querySelector("#soundToggle")
+    .addEventListener("change", (e) => {
+      isSoundOn = e.target.checked;
+      localStorage.setItem("soundEnabled", isSoundOn);
+    });
+
 
 // Generate a fixed random order of doors (saved once in localStorage)
 let doorOrder = JSON.parse(localStorage.getItem("doorOrder"));
@@ -309,7 +304,7 @@ if (!doorOrder) {
         door.dataset.opened = "true";
 
         // Play sound if enabled (but not for YouTube to avoid clashing)
-        if (surprise.type !== "youtube" && isDesktop && isSoundOn && hohoho) {
+        if (surprise.type !== "youtube" && isSoundOn && hohoho) {
           hohoho.currentTime = 0;
           hohoho
             .play()
