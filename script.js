@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // ----- Date-gating config -----
   const today = new Date();
   const targetYear = 2025;
-  const targetMonth = 9; // 0-based: 9=Oct (testing), 11=Dec (production)
+  const targetMonth = 10; // 0-based: 9=Oct (testing), 11=Dec (production)
 
   // Normalize today's date to midnight for comparisons
   const currentDateMs = new Date(
@@ -280,11 +280,11 @@ if (!doorOrder) {
       door.textContent = day;
 
       // Lock outside window OR before unlock date
-      //const shouldLock = !isTargetWindow || currentDateMs < unlockDateMs;
-      //if (shouldLock) {
-      //  door.classList.add("locked");
-      //  door.dataset.locked = "true";
-      //}
+      const shouldLock = !isTargetWindow || currentDateMs < unlockDateMs;
+      if (shouldLock) {
+        door.classList.add("locked");
+        door.dataset.locked = "true";
+      }
     }
 
     door.addEventListener("click", () => {
