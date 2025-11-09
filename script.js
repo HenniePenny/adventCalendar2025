@@ -75,7 +75,25 @@ document.addEventListener("DOMContentLoaded", () => {
   const openedDoorsScoped =
     JSON.parse(localStorage.getItem(openedDoorsKey)) || [];
 
-
+  // 🪄 Optional: Visible badge for testing mode (appears in bottom-right corner)
+  if (testingMode) {
+    const badge = document.createElement("div");
+    badge.textContent = "🧪 Testing Mode Active – All Doors Unlocked";
+    badge.style.position = "fixed";
+    badge.style.bottom = "0.75rem";
+    badge.style.right = "0.75rem";
+    badge.style.background = "rgba(46, 139, 87, 0.9)";
+    badge.style.color = "#fff";
+    badge.style.fontSize = "0.9rem";
+    badge.style.fontFamily = "system-ui, sans-serif";
+    badge.style.padding = "0.4rem 0.75rem";
+    badge.style.borderRadius = "0.5rem";
+    badge.style.zIndex = "9999";
+    badge.style.boxShadow = "0 2px 6px rgba(0,0,0,0.25)";
+    badge.style.pointerEvents = "none"; // ensure clicks pass through
+    document.body.appendChild(badge);
+  }
+  
   // ----- Helpers -----
   function getYouTubeId(input) {
     if (!input) return null;
