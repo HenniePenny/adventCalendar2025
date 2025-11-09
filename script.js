@@ -16,8 +16,8 @@ document.addEventListener("DOMContentLoaded", () => {
 const today = new Date();
 
 // --- TEMPORARY: pretend today's date is Dec 10 for testing ---
-today.setMonth(11);   // December (0-based)
-today.setDate(10);
+//  today.setMonth(11);   // December (0-based)
+// today.setDate(10);
 
 const targetYear = today.getFullYear();
 const targetMonth = 11; // December
