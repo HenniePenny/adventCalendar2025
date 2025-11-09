@@ -1,98 +1,106 @@
-  // Check if user prefers reduced motion
-  const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-  if (mediaQuery && mediaQuery.matches) {
-    // If reduced motion is preferred, we do not run the snow effect
-    // (The CSS also hides the canvas, but this is a safe double-check)
-    console.log("Reduced motion enabled; Snow animation disabled.");
-  } else {
-    // Only run the snow animation if the screen is large enough
-    // and user hasn't indicated reduced motion
-    if (window.innerWidth >= 768) {
-      initSnowCanvas();
-    }
+// Respect reduced motion — if enabled, do nothing.
+const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+if (mediaQuery && mediaQuery.matches) {
+  console.log("Reduced motion enabled; Snow animation disabled.");
+} else {
+  // ✅ Run on ALL viewports (mobile included)
+  initSnowCanvas();
+}
+
+function initSnowCanvas() {
+  const canvas = document.getElementById("snowCanvas");
+  if (!canvas) {
+    console.warn("snowCanvas not found in DOM.");
+    return;
   }
 
-  /**
-   * Initialize the snow canvas animation
-   */
-  function initSnowCanvas() {
-    const canvas = document.getElementById("snowCanvas");
-    const ctx = canvas.getContext("2d");
+  const ctx = canvas.getContext("2d");
 
-    let width = canvas.width = window.innerWidth;
-    let height = canvas.height = window.innerHeight;
+  // ---- HiDPI/retina scaling for crisp flakes ----
+  const dpr = Math.max(1, Math.floor(window.devicePixelRatio || 1));
+  function resize() {
+    // Set the CSS size (already handled by your CSS) and the internal pixel buffer
+    const cssW = window.innerWidth;
+    const cssH = window.innerHeight;
+    canvas.width = cssW * dpr;
+    canvas.height = cssH * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0); // scale drawing to CSS pixels
+  }
+  resize();
 
-    // Array to hold snowflake data
-    let flakes = [];
+  // ---- Mobile-friendly flake count ----
+  const cssWidth = () => window.innerWidth;
+  const maxFlakes =
+    cssWidth() < 360 ? 20 :
+    cssWidth() < 600 ? 28 :
+    cssWidth() < 900 ? 40 : 56; // scale up on larger screens
 
-    // Snowflake count and other settings
-    const maxFlakes = 50; // Adjust for more or fewer snowflakes
-    const snowflakeColor = "rgba(255, 255, 255, 0.8)"; // White with some transparency
+  const snowflakeColor = "rgba(255, 255, 255, 0.9)";
+  const flakes = [];
 
-    /**
-     * Create an object representing a single snowflake
-     */
-    function createFlake() {
-      // Random x position
-      let x = Math.random() * width;
-      // Slightly random size
-      let size = Math.random() * 3 + 2;
-      // Random y position (start above the visible screen if desired)
-      let y = Math.random() * -height; 
-      // Random speed
-      let speed = Math.random() + 0.5;
-      // Horizontal drift
-      let drift = (Math.random() - 0.5) * 0.5; 
+  function createFlake(width, height) {
+    const size = Math.random() * 3 + 2;         // 2–5px
+    const speed = Math.random() * 0.8 + 0.4;    // 0.4–1.2 px/frame
+    const drift = (Math.random() - 0.5) * 0.6;  // -0.3 to 0.3
+    return {
+      x: Math.random() * width,
+      y: Math.random() * -height, // start above viewport
+      size, speed, drift
+    };
+  }
 
-      return { x, y, size, speed, drift };
-    }
-
-    /**
-     * Populate initial snowflake array
-     */
+  function repopulate() {
+    flakes.length = 0;
     for (let i = 0; i < maxFlakes; i++) {
-      flakes.push(createFlake());
+      flakes.push(createFlake(window.innerWidth, window.innerHeight));
     }
+  }
+  repopulate();
 
-    /**
-     * Animation loop
-     */
-    function animate() {
-      // Clear the canvas
-      ctx.clearRect(0, 0, width, height);
+  // Optional: pause when tab is hidden to save battery
+  let running = true;
+  document.addEventListener("visibilitychange", () => {
+    running = !document.hidden;
+    if (running) requestAnimationFrame(animate);
+  });
 
-      // Update and draw each flake
-      for (let i = 0; i < flakes.length; i++) {
-        const flake = flakes[i];
+  function animate() {
+    if (!running) return;
 
-        // Move the snowflake down
-        flake.y += flake.speed;
-        // Add a slight horizontal drift
-        flake.x += flake.drift;
+    const w = window.innerWidth;
+    const h = window.innerHeight;
 
-        // If flake goes beyond the bottom, reset it to the top
-        if (flake.y > height) {
-          flakes[i] = createFlake();
-          flakes[i].y = 0; // Start again at the top
-        }
+    // clear in CSS pixel space thanks to setTransform above
+    ctx.clearRect(0, 0, w, h);
 
-        // Draw the flake (a simple circle)
-        ctx.beginPath();
-        ctx.arc(flake.x, flake.y, flake.size, 0, Math.PI * 2);
-        ctx.fillStyle = snowflakeColor;
-        ctx.fill();
+    for (let i = 0; i < flakes.length; i++) {
+      const f = flakes[i];
+      f.y += f.speed;
+      f.x += f.drift;
+
+      // wrap horizontally a bit to keep flakes on screen
+      if (f.x < -10) f.x = w + 10;
+      if (f.x > w + 10) f.x = -10;
+
+      if (f.y > h) {
+        // recycle to the top
+        flakes[i] = createFlake(w, h);
+        flakes[i].y = -5;
       }
 
-      // Request next frame
-      requestAnimationFrame(animate);
+      ctx.beginPath();
+      ctx.arc(f.x, f.y, f.size, 0, Math.PI * 2);
+      ctx.fillStyle = snowflakeColor;
+      ctx.fill();
     }
 
-    // Listen for window resize to update canvas dimensions
-    window.addEventListener("resize", () => {
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
-    });
+    requestAnimationFrame(animate);
+  }
+  requestAnimationFrame(animate);
 
-    // Start the animation loop
-    animate();
-  };
+  // Keep canvas correct on resize / orientation change
+  window.addEventListener("resize", () => {
+    resize();
+    repopulate();
+  });
+}
