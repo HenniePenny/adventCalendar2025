@@ -124,6 +124,12 @@ Fork the repo, make your tweaks, and send a pull request — the elves will than
 
 ---
 
+## 👩‍💻 Authors
+
+**Created by:** [@HenniePenny](https://github.com/HenniePenny) & [@tlcoles](https://github.com/tlcoles)  
+Built with care, curiosity, and a sprinkle of Christmas magic. 🎄
+
+
 ## 🎥 Acknowledgements
 
 A sleighful of thanks to all the creators whose work adds sparkle to this project:
