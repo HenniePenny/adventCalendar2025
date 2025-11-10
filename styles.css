@@ -397,3 +397,53 @@ h2.sr-only {
   white-space: nowrap !important;
   border: 0 !important;
 }
+
+/* =========================================================
+   STYLE FOR FESTIVE LOCKED POPUP
+   ========================================================= */
+
+/* 🔒 Locked popup styling */
+.locked-popup {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(220, 20, 60, 0.95); /* festive red */
+  color: #fff;
+  font-family: system-ui, sans-serif;
+  font-size: 1rem;
+  line-height: 1.4;
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  z-index: 10000;
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  max-width: 90%;
+  text-align: center;
+  cursor: pointer;
+}
+
+/* Fade in when active */
+.locked-popup.visible {
+  opacity: 1;
+}
+
+/* 💻 Desktop view — center of the screen */
+@media (min-width: 768px) {
+  .locked-popup {
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+/* 📱 Mobile view — toast style at bottom */
+@media (max-width: 767px) {
+  .locked-popup {
+    bottom: 1.25rem;
+    transform: translateX(-50%) translateY(100%);
+  }
+
+  .locked-popup.visible {
+    transform: translateX(-50%) translateY(0);
+  }
+}

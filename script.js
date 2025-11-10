@@ -16,8 +16,8 @@ document.addEventListener("DOMContentLoaded", () => {
 const today = new Date();
 
 // --- TEMPORARY: pretend today's date is Dec 10 for testing ---
-//  today.setMonth(11);   // December (0-based)
-// today.setDate(10);
+ today.setMonth(11);   // December (0-based)
+ today.setDate(12);
 
 const targetYear = today.getFullYear();
 const targetMonth = 11; // December
@@ -236,6 +236,26 @@ const surprises = [
     return messages[Math.floor(Math.random() * messages.length)];
   }
 
+  // ----- Custom festive popup -----
+function showLockedPopup(message) {
+  // Remove any existing popup first
+  const existing = document.querySelector(".locked-popup");
+  if (existing) existing.remove();
+
+  // Create popup container
+  const popup = document.createElement("div");
+  popup.className = "locked-popup";
+  popup.textContent = message;
+  document.body.appendChild(popup);
+
+  // Animate in
+  requestAnimationFrame(() => popup.classList.add("visible"));
+
+  // Close on click or after 3.5 seconds
+  popup.addEventListener("click", () => popup.remove());
+  setTimeout(() => popup.remove(), 3500);
+}
+
   // ----- Sound -----
   let isSoundOn = false;
   const hohoho = new Audio("assets/hohoho.mp3");
@@ -290,7 +310,7 @@ const surprises = [
 
     door.addEventListener("click", () => {
       if (door.dataset.locked === "true") {
-        alert(getLockedMessage());
+        showLockedPopup(getLockedMessage());
         return;
       }
 
