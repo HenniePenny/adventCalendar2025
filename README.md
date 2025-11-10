@@ -37,6 +37,34 @@ Whether you’re surprising friends, delighting family, or spreading cheer in yo
 
 ---
 
+## 🧪 Testing your calendar
+
+While you’re building or customizing, you don’t have to wait until December 1 to peek behind the doors.
+
+Inside script.js, near the top, you’ll find:
+
+ ```js
+// --- TEMPORARY: pretend today's date is Dec 10 for testing ---
+today.setMonth(11);   // December (0-based)
+today.setDate(12);
+```
+
+You can change the day number to preview any date.
+
+To unlock every door instantly, set:
+ ```js
+const FORCE_TESTING_MODE = true;
+```
+
+When you’re ready to go live, simply comment those lines back out and reset:
+ ```js
+const FORCE_TESTING_MODE = false;
+```
+
+Now the calendar will open each door only on its proper December day. 🎁
+
+---
+
 ## 🎨 Make it your own
 
 Everything you need lives inside the `script.js` file — look for the **`surprises`** array.
@@ -116,9 +144,6 @@ And of course:
 
 ## 📜 License
 
-Free to use, share, and remix — just spread the joy and credit the original project.
-
----
-
 **Made with ❤️, JavaScript, and a pinch of cinnamon.**
+Free to use, share, and remix — just spread the joy and credit the original project.
 Happy coding, and may your December always be merry! 🎅
