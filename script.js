@@ -309,6 +309,10 @@ function showLockedPopup(message) {
     }
 
     door.addEventListener("click", () => {
+      // ✅ Remove any existing festive popup before showing a new one
+      const existingPopup = document.querySelector(".locked-popup");
+      if (existingPopup) existingPopup.remove();
+
       if (door.dataset.locked === "true") {
         showLockedPopup(getLockedMessage());
         return;
