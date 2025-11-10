@@ -1,76 +1,124 @@
-# Advent Calendar 2025
+# 🎄 Advent Calendar 2025
 
-An interactive digital advent calendar for December 2025.
+> *A cozy, customizable digital advent calendar — perfect for any December, every year.*
 
-## Table of Contents
+![Screenshot of the Advent Calendar](assets/screenshot-placeholder.jpg)
 
-- [Project Overview](#project-overview)
-- [Features](#features)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Contributing](#contributing)
-- [License](#license)
+Ho ho ho! Welcome to **Advent Calendar 2025**, a joyful little web project that lets you create your *own* online advent calendar.
 
-## Project Overview
+Whether you’re surprising friends, delighting family, or spreading cheer in your classroom, this calendar unlocks a new surprise each day in December — images, videos, or messages — all with festive sparkle.
 
-Advent Calendar 2025 is a web-based interactive advent calendar designed for December 2025. Users can engage with daily content throughout the month, enhancing the festive experience.
+---
 
-## Features
+## ✨ Features
 
-- **Festive Animation**: Includes a falling snow effect for larger screens, respecting reduced-motion preferences.
-- **Custom Cursor**: A festive candy cane cursor appears on devices with mouse input, using a lightweight PNG for broad compatibility.
-- **Interactive Design**: Each day in December unlocks new content, providing a dynamic user experience.
-- **Responsive Layout**: Ensures optimal viewing across various devices, including desktops, tablets, and smartphones.
-- **Customizable Content**: Easily modify daily content to tailor the user experience.
+* **🎁 Daily surprises** — Each door unlocks a new image, message, or YouTube video.
+* **🕰️ Date-gated magic** — Doors open only on or after their day (Dec 1–24).
+* **🗃️ Memory included** — The calendar remembers opened doors until you reset it.
+* **🧁 Customizable** — Swap in your own images, videos, or quotes — no coding skills required.
+* **❄️ Falling snow** — Gentle snowflakes float across your screen (unless your device says “no thanks” to motion).
+* **🔊 Ho Ho Ho toggle** — Optional Santa laugh when you open a door!
+* **📱 Fully responsive** — Looks great on phones, tablets, and big desktop displays.
+* **🧑‍🎄 Festive flair** — Candy-cane cursor, Christmas emojis (optional), and colorful doors.
 
-## Installation
+---
 
-To set up the project locally:
+## 🛠️ Setup
 
-1. **Clone the repository**:
+1. **Download or clone this repository:**
 
    ```bash
    git clone https://github.com/HenniePenny/adventCalendar2025.git
    ```
+2. **Open the project folder**, then double-click `index.html` to open it in your browser.
+   That’s it! No installation, no build process — just pure, static HTML + CSS + JS joy.
 
-2. **Navigate to the project directory**:
+3. *(Optional)* Host it on your favorite static site service such as **GitHub Pages**, **Netlify**, or **Vercel** to share with others.
 
-   ```bash
-   cd adventCalendar2025
-   ```
+---
 
-3. **Open `index.html` in your preferred web browser**.
+## 🎨 Make it your own
 
-## Usage
+Everything you need lives inside the `script.js` file — look for the **`surprises`** array.
 
-- **Navigating the Calendar**: Click on each day's element to reveal the content for that day.
-- **Customizing Content**: Modify the content within the `script.js` file to update daily messages or media.
+Each entry looks like this:
 
-## Contributing
+```js
+{ 
+  type: "image",
+  src: "assets/surprises/my-photo.webp",
+  alt: "A cozy mug of cocoa and cookies by the fire"
+},
+{ 
+  type: "youtube",
+  url: "https://youtu.be/dQw4w9WgXcQ",
+  title: "A festive favorite" 
+}
+```
 
-Contributions are welcome! To contribute:
+You can mix and match:
 
-1. **Fork the repository**.
-2. **Create a new branch**:
+* `type: "image"` → use local images in your `assets/surprises` folder
+* `type: "youtube"` → embed cheerful videos
+* `type: "text"` → show short messages or quotes
 
-   ```bash
-   git checkout -b feature-name
-   ```
+💡 **Tip:** You don’t need to change the code logic — just replace the content inside the array.
 
-3. **Commit your changes**:
+### Easy mode ( no coding )
 
-   ```bash
-   git commit -m 'Add feature'
-   ```
+If you don’t want to edit JavaScript, simply replace the images in the `assets/surprises` folder using the same file names.
 
-4. **Push to the branch**:
+Your calendar will automatically show your new pictures.
 
-   ```bash
-   git push origin feature-name
-   ```
+---
 
-5. **Open a pull request**.
+## 🔔 Optional extras
 
-## License
+* **Reset button:** Clears progress and reshuffles door order.
+* **Sound toggle:** Turn the “Ho Ho Ho” effect on / off — the setting is remembered.
+* **Snow effect:** Automatically adapts to screen size and disables itself if the user prefers reduced motion.
 
-This project is released under an open license. You are free to use, modify, and distribute it as long as credit is given to the original project contributors. No additional restrictions apply. See the [LICENSE](LICENSE) file for details.
+---
+
+## ♿ Accessibility & compatibility
+
+* Works on modern browsers — Chrome, Safari, Firefox, Edge.
+* Respects “Reduce Motion” settings for accessibility.
+* Supports both mouse and touch input.
+* Keyboard navigation and focus outlines included.
+
+---
+
+## 🧑‍💻 Contributing
+
+Found a bug in Santa’s code? Got a bright idea for a new festive feature?
+Fork the repo, make your tweaks, and send a pull request — the elves will thank you!
+
+---
+
+## 🎥 Acknowledgements
+
+A sleighful of thanks to all the creators whose work adds sparkle to this project:
+
+* **Public domain Christmas cartoons** featured via YouTube — including classics like
+  *“Christmas Comes But Once a Year”* (1936, Fleischer Studios),
+  *“Jack Frost”* (1934, Ub Iwerks),
+  *“Snow Foolin’”* (1949, Famous Studios),
+  *“The Pups’ Christmas”* (1936, Happy Harmonies), and more.
+* **Festive imagery** adapted from freely available, royalty-free sources such as [Pixabay](https://pixabay.com/) and [Unsplash](https://unsplash.com/).
+* **Fonts** from [Google Fonts](https://fonts.google.com/) — *Henny Penny*, the happiest font around.
+
+And of course:
+
+> 🪄 *Special thanks to all the coders whose work seeds the large language model behind ChatGPT (OpenAI). We used this resource for technical guidance, code wizardry, and creative collaboration throughout development.*
+
+---
+
+## 📜 License
+
+Free to use, share, and remix — just spread the joy and credit the original project.
+
+---
+
+**Made with ❤️, JavaScript, and a pinch of cinnamon.**
+Happy coding, and may your December always be merry! 🎅
