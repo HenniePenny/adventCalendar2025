@@ -180,34 +180,6 @@ const testingMode = FORCE_TESTING_MODE || autoTestingMode; // false
     }
   }
 
-// ----- Festive icons -----
-const festiveIcons = [
-  "🎅", // Santa Claus
-  "🤶", // Mrs. Claus
-  "🧑‍🎄", // Christmas helper / neutral Santa
-  "🎄", // Christmas tree
-  "🎁", // Gift box
-  "🎀", // Ribbon / bow
-  "🕯️", // Candle
-  "🧦", // Christmas stocking
-  "🍪", // Christmas cookie
-  "🥛", // Milk for Santa
-  "🦌", // Reindeer
-  "☃️", // Snowman
-  "❄️", // Snowflake
-  "🔔", // Bell
-  "🔔", // (Repeat for symmetrical pairs)
-  "🌟", // Christmas star
-  "🍷", // Mulled wine / festive drink
-  "🧤", // Mittens
-  "🪵", // Yule log
-  "🧣", // Scarf
-  "🎶", // Carol singing
-  "📯", // Horn / herald
-  "🧸", // Toy gift
-  "🏠"  // Cozy home for Christmas
-];
-
   // ----- Surprises -----
 const surprises = [
   { type: "image", src: "assets/surprises/berlin-sugar-love.png", alt: "Festive gingerbread hearts with Berlin Christmas market charm and sweet holiday love" }, // 1
@@ -367,15 +339,6 @@ function showLockedPopup(message) {
 
     calendar.appendChild(door);
   }
-
-// ----- Add festive icons -----
-  document.querySelectorAll(".door").forEach((door, index) => {
-    const icon = festiveIcons[index % festiveIcons.length];
-    const iconSpan = document.createElement("span");
-    iconSpan.className = "door-icon";
-    iconSpan.textContent = icon;
-    door.appendChild(iconSpan);
-  });
 
   // ----- Reset -----
   const resetButton = document.getElementById("resetButton");
