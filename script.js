@@ -344,9 +344,25 @@ function showLockedPopup(message) {
   const resetButton = document.getElementById("resetButton");
   if (resetButton) {
     resetButton.addEventListener("click", () => {
+
+      // Detect language (English/German)
+      const userLang = navigator.language || navigator.userLanguage;
+      const isGerman = userLang && userLang.toLowerCase().startsWith("de");
+
+      const message = isGerman
+        ? "Möchtest du den Kalender zurücksetzen und alle Türen wieder verpacken?\n\nDein Fortschritt auf diesem Gerät wird gelöscht."
+        : "Do you want to reset the calendar and wrap all the doors back up?\n\nYour progress on this device will be cleared.";
+
+      const confirmed = confirm(message);
+
+      if (!confirmed) return;
+
+      // Clear progress
       localStorage.removeItem("openedDoors");
       localStorage.removeItem("doorOrder");
       localStorage.removeItem(openedDoorsKey);
+
+      // Reload
       location.reload();
     });
   }
