@@ -149,36 +149,6 @@ h1 {
     opacity 0.3s ease;
 }
 
-/* Snow sitting on top of each door */
-.door::before {
-  content: "";
-  position: absolute;
-  top: -0.45rem;
-  left: 12%;
-  right: 12%;
-  height: 0.9rem;
-  background: #ffffff;
-  border-radius: 999px 999px 0.4rem 0.4rem;
-  box-shadow:
-    0 2px 4px rgba(0, 0, 0, 0.15),
-    inset 0 -3px 4px rgba(230, 230, 230, 0.9);
-}
-
-/* Little snow “drips” */
-.door::after {
-  content: "";
-  position: absolute;
-  top: -0.1rem;
-  left: 18%;
-  width: 0.6rem;
-  height: 0.9rem;
-  background: #ffffff;
-  border-radius: 0 0 0.6rem 0.6rem;
-  box-shadow:
-    0.9rem -0.2rem 0 0 #ffffff,
-    1.8rem 0.1rem 0 0 #ffffff;
-}
-
 /* Hover animation only on non-touch devices */
 @media (hover: hover) and (pointer: fine) {
   .door:hover {
@@ -214,16 +184,8 @@ body.touch-device .door.opened {
 
 /* Door glow animation */
 @keyframes doorGlow {
-  from {
-    box-shadow:
-      0 0 0.5rem rgba(46, 139, 87, 0.7),
-      inset 0 0 6px rgba(255, 255, 255, 0.4);
-  }
-  to {
-    box-shadow:
-      0 0 1.1rem rgba(46, 139, 87, 0.9),
-      inset 0 0 10px rgba(255, 255, 255, 0.6);
-  }
+  from { box-shadow: 0 0 0.5rem #2e8b57; }
+  to   { box-shadow: 0 0 1rem #2e8b57; }
 }
 
 /* Responsive grid tuning */
