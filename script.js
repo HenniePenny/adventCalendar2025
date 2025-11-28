@@ -292,6 +292,7 @@ function showLockedPopup(message) {
     const door = document.createElement("div");
     door.classList.add("door");
     door.setAttribute("data-day", day);
+    door.id = `door-${day}`;
 
     const unlockDateMs = new Date(targetYear, targetMonth, day).setHours(0, 0, 0, 0);
 
