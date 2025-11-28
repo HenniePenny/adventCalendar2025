@@ -237,24 +237,25 @@ const surprises = [
   }
 
   // ----- Custom festive popup -----
-function showLockedPopup(message) {
-  // Remove any existing popup first
-  const existing = document.querySelector(".locked-popup");
-  if (existing) existing.remove();
+  function showLockedPopup(message) {
+    // Remove any existing *temporary* locked popup,
+    // but keep the reset dialog (which also uses locked-popup styles)
+    const existing = document.querySelector(".locked-popup:not(.reset-confirm)");
+    if (existing) existing.remove();
 
-  // Create popup container
-  const popup = document.createElement("div");
-  popup.className = "locked-popup";
-  popup.textContent = message;
-  document.body.appendChild(popup);
+    // Create popup container
+    const popup = document.createElement("div");
+    popup.className = "locked-popup";
+    popup.textContent = message;
+    document.body.appendChild(popup);
 
-  // Animate in
-  requestAnimationFrame(() => popup.classList.add("visible"));
+    // Animate in
+    requestAnimationFrame(() => popup.classList.add("visible"));
 
-  // Close on click or after 3.5 seconds
-  popup.addEventListener("click", () => popup.remove());
-  setTimeout(() => popup.remove(), 3500);
-}
+    // Close on click or after 3.5 seconds
+    popup.addEventListener("click", () => popup.remove());
+    setTimeout(() => popup.remove(), 3500);
+  }
 
   // ----- Sound -----
   let isSoundOn = false;
@@ -309,8 +310,8 @@ function showLockedPopup(message) {
     }
 
     door.addEventListener("click", () => {
-      // ✅ Remove any existing festive popup before showing a new one
-      const existingPopup = document.querySelector(".locked-popup");
+      // Remove any existing *temporary* festive popup before showing a new one
+      const existingPopup = document.querySelector(".locked-popup:not(.reset-confirm)");
       if (existingPopup) existingPopup.remove();
 
       if (door.dataset.locked === "true") {
@@ -360,7 +361,7 @@ function showLockedPopup(message) {
     const userLang = navigator.language || navigator.userLanguage;
     const isGerman = userLang && userLang.toLowerCase().startsWith("de");
 
-    // 🎄 Your custom message:
+    // Your custom message:
     const message = isGerman
       ? "Möchtest du den Kalender zurücksetzen und alle Türen wieder verpacken?\n\nDein Fortschritt auf diesem Gerät wird gelöscht."
       : "Do you want to reset the calendar and wrap all the doors back up?\n\nYour progress on this device will be cleared.";
