@@ -14,12 +14,12 @@ Whether you’re surprising friends, delighting family, or spreading cheer in yo
 
 * **🎁 Daily surprises** — Each door unlocks a new image, message, or YouTube video.
 * **🕰️ Date-gated magic** — Doors open only on or after their day (Dec 1–24).
-* **🗃️ Memory included** — The calendar remembers opened doors until you reset it.
+* **🗃️ Memory included** — The calendar remembers opened doors until you reset it, with a friendly confirmation dialog so progress isn’t wiped by accident.
 * **🧁 Customizable** — Swap in your own images, videos, or quotes — no coding skills required.
 * **❄️ Falling snow** — Gentle snowflakes float across your screen (unless your device says “no thanks” to motion).
 * **🔊 Ho Ho Ho toggle** — Optional Santa laugh when you open a door!
 * **📱 Fully responsive** — Looks great on phones, tablets, and big desktop displays.
-* **🧑‍🎄 Festive flair** — Candy-cane cursor, Christmas emojis (optional), and colorful doors.
+* **🧑‍🎄 Festive flair** — Candy-cane cursor, snow-capped doors, and Christmas coloring.
 
 ---
 
@@ -102,7 +102,7 @@ Your calendar will automatically show your new pictures.
 
 ## 🔔 Optional extras
 
-* **Reset button:** Clears progress and reshuffles door order.
+* **Reset button:** Clears progress and reshuffles door order, with confirmation popup.
 * **Sound toggle:** Turn the “Ho Ho Ho” effect on / off — the setting is remembered.
 * **Snow effect:** Automatically adapts to screen size and disables itself if the user prefers reduced motion.
 
@@ -114,6 +114,9 @@ Your calendar will automatically show your new pictures.
 * Respects “Reduce Motion” settings for accessibility.
 * Supports both mouse and touch input.
 * Keyboard navigation and focus outlines included.
+
+🎄 **Ongoing improvements:**  
+We’re actively working to expand accessibility support to ensure this calendar is usable and enjoyable for *everyone*. Our roadmap includes improved keyboard flow, stronger screen-reader support, and enhanced color-contrast options.
 
 ---
 
