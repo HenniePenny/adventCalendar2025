@@ -12,20 +12,20 @@ document.addEventListener("DOMContentLoaded", () => {
   const dialog = modal.querySelector(".modal-dialog"); // tabindex="-1" in HTML
   const modalBody = document.getElementById("modalBody");
 
-// ----- Date-gating config -----
-const today = new Date();
+  // ----- Date-gating config -----
+  const today = new Date();
 
-// --- TEMPORARY: pretend today's date is Dec 10 for testing ---
- today.setMonth(11);   // December (0-based)
- today.setDate(12);
+  // --- TEMPORARY: pretend today's date is Dec 10 for testing ---
+  today.setMonth(11);   // December (0-based)
+  today.setDate(12);
 
-const targetYear = today.getFullYear();
-const targetMonth = 11; // December
+  const targetYear = today.getFullYear();
+  const targetMonth = 11; // December
 
-// ----- Testing mode -----
-const FORCE_TESTING_MODE = false;
-const autoTestingMode = today.getMonth() !== targetMonth; // now false
-const testingMode = FORCE_TESTING_MODE || autoTestingMode; // false
+  // ----- Testing mode -----
+  const FORCE_TESTING_MODE = false;
+  const autoTestingMode = today.getMonth() !== targetMonth; // now false
+  const testingMode = FORCE_TESTING_MODE || autoTestingMode; // false
 
   if (testingMode) {
     console.log(
@@ -181,32 +181,32 @@ const testingMode = FORCE_TESTING_MODE || autoTestingMode; // false
   }
 
   // ----- Surprises -----
-const surprises = [
-  { type: "image", src: "assets/surprises/berlin-sugar-love.png", alt: "Festive gingerbread hearts with Berlin Christmas market charm and sweet holiday love" }, // 1
-  { type: "image", src: "assets/surprises/The-Claus-Squad.webp", alt: "A cheerful lineup of foil-wrapped chocolate Santas standing in formation, ready to spread Christmas sweetness." }, // 2
-  { type: "youtube", url: "https://youtu.be/-5iG-Kmt1iY?si=js8pv0D-i2mpzd60", title: "Christmas Comes But Once a Year (1936, Fleischer Studios)" }, // 3 🎥
-  { type: "image", src: "assets/surprises/christmas_cat_santaclaws.webp", alt: "Adorable cat playfully peeking through decorated Christmas tree branches with festive curiosity" }, // 4
-  { type: "image", src: "assets/surprises/ServingFace.webp", alt: "A classic red-and-gold nutcracker standing proudly against a background of twinkling Christmas lights" }, // 5
-  { type: "image", src: "assets/surprises/The-early-bird-gets-Nikolaus.webp", alt: "A shiny red boot filled with chocolates and candy canes — proof that Nikolaus came by!" }, // 6
-  { type: "youtube", url: "https://youtu.be/ve_sWSfX9uw?si=tZdqoWsx00XezlfN", title: "Rudolph the Red-Nosed Reindeer (Classic Cartoon)" }, // 7 🎥
-  { type: "image", src: "assets/surprises/dreams-shine-brighter.png", alt: "Magnificent building facade at night with projected stars making dreams shine brighter during Christmas" }, // 8
-  { type: "image", src: "assets/surprises/elf-esteem.webp", alt: "Festive elf-themed scene with holiday treats boosting Christmas elf-esteem and seasonal joy" }, // 9
-  { type: "youtube", url: "https://youtu.be/yubLpbv0Vs4?si=JK_iwyDFm3opE5hu", title: "Jack Frost (1934, Ub Iwerks)" }, // 10 🎥
-  { type: "image", src: "assets/surprises/soakingUp.webp", alt: "A gingerbread man enjoying a festive foam bath in a mug of hot cocoa" }, // 11
-  { type: "image", src: "assets/surprises/FlourEverywhere.webp", alt: "A joyful Christmas baking mess — flour flying, cookie cutters scattered, and sweet magic in progress" }, // 12
-  { type: "youtube", url: "https://youtu.be/hYKde7ARvnU?si=OIllor6wmYVHnJMl", title: "A Christmas Visit (1959 Animated Short)" }, // 13 🎥
-  { type: "image", src: "assets/surprises/ThreeWiseWoofs.webp", alt: "Three festive dogs resting by a cozy Christmas backdrop, dressed in holiday hats and antlers" }, // 14
-  { type: "youtube", url: "https://youtu.be/rHhTVZEGRaM?si=y1EVVqdZJtZYl-rQ", title: "Snow Foolin’ (1949, Famous Studios)" }, // 15 🎥
-  { type: "image", src: "assets/surprises/next-stop-magic.png", alt: "Festive music scene with Christmas tunes filling the air, next stop is pure holiday magic" }, // 16
-  { type: "image", src: "assets/surprises/santa-wants-extras.webp", alt: "Heartwarming scene of spreading Christmas cheer with Santa wanting extra holiday love and joy" }, // 17
-  { type: "image", src: "assets/surprises/sip-sparkle-repeat.png", alt: "Sweet Christmas treats with sip, sparkle, and repeat vibes for perfect holiday indulgence" }, // 18
-  { type: "youtube", url: "https://youtu.be/wIPcrTnSpSQ?si=3Zr-3anQmMhQw4Dy", title: "The Pups’ Christmas (1936, Happy Harmonies)" }, // 19 🎥
-  { type: "image", src: "assets/surprises/peace-joy-sparkle.png", alt: "Peaceful Christmas message encouraging sending kind notes with sparkling joy and holiday spirit" }, // 20
-  { type: "youtube", url: "https://youtu.be/zLhvCOOxH-Q?si=29fKBEUzsGHjk6bj", title: "Die Geschichte vom wahren Weihnachtsmann | NETTO" }, // 21 🎥
-  { type: "image", src: "assets/surprises/The-calm-before-the-Claus.webp", alt: "Santa Claus carefully ironing his red suit, getting ready for the big night in a cozy Christmas setting" }, // 22
-  { type: "youtube", url: "https://youtu.be/tl57Gy5X_Kg?si=ozd2m4o7Fmv1KIbc", title: "From Our Family To Yours | Disney Christmas Advert (2020)" }, // 23 🎥
-  { type: "image", src: "assets/surprises/Officially-out-of-office.webp", alt: "Santa rocking his sunglasses, soaking up the after-Christmas chill — officially out of office" }, // 24
-];
+  const surprises = [
+    { type: "image", src: "assets/surprises/berlin-sugar-love.png", alt: "Festive gingerbread hearts with Berlin Christmas market charm and sweet holiday love" }, // 1
+    { type: "image", src: "assets/surprises/The-Claus-Squad.webp", alt: "A cheerful lineup of foil-wrapped chocolate Santas standing in formation, ready to spread Christmas sweetness." }, // 2
+    { type: "youtube", url: "https://youtu.be/-5iG-Kmt1iY?si=js8pv0D-i2mpzd60", title: "Christmas Comes But Once a Year (1936, Fleischer Studios)" }, // 3 🎥
+    { type: "image", src: "assets/surprises/christmas_cat_santaclaws.webp", alt: "Adorable cat playfully peeking through decorated Christmas tree branches with festive curiosity" }, // 4
+    { type: "image", src: "assets/surprises/ServingFace.webp", alt: "A classic red-and-gold nutcracker standing proudly against a background of twinkling Christmas lights" }, // 5
+    { type: "image", src: "assets/surprises/The-early-bird-gets-Nikolaus.webp", alt: "A shiny red boot filled with chocolates and candy canes — proof that Nikolaus came by!" }, // 6
+    { type: "youtube", url: "https://youtu.be/ve_sWSfX9uw?si=tZdqoWsx00XezlfN", title: "Rudolph the Red-Nosed Reindeer (Classic Cartoon)" }, // 7 🎥
+    { type: "image", src: "assets/surprises/dreams-shine-brighter.png", alt: "Magnificent building facade at night with projected stars making dreams shine brighter during Christmas" }, // 8
+    { type: "image", src: "assets/surprises/elf-esteem.webp", alt: "Festive elf-themed scene with holiday treats boosting Christmas elf-esteem and seasonal joy" }, // 9
+    { type: "youtube", url: "https://youtu.be/yubLpbv0Vs4?si=JK_iwyDFm3opE5hu", title: "Jack Frost (1934, Ub Iwerks)" }, // 10 🎥
+    { type: "image", src: "assets/surprises/soakingUp.webp", alt: "A gingerbread man enjoying a festive foam bath in a mug of hot cocoa" }, // 11
+    { type: "image", src: "assets/surprises/FlourEverywhere.webp", alt: "A joyful Christmas baking mess — flour flying, cookie cutters scattered, and sweet magic in progress" }, // 12
+    { type: "youtube", url: "https://youtu.be/hYKde7ARvnU?si=OIllor6wmYVHnJMl", title: "A Christmas Visit (1959 Animated Short)" }, // 13 🎥
+    { type: "image", src: "assets/surprises/ThreeWiseWoofs.webp", alt: "Three festive dogs resting by a cozy Christmas backdrop, dressed in holiday hats and antlers" }, // 14
+    { type: "youtube", url: "https://youtu.be/rHhTVZEGRaM?si=y1EVVqdZJtZYl-rQ", title: "Snow Foolin’ (1949, Famous Studios)" }, // 15 🎥
+    { type: "image", src: "assets/surprises/next-stop-magic.png", alt: "Festive music scene with Christmas tunes filling the air, next stop is pure holiday magic" }, // 16
+    { type: "image", src: "assets/surprises/santa-wants-extras.webp", alt: "Heartwarming scene of spreading Christmas cheer with Santa wanting extra holiday love and joy" }, // 17
+    { type: "image", src: "assets/surprises/sip-sparkle-repeat.png", alt: "Sweet Christmas treats with sip, sparkle, and repeat vibes for perfect holiday indulgence" }, // 18
+    { type: "youtube", url: "https://youtu.be/wIPcrTnSpSQ?si=3Zr-3anQmMhQw4Dy", title: "The Pups’ Christmas (1936, Happy Harmonies)" }, // 19 🎥
+    { type: "image", src: "assets/surprises/peace-joy-sparkle.png", alt: "Peaceful Christmas message encouraging sending kind notes with sparkling joy and holiday spirit" }, // 20
+    { type: "youtube", url: "https://youtu.be/zLhvCOOxH-Q?si=29fKBEUzsGHjk6bj", title: "Die Geschichte vom wahren Weihnachtsmann | NETTO" }, // 21 🎥
+    { type: "image", src: "assets/surprises/The-calm-before-the-Claus.webp", alt: "Santa Claus carefully ironing his red suit, getting ready for the big night in a cozy Christmas setting" }, // 22
+    { type: "youtube", url: "https://youtu.be/tl57Gy5X_Kg?si=ozd2m4o7Fmv1KIbc", title: "From Our Family To Yours | Disney Christmas Advert (2020)" }, // 23 🎥
+    { type: "image", src: "assets/surprises/Officially-out-of-office.webp", alt: "Santa rocking his sunglasses, soaking up the after-Christmas chill — officially out of office" }, // 24
+  ];
 
   // ----- Locked message -----
   function getLockedMessage() {
@@ -237,24 +237,24 @@ const surprises = [
   }
 
   // ----- Custom festive popup -----
-function showLockedPopup(message) {
-  // Remove any existing popup first
-  const existing = document.querySelector(".locked-popup");
-  if (existing) existing.remove();
+  function showLockedPopup(message) {
+    // Remove any existing popup first
+    const existing = document.querySelector(".locked-popup");
+    if (existing) existing.remove();
 
-  // Create popup container
-  const popup = document.createElement("div");
-  popup.className = "locked-popup";
-  popup.textContent = message;
-  document.body.appendChild(popup);
+    // Create popup container
+    const popup = document.createElement("div");
+    popup.className = "locked-popup";
+    popup.textContent = message;
+    document.body.appendChild(popup);
 
-  // Animate in
-  requestAnimationFrame(() => popup.classList.add("visible"));
+    // Animate in
+    requestAnimationFrame(() => popup.classList.add("visible"));
 
-  // Close on click or after 3.5 seconds
-  popup.addEventListener("click", () => popup.remove());
-  setTimeout(() => popup.remove(), 3500);
-}
+    // Close on click or after 3.5 seconds
+    popup.addEventListener("click", () => popup.remove());
+    setTimeout(() => popup.remove(), 3500);
+  }
 
   // ----- Sound -----
   let isSoundOn = false;
@@ -292,6 +292,7 @@ function showLockedPopup(message) {
     const door = document.createElement("div");
     door.classList.add("door");
     door.setAttribute("data-day", day);
+    door.id = `door-${day}`;
 
     const unlockDateMs = new Date(targetYear, targetMonth, day).setHours(0, 0, 0, 0);
 
@@ -350,4 +351,34 @@ function showLockedPopup(message) {
       location.reload();
     });
   }
+
+  // ----- Auto-open via URL ?day=7 -----
+  function autoOpenFromQuery() {
+    const url = new URL(window.location.href);
+    const paramDay = parseInt(url.searchParams.get("day"), 10);
+
+    // If it's not a valid day number, do nothing
+    if (!paramDay || paramDay < 1 || paramDay > 24) return;
+
+    const doorToOpen = document.querySelector(`.door[data-day="${paramDay}"]`);
+    if (!doorToOpen) return;
+
+    // Optional: smooth scroll to the door
+    doorToOpen.scrollIntoView({ behavior: "smooth", block: "center" });
+
+    // Add matching hash for nicer sharing (optional)
+    history.replaceState(null, "", `?day=${paramDay}#door-${paramDay}`);
+
+    // If locked, show festive popup
+    if (doorToOpen.dataset.locked === "true") {
+      showLockedPopup(getLockedMessage());
+      return;
+    }
+
+    // Otherwise: open it using your existing click logic
+    doorToOpen.click();
+  }
+
+  // Run once on load
+  autoOpenFromQuery();
 });
