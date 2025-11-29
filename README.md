@@ -65,6 +65,16 @@ Now the calendar will open each door only on its proper December day. 🎁
 
 ---
 
+## 🔐 How door locking works
+
+The calendar automatically unlocks each door on its correct day in **any December** based on the visitor’s local date.  
+
+No configuration is needed — as long as you’re viewing the calendar during December, each day opens at midnight and earlier days stay open.
+
+Outside of December, the calendar automatically enters **testing mode**, which unlocks all doors so you can preview your content.
+
+---
+
 ## 🎨 Make it your own
 
 Everything you need lives inside the `script.js` file — look for the **`surprises`** array.
@@ -120,18 +130,12 @@ We’re actively working to expand accessibility support to ensure this calendar
 
 ---
 
-## 🧑‍💻 Contributing
-
-Found a bug in Santa’s code? Got a bright idea for a new festive feature?
-Fork the repo, make your tweaks, and send a pull request — the elves will thank you!
-
----
-
 ## 👩‍💻 Authors
 
 **Created by:** [@HenniePenny](https://github.com/HenniePenny) & [@tlcoles](https://github.com/tlcoles)  
 Built with care, curiosity, and a sprinkle of Christmas magic. 🎄
 
+---
 
 ## 🎥 Acknowledgements
 
@@ -148,6 +152,13 @@ A sleighful of thanks to all the creators whose work adds sparkle to this projec
 And of course:
 
 > 🪄 *Special thanks to all the coders whose work seeds the large language model behind ChatGPT (OpenAI). We used this resource for technical guidance, code wizardry, and creative collaboration throughout development.*
+
+---
+
+## 🧑‍💻 Contributing
+
+Found a bug in Santa’s code? Got a bright idea for a new festive feature?
+Fork the repo, make your tweaks, and send a pull request — the elves will thank you!
 
 ---
 
