@@ -26,7 +26,7 @@
   
     <!-- Control container where reset button and sound toggle will be generated for desktop only -->
     <div id="controls">
-      <button id="resetButton">Reset</button>
+      <button id="resetButton">🎁 Reset</button>
       <div id="soundToggleContainer"></div>
     </div>
 
@@ -48,6 +48,16 @@
           <h2 id="modalTitle" class="sr-only">Surprise</h2>
           <div id="modalBody"></div>
         </div>
+      </div>
+    </div>
+
+    <div id="resetConfirm" class="locked-popup reset-confirm" role="dialog" aria-modal="true"
+      aria-labelledby="resetConfirmTitle" aria-describedby="resetConfirmMessage" aria-hidden="true"    >
+      <h2 id="resetConfirmTitle" class="reset-title">🎄 Reset Calendar?</h2>
+      <p id="resetConfirmMessage"></p>
+      <div class="reset-buttons">
+        <button id="resetConfirmYes" class="reset-yes">🎁 Reset</button>
+        <button id="resetConfirmNo" class="reset-no">Cancel</button>
       </div>
     </div>
 

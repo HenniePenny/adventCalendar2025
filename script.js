@@ -238,8 +238,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // ----- Custom festive popup -----
   function showLockedPopup(message) {
-    // Remove any existing popup first
-    const existing = document.querySelector(".locked-popup");
+    // Remove any existing *temporary* locked popup,
+    // but keep the reset dialog (which also uses locked-popup styles)
+    const existing = document.querySelector(".locked-popup:not(.reset-confirm)");
     if (existing) existing.remove();
 
     // Create popup container
@@ -310,8 +311,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     door.addEventListener("click", () => {
-      // ✅ Remove any existing festive popup before showing a new one
-      const existingPopup = document.querySelector(".locked-popup");
+      // Remove any existing *temporary* festive popup before showing a new one
+      const existingPopup = document.querySelector(".locked-popup:not(.reset-confirm)");
       if (existingPopup) existingPopup.remove();
 
       if (door.dataset.locked === "true") {
@@ -342,12 +343,118 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ----- Reset -----
+    // ----- Reset (accessible dialog) -----
   const resetButton = document.getElementById("resetButton");
-  if (resetButton) {
+  const resetDialog = document.getElementById("resetConfirm");
+  const resetMsg = document.getElementById("resetConfirmMessage");
+  const resetYes = document.getElementById("resetConfirmYes");
+  const resetNo = document.getElementById("resetConfirmNo");
+
+  let lastFocusedElement = null;
+
+  function openResetDialog() {
+    if (!resetDialog) return;
+
+    // Remember where focus was
+    lastFocusedElement = document.activeElement;
+
+    // Detect language
+    const userLang = navigator.language || navigator.userLanguage;
+    const isGerman = userLang && userLang.toLowerCase().startsWith("de");
+
+    // Your custom message:
+    const message = isGerman
+      ? "Möchtest du den Kalender zurücksetzen und alle Türen wieder verpacken?\n\nDein Fortschritt auf diesem Gerät wird gelöscht."
+      : "Do you want to reset the calendar and wrap all the doors back up?\n\nYour progress on this device will be cleared.";
+
+    // Dialog title (optional customization)
+    const title = isGerman
+      ? "🎄 Kalender zurücksetzen?"
+      : "🎄 Reset calendar?";
+
+    // Set the text content
+    const titleEl = document.getElementById("resetConfirmTitle");
+    if (titleEl) titleEl.textContent = title;
+    resetMsg.textContent = message;
+
+    // Show dialog
+    resetDialog.classList.add("visible");
+    resetDialog.setAttribute("aria-hidden", "false");
+
+    // Move focus into the dialog — default button = "Yes"
+    if (resetYes) resetYes.focus();
+
+    // Enable ESC + focus trap
+    document.addEventListener("keydown", handleResetKeydown);
+  }
+
+  function closeResetDialog() {
+    if (!resetDialog) return;
+
+    resetDialog.classList.remove("visible");
+    resetDialog.setAttribute("aria-hidden", "true");
+
+    document.removeEventListener("keydown", handleResetKeydown);
+
+    // Restore focus to the button that opened it
+    if (lastFocusedElement && typeof lastFocusedElement.focus === "function") {
+      lastFocusedElement.focus();
+    }
+  }
+
+  function handleResetKeydown(e) {
+    if (e.key === "Escape") {
+      e.preventDefault();
+      closeResetDialog();
+      return;
+    }
+
+    // Simple focus trap inside dialog
+    if (e.key === "Tab" && resetDialog.classList.contains("visible")) {
+      const focusable = [resetYes, resetNo].filter(Boolean);
+      const currentIndex = focusable.indexOf(document.activeElement);
+
+      if (e.shiftKey) {
+        // Shift+Tab = backwards
+        if (currentIndex <= 0) {
+          e.preventDefault();
+          focusable[focusable.length - 1].focus();
+        }
+      } else {
+        // Tab = forwards
+        if (currentIndex === focusable.length - 1) {
+          e.preventDefault();
+          focusable[0].focus();
+        }
+      }
+    }
+  }
+
+  if (resetButton && resetDialog && resetYes && resetNo) {
+    // Open dialog
     resetButton.addEventListener("click", () => {
+      openResetDialog();
+    });
+
+    // Cancel button
+    resetNo.addEventListener("click", () => {
+      closeResetDialog();
+    });
+
+    // Confirm button
+    resetYes.addEventListener("click", () => {
+      // Clear all relevant storage
       localStorage.removeItem("openedDoors");
       localStorage.removeItem("doorOrder");
-      localStorage.removeItem(openedDoorsKey);
+
+      // Remove any month-specific keys like "openedDoors-2025-12"
+      Object.keys(localStorage).forEach((key) => {
+        if (key.startsWith("openedDoors-")) {
+          localStorage.removeItem(key);
+        }
+      });
+
+      // Reload page
       location.reload();
     });
   }
