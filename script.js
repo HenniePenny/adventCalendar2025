@@ -15,16 +15,17 @@ document.addEventListener("DOMContentLoaded", () => {
   // ----- Date-gating config -----
   const today = new Date();
 
-  // --- TEMPORARY: pretend today's date is Dec 10 for testing ---
-  today.setMonth(11);   // December (0-based)
-  today.setDate(12);
+  // --- Uncomment the two lines below for testing purposes: pretend today's date is Dec 10 for testing ---
+  // today.setMonth(11);   // December (0-based)
+  // today.setDate(12);
 
   const targetYear = today.getFullYear();
   const targetMonth = 11; // December
 
   // ----- Testing mode -----
   const FORCE_TESTING_MODE = false;
-  const autoTestingMode = today.getMonth() !== targetMonth; // now false
+  // const autoTestingMode = today.getMonth() !== targetMonth; // now false
+  const autoTestingMode = false;
   const testingMode = FORCE_TESTING_MODE || autoTestingMode; // false
 
   if (testingMode) {
