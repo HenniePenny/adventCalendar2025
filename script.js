@@ -24,7 +24,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // ----- Testing mode -----
   const FORCE_TESTING_MODE = false;
-  const autoTestingMode = today.getMonth() !== targetMonth; // now false
+  // const autoTestingMode = today.getMonth() !== targetMonth; // now false
+  const autoTestingMode = false;
   const testingMode = FORCE_TESTING_MODE || autoTestingMode; // false
 
   if (testingMode) {
