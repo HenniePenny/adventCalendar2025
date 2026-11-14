@@ -67,6 +67,17 @@ const FORCE_TESTING_MODE = false;
 
 Now the calendar will open each door only on its proper December day. 🎁
 
+### 📱 Testing on your live website
+
+`FORCE_TESTING_MODE` unlocks the doors for every visitor, so only use it on your own computer. To test on a real phone after your calendar is online, make a temporary copy instead:
+
+1. Copy `index.html` to `preview.html` and `script.js` to `preview-script.js`.
+2. In `preview.html`, change `script.js` to `preview-script.js`, and add this line inside `<head>` so search engines skip the page:
+   `<meta name="robots" content="noindex, nofollow">`
+3. In `preview-script.js`, set `FORCE_TESTING_MODE = true`.
+4. Upload both files and open `yoursite.com/preview.html` **in a private or incognito window**. The calendar remembers opened doors in the browser, and a private window keeps that memory separate, so doors you open while testing will not show as opened on your real calendar.
+5. Delete both files when you are done.
+
 ---
 
 ## 🔐 How door locking works
