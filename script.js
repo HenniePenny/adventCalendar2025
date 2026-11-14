@@ -86,7 +86,17 @@ document.addEventListener("DOMContentLoaded", () => {
     document.addEventListener("keydown", onEsc);
   }
 
+  // Stop a recording before the popup is cleared or another surprise is shown.
+  function stopModalAudio() {
+    const audio = modalBody.querySelector("audio");
+    if (audio) {
+      audio.pause();
+      audio.currentTime = 0;
+    }
+  }
+
   function closeModal() {
+    stopModalAudio();
     modal.setAttribute("aria-hidden", "true");
     modalBody.innerHTML = "";
     modal.classList.remove("modal--media");
@@ -104,6 +114,8 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   function renderSurprise(s) {
+    stopModalAudio();
+    modal.classList.remove("modal--media");
     modalBody.innerHTML = "";
     if (!s || !s.type) {
       modalBody.textContent = "Nothing here yet. Come back later!";
@@ -133,6 +145,60 @@ document.addEventListener("DOMContentLoaded", () => {
         wrap.appendChild(p);
         modalBody.appendChild(wrap);
         break;
+
+      case "audio": {
+        // Browser-native controls handle touch, seeking, and accessibility.
+        // Playback never starts until the visitor presses Play.
+        if (!s.src) {
+          modalBody.textContent = "Audio unavailable.";
+          break;
+        }
+        const audioWrap = document.createElement("div");
+        audioWrap.className = "modal-audio";
+        // Optional illustration shown above the player.
+        if (s.image) {
+          const art = document.createElement("img");
+          art.src = s.image;
+          art.alt = s.alt || "";
+          art.className = "modal-audio-image";
+          audioWrap.appendChild(art);
+        }
+        if (s.title) {
+          const audioTitle = document.createElement("h3");
+          audioTitle.textContent = s.title;
+          audioWrap.appendChild(audioTitle);
+        }
+        if (s.description) {
+          const description = document.createElement("p");
+          description.textContent = s.description;
+          audioWrap.appendChild(description);
+        }
+        const player = document.createElement("audio");
+        player.controls = true;
+        player.preload = "metadata";
+        player.src = s.src;
+        player.setAttribute("aria-label", s.title || "Audio surprise");
+        // The optional Santa laugh may still be playing from opening the door.
+        // Stop it as soon as the visitor starts the story, so the two never overlap.
+        player.addEventListener("play", () => {
+          if (hohoho && !hohoho.paused) {
+            hohoho.pause();
+            hohoho.currentTime = 0;
+          }
+        });
+        player.addEventListener("error", () => {
+          // Avoid inserting duplicate warnings if the browser reports more than once.
+          if (!audioWrap.querySelector(".audio-error")) {
+            const warning = document.createElement("p");
+            warning.className = "audio-error";
+            warning.textContent = "This recording could not be loaded.";
+            audioWrap.appendChild(warning);
+          }
+        });
+        audioWrap.appendChild(player);
+        modalBody.appendChild(audioWrap);
+        break;
+      }
 
       case "youtube":
         modal.classList.add("modal--media");
@@ -178,6 +244,25 @@ document.addEventListener("DOMContentLoaded", () => {
       doorEl.innerHTML = `<div class="door-text" style="padding:.25rem .5rem;font-size:.9rem;line-height:1.3">${s.title || s.body || "Text"}</div>`;
     } else if (s.type === "youtube") {
       doorEl.innerHTML = `<div class="door-video" style="font-size:.9rem">▶ ${s.title || "Watch video"}</div>`;
+    } else if (s.type === "audio") {
+      if (s.image) {
+        // Show the illustration on the opened door, with a small note badge.
+        const thumb = document.createElement("img");
+        thumb.src = s.image;
+        thumb.alt = s.alt || "";
+        thumb.loading = "lazy";
+        const badge = document.createElement("span");
+        badge.className = "door-audio-badge";
+        badge.setAttribute("aria-hidden", "true");
+        badge.textContent = "♫";
+        doorEl.classList.add("door--audio");
+        doorEl.replaceChildren(thumb, badge);
+      } else {
+        const preview = document.createElement("div");
+        preview.className = "door-audio";
+        preview.textContent = "♫ " + (s.title || "Listen to audio");
+        doorEl.replaceChildren(preview);
+      }
     }
   }
 

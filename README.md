@@ -18,6 +18,7 @@ Whether you’re surprising friends, delighting family, or spreading cheer in yo
 - **🧁 Customizable** — Swap in your own images, videos, or quotes — no coding skills required.
 - **❄️ Falling snow** — Gentle snowflakes float across your screen (unless your device says “no thanks” to motion).
 - **🔊 Ho Ho Ho toggle** — Optional Santa laugh when you open a door!
+- **🎧 Audio surprises:** Play a recording behind a door, such as a story, a song, or a greeting, with an optional picture.
 - **📱 Fully responsive** — Looks great on phones, tablets, and big desktop displays.
 - **🧑‍🎄 Festive flair** — Candy-cane cursor, snow-capped doors, and Christmas coloring.
 
@@ -94,6 +95,13 @@ Each entry looks like this:
   type: "youtube",
   url: "https://youtu.be/dQw4w9WgXcQ",
   title: "A festive favorite"
+},
+{
+  type: "audio",
+  src: "assets/surprises/my-story.mp3",
+  title: "A story for today",
+  image: "assets/surprises/my-story.webp",
+  alt: "A bear in a red scarf reading a book under string lights"
 }
 ```
 
@@ -102,8 +110,19 @@ You can mix and match:
 - `type: "image"` → use local images in your `assets/surprises` folder
 - `type: "youtube"` → embed cheerful videos
 - `type: "text"` → show short messages or quotes
+- `type: "audio"` → play a recording, with an optional picture
 
 💡 **Tip:** You don’t need to change the code logic — just replace the content inside the array.
+
+### 🎧 Audio surprises
+
+An audio door opens a popup with the browser's own audio player, so it works with touch, keyboard, and screen readers on phones and desktops.
+
+- **Nothing plays by itself.** Visitors press Play, and can pause and skip around. The recording stops when the popup closes or another door opens.
+- **`src` is required.** `title`, `description`, `image`, and `alt` are optional.
+- **Pictures are optional.** With an `image`, the picture appears above the player and on the opened door, with a small ♫ badge. Always add an `alt` text that describes the picture.
+- **Use MP3.** It plays in every modern browser, including Safari on iPhone. For spoken recordings, 64 kbps mono keeps a two-minute story at about 1 MB, which loads quickly on phones.
+- **The Santa laugh still works.** If the "Ho Ho Ho" sound is on, it plays when the door is first opened and stops as soon as the visitor presses Play.
 
 ### Easy mode ( no coding )
 
@@ -116,7 +135,7 @@ Your calendar will automatically show your new pictures.
 ## 🔔 Optional extras
 
 - **Reset button:** Clears progress and reshuffles door order, with confirmation popup.
-- **Sound toggle:** Turn the “Ho Ho Ho” effect on / off — the setting is remembered.
+- **Sound toggle:** Turn the “Ho Ho Ho” effect on / off — the setting is remembered. On audio doors, the laugh stops when the recording starts.
 - **Snow effect:** Automatically adapts to screen size and disables itself if the user prefers reduced motion.
 
 ---
