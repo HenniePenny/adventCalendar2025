@@ -153,6 +153,30 @@ An audio door opens a popup with the browser's own audio player, so it works wit
 - **Use MP3.** It plays in every modern browser, including Safari on iPhone. For spoken recordings, 64 kbps mono keeps a two-minute story at about 1 MB, which loads quickly on phones.
 - **The Santa laugh still works.** If the "Ho Ho Ho" sound is on, it plays when the door is first opened and stops as soon as the visitor presses Play.
 
+### 🎨 Door colors
+
+Every door is red until it is opened, then green. To give doors their own colors, set these custom properties in your own stylesheet, loaded after `styles.css`:
+
+- `--door-bg`: the closed door's background (a color or a gradient)
+- `--door-ink`: the color of the door number
+- `--door-opened-bg`: the opened door's background
+
+Each door carries its day number in `data-day`, so you can color one door, a few, or all 24:
+
+```css
+/* All doors */
+.door { --door-bg: #286e4a; }
+
+/* Single doors */
+.door[data-day="5"]  { --door-bg: #db342b; }
+.door[data-day="12"] { --door-bg: #f3b629; --door-ink: #17241e; }
+
+/* Keep each door's own color after it is opened */
+.door { --door-opened-bg: var(--door-bg); }
+```
+
+Doors without a setting keep the default colors. Pick number colors with enough contrast against each background.
+
 ### Easy mode ( no coding )
 
 If you don’t want to edit JavaScript, simply replace the images in the `assets/surprises` folder using the same file names.

@@ -125,8 +125,10 @@ h1 {
 }
 
 .door {
-  background: linear-gradient(145deg, #e74c3c, #c0392b); /* still red */
-  color: #fff;
+  /* Door colors can be changed per door with custom properties;
+     see "Door colors" in the README. The fallbacks are the defaults. */
+  background: var(--door-bg, linear-gradient(145deg, #e74c3c, #c0392b)); /* still red */
+  color: var(--door-ink, #fff);
   font-size: 1.2rem;
   font-weight: bold;
   border: 0.25rem solid #2e8b57; /* keep your green */
@@ -194,7 +196,7 @@ body.touch-device .door.opened {
 
 /* Opened doors */
 .door.opened {
-  background: linear-gradient(145deg, #2ecc71, #27ae60); /* your green, just with depth */
+  background: var(--door-opened-bg, linear-gradient(145deg, #2ecc71, #27ae60)); /* your green, just with depth */
   opacity: 0.9;
   box-shadow:
     0 0 12px rgba(46, 139, 87, 0.7),
