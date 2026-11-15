@@ -219,6 +219,15 @@ body.touch-device .door.opened {
 }
 
 /* Responsive grid tuning */
+
+/* Phones: four equal columns. Without this, the doors' minimum
+   width (plus padding and border) is wider than their grid cells,
+   so doors overlap and the page scrolls sideways. */
+@media (max-width: 29.99rem) { /* below 480px */
+  #calendar { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .door { min-width: 0; }
+}
+
 @media (min-width: 30rem) { /* 480px */
   #calendar { max-width: 28rem; gap: 1.5rem; }
   .door { min-height: 5.5rem; font-size: 1.3rem; }
