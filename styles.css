@@ -203,6 +203,12 @@ body.touch-device .door.opened {
     inset 0 0 10px rgba(255, 255, 255, 0.35);
 }
 
+/* Opened doors lose their snow, so a picture shows in full */
+.door.opened::before,
+.door.opened::after {
+  content: none;
+}
+
 .door.opened img {
   max-height: 10rem;
   object-fit: contain;
