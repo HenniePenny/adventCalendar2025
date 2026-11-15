@@ -14,10 +14,12 @@ Whether you’re surprising friends, delighting family, or spreading cheer in yo
 
 - **🎁 Daily surprises** — Each door unlocks a new image, message, or YouTube video.
 - **🕰️ Date-gated magic** — Doors open only on or after their day (Dec 1–24).
+- **🔗 Direct door links:** Add `?day=7` to the calendar address to open door 7 straight away, ready to turn into a QR code.
 - **🗃️ Memory included** — The calendar remembers opened doors until you reset it, with a friendly confirmation dialog so progress isn’t wiped by accident.
 - **🧁 Customizable** — Swap in your own images, videos, or quotes — no coding skills required.
 - **❄️ Falling snow** — Gentle snowflakes float across your screen (unless your device says “no thanks” to motion).
 - **🔊 Ho Ho Ho toggle** — Optional Santa laugh when you open a door!
+- **🎧 Audio surprises:** Play a recording behind a door, such as a story, a song, or a greeting, with an optional picture.
 - **📱 Fully responsive** — Looks great on phones, tablets, and big desktop displays.
 - **🧑‍🎄 Festive flair** — Candy-cane cursor, snow-capped doors, and Christmas coloring.
 
@@ -66,6 +68,17 @@ const FORCE_TESTING_MODE = false;
 
 Now the calendar will open each door only on its proper December day. 🎁
 
+### 📱 Testing on your live website
+
+`FORCE_TESTING_MODE` unlocks the doors for every visitor, so only use it on your own computer. To test on a real phone after your calendar is online, make a temporary copy instead:
+
+1. Copy `index.html` to `preview.html` and `script.js` to `preview-script.js`.
+2. In `preview.html`, change `script.js` to `preview-script.js`, and add this line inside `<head>` so search engines skip the page:
+   `<meta name="robots" content="noindex, nofollow">`
+3. In `preview-script.js`, set `FORCE_TESTING_MODE = true`.
+4. Upload both files and open `yoursite.com/preview.html` **in a private or incognito window**. The calendar remembers opened doors in the browser, and a private window keeps that memory separate, so doors you open while testing will not show as opened on your real calendar.
+5. Delete both files when you are done.
+
 ---
 
 ## 🔐 How door locking works
@@ -75,6 +88,23 @@ The calendar automatically unlocks each door on its correct day in **any Decembe
 No configuration is needed — as long as you’re viewing the calendar during December, each day opens at midnight and earlier days stay open.
 
 Outside of December, the calendar automatically enters **testing mode**, which unlocks all doors so you can preview your content.
+
+---
+
+## 🔗 Direct door links and QR codes
+
+Every door has its own link. Add `?day=` and the door number to your calendar's address:
+
+```
+https://yoursite.com/?day=7
+```
+
+When the page loads, the calendar scrolls to that door and opens it. Turn each link into a QR code, and you can put the doors on printed cards, gift tags, or a poster.
+
+- **Locked doors stay locked.** If someone scans a code before the door's day, they see the usual locked-door message, not the surprise.
+- **Any QR code generator works.** The calendar only needs the link, so make one code for each day from `?day=1` to `?day=24`.
+- **Test before you print.** Outside December, testing mode unlocks every door, so you can scan each code with your phone and check that it opens the right door.
+- **Wrong numbers are ignored.** A missing number, or one outside 1 to 24, simply loads the calendar as usual.
 
 ---
 
@@ -94,6 +124,13 @@ Each entry looks like this:
   type: "youtube",
   url: "https://youtu.be/dQw4w9WgXcQ",
   title: "A festive favorite"
+},
+{
+  type: "audio",
+  src: "assets/surprises/my-story.mp3",
+  title: "A story for today",
+  image: "assets/surprises/my-story.webp",
+  alt: "A bear in a red scarf reading a book under string lights"
 }
 ```
 
@@ -102,8 +139,43 @@ You can mix and match:
 - `type: "image"` → use local images in your `assets/surprises` folder
 - `type: "youtube"` → embed cheerful videos
 - `type: "text"` → show short messages or quotes
+- `type: "audio"` → play a recording, with an optional picture
 
 💡 **Tip:** You don’t need to change the code logic — just replace the content inside the array.
+
+### 🎧 Audio surprises
+
+An audio door opens a popup with the browser's own audio player, so it works with touch, keyboard, and screen readers on phones and desktops.
+
+- **Nothing plays by itself.** Visitors press Play, and can pause and skip around. The recording stops when the popup closes or another door opens.
+- **`src` is required.** `title`, `description`, `image`, and `alt` are optional.
+- **Pictures are optional.** With an `image`, the picture appears above the player and on the opened door, with a small ♫ badge. Always add an `alt` text that describes the picture.
+- **Use MP3.** It plays in every modern browser, including Safari on iPhone. For spoken recordings, 64 kbps mono keeps a two-minute story at about 1 MB, which loads quickly on phones.
+- **The Santa laugh still works.** If the "Ho Ho Ho" sound is on, it plays when the door is first opened and stops as soon as the visitor presses Play.
+
+### 🎨 Door colors
+
+Every door is red until it is opened, then green. To give doors their own colors, set these custom properties in your own stylesheet, loaded after `styles.css`:
+
+- `--door-bg`: the closed door's background (a color or a gradient)
+- `--door-ink`: the color of the door number
+- `--door-opened-bg`: the opened door's background
+
+Each door carries its day number in `data-day`, so you can color one door, a few, or all 24:
+
+```css
+/* All doors */
+.door { --door-bg: #286e4a; }
+
+/* Single doors */
+.door[data-day="5"]  { --door-bg: #db342b; }
+.door[data-day="12"] { --door-bg: #f3b629; --door-ink: #17241e; }
+
+/* Keep each door's own color after it is opened */
+.door { --door-opened-bg: var(--door-bg); }
+```
+
+Doors without a setting keep the default colors. Pick number colors with enough contrast against each background.
 
 ### Easy mode ( no coding )
 
@@ -116,7 +188,7 @@ Your calendar will automatically show your new pictures.
 ## 🔔 Optional extras
 
 - **Reset button:** Clears progress and reshuffles door order, with confirmation popup.
-- **Sound toggle:** Turn the “Ho Ho Ho” effect on / off — the setting is remembered.
+- **Sound toggle:** Turn the “Ho Ho Ho” effect on / off — the setting is remembered. On audio doors, the laugh stops when the recording starts.
 - **Snow effect:** Automatically adapts to screen size and disables itself if the user prefers reduced motion.
 
 ---
