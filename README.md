@@ -14,6 +14,7 @@ Whether you’re surprising friends, delighting family, or spreading cheer in yo
 
 - **🎁 Daily surprises** — Each door unlocks a new image, message, or YouTube video.
 - **🕰️ Date-gated magic** — Doors open only on or after their day (Dec 1–24).
+- **🔗 Direct door links:** Add `?day=7` to the calendar address to open door 7 straight away, ready to turn into a QR code.
 - **🗃️ Memory included** — The calendar remembers opened doors until you reset it, with a friendly confirmation dialog so progress isn’t wiped by accident.
 - **🧁 Customizable** — Swap in your own images, videos, or quotes — no coding skills required.
 - **❄️ Falling snow** — Gentle snowflakes float across your screen (unless your device says “no thanks” to motion).
@@ -87,6 +88,23 @@ The calendar automatically unlocks each door on its correct day in **any Decembe
 No configuration is needed — as long as you’re viewing the calendar during December, each day opens at midnight and earlier days stay open.
 
 Outside of December, the calendar automatically enters **testing mode**, which unlocks all doors so you can preview your content.
+
+---
+
+## 🔗 Direct door links and QR codes
+
+Every door has its own link. Add `?day=` and the door number to your calendar's address:
+
+```
+https://yoursite.com/?day=7
+```
+
+When the page loads, the calendar scrolls to that door and opens it. Turn each link into a QR code, and you can put the doors on printed cards, gift tags, or a poster.
+
+- **Locked doors stay locked.** If someone scans a code before the door's day, they see the usual locked-door message, not the surprise.
+- **Any QR code generator works.** The calendar only needs the link, so make one code for each day from `?day=1` to `?day=24`.
+- **Test before you print.** Outside December, testing mode unlocks every door, so you can scan each code with your phone and check that it opens the right door.
+- **Wrong numbers are ignored.** A missing number, or one outside 1 to 24, simply loads the calendar as usual.
 
 ---
 
