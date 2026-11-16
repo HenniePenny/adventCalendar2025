@@ -20,11 +20,17 @@ document.addEventListener("DOMContentLoaded", () => {
   if (isGerman && closeButton) closeButton.setAttribute("aria-label", "Schließen");
 
   // ----- Date-gating config -----
-  const today = new Date();
+  const realNow = new Date();
+  const today = new Date(realNow);
 
-  // --- Uncomment the two lines below for testing purposes: pretend today's date is Dec 10 for testing ---
+  // --- Uncomment the two lines below for testing purposes: pretend today's date is Dec 12 for testing ---
   // today.setMonth(11);   // December (0-based)
   // today.setDate(12);
+
+  // The calendar's clock runs from the test date when one is set, so doors
+  // unlock and the midnight check work as they would on that day.
+  const clockOffset = today.getTime() - realNow.getTime();
+  const currentDate = () => new Date(Date.now() + clockOffset);
 
   let targetYear = today.getFullYear();
   const targetMonth = 11; // December
@@ -491,7 +497,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ----- Date rules and door state -----
-  function canOpenDoor(day, now = new Date()) {
+  function canOpenDoor(day, now = currentDate()) {
     return testingMode || (now.getMonth() === targetMonth && day <= now.getDate());
   }
   function useProgressForYear(now) {
@@ -542,7 +548,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return `${door} ${again}`;
   }
   function refreshDoorAvailability() {
-    const now = new Date();
+    const now = currentDate();
     useProgressForYear(now);
     calendar.querySelectorAll('.door').forEach((door) => updateDoor(door, now));
     // Keep a currently playing story intact at an ordinary December midnight.
@@ -561,13 +567,13 @@ document.addEventListener("DOMContentLoaded", () => {
     door.id = `door-${day}`;
     door.setAttribute('aria-haspopup', 'dialog');
     door.textContent = day;
-    updateDoor(door, new Date());
+    updateDoor(door, currentDate());
 
     door.addEventListener('click', () => {
       const existingPopup = document.querySelector('.locked-popup:not(.reset-confirm)');
       if (existingPopup) existingPopup.remove();
       // Recheck at activation, even if a phone delayed its background timer.
-      const now = new Date();
+      const now = currentDate();
       useProgressForYear(now);
       updateDoor(door, now);
       if (!canOpenDoor(day, now)) {
@@ -595,7 +601,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let midnightTimer;
   function scheduleMidnightCheck() {
     window.clearTimeout(midnightTimer);
-    const now = new Date();
+    const now = currentDate();
     const next = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
     midnightTimer = window.setTimeout(() => {
       refreshDoorAvailability();
