@@ -197,11 +197,15 @@ Your calendar will automatically show your new pictures.
 
 - Works on modern browsers — Chrome, Safari, Firefox, Edge.
 - Respects “Reduce Motion” settings for accessibility.
-- Supports both mouse and touch input.
-- Keyboard navigation and focus outlines included.
+- Supports mouse, touch, and keyboard: every door is a button you can reach with Tab and open with Enter or Space.
+- Screen readers announce each door, for example “Door 5, locked. Opens on December 5.”, and the locked-door message.
+- The surprise popup and the reset dialog keep keyboard focus inside, close with Esc, and return focus to where you were. The reset dialog starts on Cancel, so a stray Enter cannot clear anyone’s progress.
+- Doors unlock at midnight without reloading the page.
+- Still works when the browser blocks storage (for example in some private modes); progress then lasts until the page is closed.
+- Door labels, the close button, and the reset buttons switch to German for German browsers.
 
 🎄 **Ongoing improvements:**  
-We’re actively working to expand accessibility support to ensure this calendar is usable and enjoyable for _everyone_. Our roadmap includes improved keyboard flow, stronger screen-reader support, and enhanced color-contrast options.
+We’re actively working to expand accessibility support to ensure this calendar is usable and enjoyable for _everyone_. Next on the roadmap: enhanced color-contrast options.
 
 ---
 
