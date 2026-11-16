@@ -12,6 +12,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const dialog = modal.querySelector(".modal-dialog"); // tabindex="-1" in HTML
   const modalBody = document.getElementById("modalBody");
 
+  // ----- Language -----
+  // Visitors whose browser is set to German get German messages and labels.
+  const userLang = navigator.language || navigator.userLanguage || "";
+  const isGerman = userLang.toLowerCase().startsWith("de");
+  const closeButton = modal.querySelector(".modal-close");
+  if (isGerman && closeButton) closeButton.setAttribute("aria-label", "Schließen");
+
   // ----- Date-gating config -----
   const today = new Date();
 
@@ -19,7 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // today.setMonth(11);   // December (0-based)
   // today.setDate(12);
 
-  const targetYear = today.getFullYear();
+  let targetYear = today.getFullYear();
   const targetMonth = 11; // December
 
   // ----- Testing mode -----
@@ -34,13 +41,46 @@ document.addEventListener("DOMContentLoaded", () => {
     );
   }
 
-  // ----- Date comparisons -----
-  const currentDateMs = new Date(today.getFullYear(), today.getMonth(), today.getDate()).getTime();
-  const isTargetWindow = today.getFullYear() === targetYear && today.getMonth() === targetMonth;
-
-  // ----- Local storage keys -----
-  const openedDoorsKey = `openedDoors-${targetYear}-${String(targetMonth + 1).padStart(2, "0")}`;
-  const openedDoorsScoped = JSON.parse(localStorage.getItem(openedDoorsKey)) || [];
+  // ----- Resilient browser storage -----
+  // Keep an in-memory copy so the calendar still works when browser storage
+  // is blocked or full. Progress then lasts only for this page session.
+  const sessionStorageFallback = new Map();
+  const removedStorageKeys = new Set();
+  function readSetting(key) {
+    if (removedStorageKeys.has(key)) return null;
+    if (sessionStorageFallback.has(key)) return sessionStorageFallback.get(key);
+    try {
+      const value = window.localStorage.getItem(key);
+      if (value !== null) sessionStorageFallback.set(key, value);
+      return value;
+    } catch { return null; }
+  }
+  function writeSetting(key, value) {
+    const text = String(value);
+    removedStorageKeys.delete(key);
+    sessionStorageFallback.set(key, text);
+    try { window.localStorage.setItem(key, text); } catch {}
+  }
+  function removeSetting(key) {
+    sessionStorageFallback.delete(key);
+    removedStorageKeys.add(key);
+    try { window.localStorage.removeItem(key); } catch {}
+  }
+  function readJSON(key, fallback) {
+    try { return JSON.parse(readSetting(key)) ?? fallback; }
+    catch { return fallback; }
+  }
+  const isDay = (day) => Number.isInteger(day) && day >= 1 && day <= 24;
+  function readOpenedDays(key) {
+    const value = readJSON(key, []);
+    return Array.isArray(value) ? [...new Set(value.filter(isDay))] : [];
+  }
+  let openedDoorsKey = `openedDoors-${targetYear}-12`;
+  let openedDoorsScoped = readOpenedDays(openedDoorsKey);
+  let activeStoryDay = null;
+  let storyOpener = null;
+  let inertBackground = [];
+  let previousOverflow = '';
 
   // 🪄 Testing badge
   if (testingMode) {
@@ -80,31 +120,90 @@ document.addEventListener("DOMContentLoaded", () => {
     return null;
   }
 
-  function openModal() {
-    modal.setAttribute("aria-hidden", "false");
+  function openModal(opener) {
+    // Remember the exact door, including when it was opened by a QR link.
+    storyOpener = opener || document.activeElement;
+    modal.setAttribute('aria-hidden', 'false');
+    previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    // Prevent keyboard and assistive-technology navigation into the page
+    // behind the dialog. Restore each element's previous inert state later.
+    inertBackground = Array.from(document.body.children)
+      .filter((el) => el !== modal)
+      .map((el) => ({ el, wasInert: el.hasAttribute('inert') }));
+    inertBackground.forEach(({ el }) => el.setAttribute('inert', ''));
     if (dialog) dialog.focus();
-    document.addEventListener("keydown", onEsc);
+    document.addEventListener('keydown', handleStoryKeydown);
   }
 
-  // Stop a recording before the popup is cleared or another surprise is shown.
   function stopModalAudio() {
-    const audio = modalBody.querySelector("audio");
+    const audio = modalBody.querySelector('audio');
     if (audio) {
       audio.pause();
-      audio.currentTime = 0;
+      try { audio.currentTime = 0; } catch {}
     }
   }
 
   function closeModal() {
+    if (modal.getAttribute('aria-hidden') === 'true') return;
     stopModalAudio();
-    modal.setAttribute("aria-hidden", "true");
-    modalBody.innerHTML = "";
-    modal.classList.remove("modal--media");
-    document.removeEventListener("keydown", onEsc);
+    modal.setAttribute('aria-hidden', 'true');
+    modalBody.innerHTML = '';
+    modal.classList.remove('modal--media');
+    document.removeEventListener('keydown', handleStoryKeydown);
+    inertBackground.forEach(({ el, wasInert }) => {
+      if (!wasInert) el.removeAttribute('inert');
+    });
+    inertBackground = [];
+    document.body.style.overflow = previousOverflow;
+    activeStoryDay = null;
+    if (storyOpener && storyOpener.isConnected) storyOpener.focus();
+    storyOpener = null;
   }
 
-  function onEsc(e) {
-    if (e.key === "Escape") closeModal();
+  // Focus guards wrap navigation only after native audio controls have
+  // finished handling Tab, so every control in the player stays reachable.
+  function storyControls() {
+    return Array.from(dialog.querySelectorAll(
+      'button:not([disabled]), a[href], input:not([disabled]), ' +
+      'select:not([disabled]), textarea:not([disabled]), audio[controls], ' +
+      'iframe, [tabindex]:not([tabindex="-1"])'
+    )).filter((el) => !el.hidden && !el.hasAttribute('data-focus-guard') && !el.closest('[inert]'));
+  }
+  for (const position of ['start', 'end']) {
+    const guard = document.createElement('span');
+    guard.tabIndex = 0;
+    guard.setAttribute('data-focus-guard', position);
+    guard.addEventListener('focus', () => {
+      const controls = storyControls();
+      const target = position === 'start' ? controls[controls.length - 1] : controls[0];
+      (target || dialog).focus();
+    });
+    if (position === 'start') dialog.prepend(guard);
+    else dialog.append(guard);
+  }
+
+  function handleStoryKeydown(event) {
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      closeModal();
+      return;
+    }
+    if (event.key !== 'Tab') return;
+    const controls = storyControls();
+    const first = controls[0];
+    const last = controls[controls.length - 1];
+    const current = document.activeElement;
+    if (!first) {
+      event.preventDefault();
+      dialog.focus();
+    } else if (event.shiftKey && (current === first || current === dialog || !dialog.contains(current))) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && (current === dialog || !dialog.contains(current))) {
+      event.preventDefault();
+      first.focus();
+    }
   }
 
   modal.addEventListener("click", (e) => {
@@ -115,6 +214,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function renderSurprise(s) {
     stopModalAudio();
+    document.getElementById("modalTitle").textContent = s?.title || "Surprise";
     modal.classList.remove("modal--media");
     modalBody.innerHTML = "";
     if (!s || !s.type) {
@@ -174,6 +274,7 @@ document.addEventListener("DOMContentLoaded", () => {
           audioWrap.appendChild(description);
         }
         const player = document.createElement("audio");
+        player.tabIndex = 0;
         player.controls = true;
         player.preload = "metadata";
         player.src = s.src;
@@ -296,8 +397,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // ----- Locked message -----
   function getLockedMessage() {
-    const userLang = navigator.language || navigator.userLanguage;
-    const isGerman = userLang && userLang.toLowerCase().startsWith("de");
     const messages = isGerman
       ? [
           "Geduld, kleiner Wichtel! Diese Tür öffnet sich erst, wenn die Weihnachtsmagie bereit ist.",
@@ -323,24 +422,39 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ----- Custom festive popup -----
+  // Screen readers hear the message through a status region that stays
+  // on the page. A region added at the same moment as its text is often
+  // missed, so the text arrives a moment after the region is cleared.
+  const lockedAnnouncer = document.createElement("div");
+  lockedAnnouncer.className = "sr-only";
+  lockedAnnouncer.setAttribute("role", "status");
+  document.body.appendChild(lockedAnnouncer);
+  let popupTimer;
+
   function showLockedPopup(message) {
     // Remove any existing *temporary* locked popup,
     // but keep the reset dialog (which also uses locked-popup styles)
     const existing = document.querySelector(".locked-popup:not(.reset-confirm)");
     if (existing) existing.remove();
+    window.clearTimeout(popupTimer);
 
-    // Create popup container
+    // Create popup container. It is hidden from screen readers,
+    // which get the same message from the status region instead.
     const popup = document.createElement("div");
     popup.className = "locked-popup";
+    popup.setAttribute("aria-hidden", "true");
     popup.textContent = message;
     document.body.appendChild(popup);
+
+    lockedAnnouncer.textContent = "";
+    window.setTimeout(() => { lockedAnnouncer.textContent = message; }, 100);
 
     // Animate in
     requestAnimationFrame(() => popup.classList.add("visible"));
 
-    // Close on click or after 3.5 seconds
+    // Close on click or after 6 seconds, long enough to read the longer messages
     popup.addEventListener("click", () => popup.remove());
-    setTimeout(() => popup.remove(), 3500);
+    popupTimer = window.setTimeout(() => popup.remove(), 6000);
   }
 
   // ----- Sound -----
@@ -354,79 +468,149 @@ document.addEventListener("DOMContentLoaded", () => {
   `;
   const container = document.getElementById("soundToggleContainer");
   if (container) container.appendChild(toggleLabel);
-  if (localStorage.getItem("soundEnabled") === "true") {
+  if (readSetting("soundEnabled") === "true") {
     isSoundOn = true;
     toggleLabel.querySelector("#soundToggle").checked = true;
   }
   toggleLabel.querySelector("#soundToggle").addEventListener("change", (e) => {
     isSoundOn = e.target.checked;
-    localStorage.setItem("soundEnabled", isSoundOn);
+    writeSetting("soundEnabled", isSoundOn);
   });
 
   // ----- Door order -----
-  let doorOrder = JSON.parse(localStorage.getItem("doorOrder"));
-  if (!doorOrder) {
+  let doorOrder = readJSON('doorOrder', null);
+  // A saved order must contain each door exactly once.
+  if (!Array.isArray(doorOrder) || doorOrder.length !== 24 ||
+      !doorOrder.every(isDay) || new Set(doorOrder).size !== 24) {
     doorOrder = Array.from({ length: 24 }, (_, i) => i + 1);
     for (let i = doorOrder.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [doorOrder[i], doorOrder[j]] = [doorOrder[j], doorOrder[i]];
     }
-    localStorage.setItem("doorOrder", JSON.stringify(doorOrder));
+    writeSetting("doorOrder", JSON.stringify(doorOrder));
+  }
+
+  // ----- Date rules and door state -----
+  function canOpenDoor(day, now = new Date()) {
+    return testingMode || (now.getMonth() === targetMonth && day <= now.getDate());
+  }
+  function useProgressForYear(now) {
+    if (targetYear === now.getFullYear()) return;
+    targetYear = now.getFullYear();
+    openedDoorsKey = `openedDoors-${targetYear}-12`;
+    openedDoorsScoped = readOpenedDays(openedDoorsKey);
+  }
+  function updateDoor(door, now) {
+    const day = Number(door.dataset.day);
+    const allowed = canOpenDoor(day, now);
+    const opened = allowed && openedDoorsScoped.includes(day);
+    door.classList.toggle('locked', !allowed);
+    if (allowed) delete door.dataset.locked;
+    else door.dataset.locked = 'true';
+    if (opened && door.dataset.opened !== 'true') {
+      renderDoorPreview(door, surprises[day - 1]);
+      door.dataset.opened = 'true';
+    } else if (!opened && door.dataset.opened === 'true') {
+      door.textContent = day;
+      door.classList.remove('door--audio');
+      delete door.dataset.opened;
+    }
+    door.classList.toggle('opened', opened);
+    door.setAttribute('aria-label', doorLabel(day, allowed, opened));
+  }
+  // The label replaces the door's visible content for screen readers,
+  // so an opened door names its surprise: the title, or the picture's alt text.
+  function doorLabel(day, allowed, opened) {
+    if (!allowed) {
+      return isGerman
+        ? `Tür ${day}, noch verschlossen. Öffnet sich am ${day}. Dezember.`
+        : `Door ${day}, locked. Opens on December ${day}.`;
+    }
+    if (!opened) {
+      return isGerman ? `Tür ${day}. Überraschung öffnen.` : `Door ${day}. Open the surprise.`;
+    }
+    const s = surprises[day - 1] || {};
+    const name = s.title || s.alt;
+    const door = isGerman
+      ? (name ? `Tür ${day}: ${name}.` : `Tür ${day}, geöffnet.`)
+      : (name ? `Door ${day}: ${name}.` : `Door ${day}, opened.`);
+    const again = s.type === 'audio'
+      ? (isGerman ? 'Noch einmal anhören.' : 'Listen again.')
+      : s.type === 'youtube'
+        ? (isGerman ? 'Video noch einmal ansehen.' : 'Watch the video again.')
+        : (isGerman ? 'Überraschung noch einmal zeigen.' : 'Show the surprise again.');
+    return `${door} ${again}`;
+  }
+  function refreshDoorAvailability() {
+    const now = new Date();
+    useProgressForYear(now);
+    calendar.querySelectorAll('.door').forEach((door) => updateDoor(door, now));
+    // Keep a currently playing story intact at an ordinary December midnight.
+    // At the end of December, close it and restore all doors to closed.
+    if (activeStoryDay !== null && !canOpenDoor(activeStoryDay, now)) closeModal();
   }
 
   // ----- Build doors -----
   for (const day of doorOrder) {
-    const door = document.createElement("div");
-    door.classList.add("door");
-    door.setAttribute("data-day", day);
+    // Native buttons support Tab, Enter, Space, clicks, and taps.
+    // They remain enabled when locked so the explanatory popup still works.
+    const door = document.createElement('button');
+    door.type = 'button';
+    door.classList.add('door');
+    door.dataset.day = day;
     door.id = `door-${day}`;
+    door.setAttribute('aria-haspopup', 'dialog');
+    door.textContent = day;
+    updateDoor(door, new Date());
 
-    const unlockDateMs = new Date(targetYear, targetMonth, day).setHours(0, 0, 0, 0);
-
-    if (openedDoorsScoped.includes(day)) {
-      door.classList.add("opened");
-      renderDoorPreview(door, surprises[day - 1]);
-      door.dataset.opened = "true";
-    } else {
-      door.textContent = day;
-      const shouldLock = !testingMode && (!isTargetWindow || currentDateMs < unlockDateMs);
-      if (shouldLock) {
-        door.classList.add("locked");
-        door.dataset.locked = "true";
-      }
-    }
-
-    door.addEventListener("click", () => {
-      // Remove any existing *temporary* festive popup before showing a new one
-      const existingPopup = document.querySelector(".locked-popup:not(.reset-confirm)");
+    door.addEventListener('click', () => {
+      const existingPopup = document.querySelector('.locked-popup:not(.reset-confirm)');
       if (existingPopup) existingPopup.remove();
-
-      if (door.dataset.locked === "true") {
+      // Recheck at activation, even if a phone delayed its background timer.
+      const now = new Date();
+      useProgressForYear(now);
+      updateDoor(door, now);
+      if (!canOpenDoor(day, now)) {
         showLockedPopup(getLockedMessage());
         return;
       }
-
       const surprise = surprises[day - 1];
-
-      if (door.dataset.opened !== "true") {
-        door.classList.add("opened");
-        renderDoorPreview(door, surprise);
+      if (!openedDoorsScoped.includes(day)) {
         openedDoorsScoped.push(day);
-        localStorage.setItem(openedDoorsKey, JSON.stringify(openedDoorsScoped));
-        door.dataset.opened = "true";
-
-        if (surprise.type !== "youtube" && isSoundOn && hohoho) {
+        writeSetting(openedDoorsKey, JSON.stringify(openedDoorsScoped));
+        updateDoor(door, now);
+        if (surprise.type !== 'youtube' && isSoundOn && hohoho) {
           hohoho.currentTime = 0;
-          hohoho.play().catch((err) => console.log("Audio playback failed:", err));
+          hohoho.play().catch(() => {});
         }
       }
-
+      activeStoryDay = day;
       renderSurprise(surprise);
-      openModal();
+      openModal(door);
     });
-
     calendar.appendChild(door);
   }
+
+  // One timeout to local midnight; no continuous polling or page reload.
+  let midnightTimer;
+  function scheduleMidnightCheck() {
+    window.clearTimeout(midnightTimer);
+    const now = new Date();
+    const next = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+    midnightTimer = window.setTimeout(() => {
+      refreshDoorAvailability();
+      scheduleMidnightCheck();
+    }, next.getTime() - now.getTime() + 100);
+  }
+  function checkWhenReturning() {
+    if (document.hidden) return;
+    refreshDoorAvailability();
+    scheduleMidnightCheck();
+  }
+  document.addEventListener('visibilitychange', checkWhenReturning);
+  window.addEventListener('focus', checkWhenReturning);
+  window.addEventListener('pageshow', checkWhenReturning);
+  scheduleMidnightCheck();
 
   // ----- Reset -----
     // ----- Reset (accessible dialog) -----
@@ -437,16 +621,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const resetNo = document.getElementById("resetConfirmNo");
 
   let lastFocusedElement = null;
+  let resetInertBackground = [];
 
   function openResetDialog() {
     if (!resetDialog) return;
 
     // Remember where focus was
     lastFocusedElement = document.activeElement;
-
-    // Detect language
-    const userLang = navigator.language || navigator.userLanguage;
-    const isGerman = userLang && userLang.toLowerCase().startsWith("de");
 
     // Your custom message:
     const message = isGerman
@@ -462,13 +643,22 @@ document.addEventListener("DOMContentLoaded", () => {
     const titleEl = document.getElementById("resetConfirmTitle");
     if (titleEl) titleEl.textContent = title;
     resetMsg.textContent = message;
+    resetYes.textContent = isGerman ? "🎁 Zurücksetzen" : "🎁 Reset";
+    resetNo.textContent = isGerman ? "Abbrechen" : "Cancel";
 
     // Show dialog
     resetDialog.classList.add("visible");
     resetDialog.setAttribute("aria-hidden", "false");
 
-    // Move focus into the dialog — default button = "Yes"
-    if (resetYes) resetYes.focus();
+    // Like the story window: keyboard and screen readers stay in the
+    // dialog until it closes. Restore each element's previous state later.
+    resetInertBackground = Array.from(document.body.children)
+      .filter((el) => el !== resetDialog)
+      .map((el) => ({ el, wasInert: el.hasAttribute("inert") }));
+    resetInertBackground.forEach(({ el }) => el.setAttribute("inert", ""));
+
+    // Start on Cancel, so a stray Enter cannot clear anyone's progress
+    resetNo.focus();
 
     // Enable ESC + focus trap
     document.addEventListener("keydown", handleResetKeydown);
@@ -481,6 +671,11 @@ document.addEventListener("DOMContentLoaded", () => {
     resetDialog.setAttribute("aria-hidden", "true");
 
     document.removeEventListener("keydown", handleResetKeydown);
+
+    resetInertBackground.forEach(({ el, wasInert }) => {
+      if (!wasInert) el.removeAttribute("inert");
+    });
+    resetInertBackground = [];
 
     // Restore focus to the button that opened it
     if (lastFocusedElement && typeof lastFocusedElement.focus === "function") {
@@ -529,20 +724,25 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Confirm button
     resetYes.addEventListener("click", () => {
-      // Clear all relevant storage
-      localStorage.removeItem("openedDoors");
-      localStorage.removeItem("doorOrder");
-
-      // Remove any month-specific keys like "openedDoors-2025-12"
-      Object.keys(localStorage).forEach((key) => {
-        if (key.startsWith("openedDoors-")) {
-          localStorage.removeItem(key);
-        }
+      // Clear calendar progress without relying on a reload or working storage.
+      removeSetting('openedDoors');
+      const keys = new Set([openedDoorsKey, ...sessionStorageFallback.keys()]);
+      try { Object.keys(window.localStorage).forEach((key) => keys.add(key)); } catch {}
+      keys.forEach((key) => {
+        if (key.startsWith('openedDoors-')) removeSetting(key);
       });
-
-      // Reload page
-      location.reload();
+      openedDoorsScoped = [];
+      doorOrder = Array.from({ length: 24 }, (_, i) => i + 1);
+      for (let i = doorOrder.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [doorOrder[i], doorOrder[j]] = [doorOrder[j], doorOrder[i]];
+      }
+      writeSetting('doorOrder', JSON.stringify(doorOrder));
+      doorOrder.forEach((day) => calendar.appendChild(document.getElementById(`door-${day}`)));
+      closeResetDialog();
+      refreshDoorAvailability();
     });
+
   }
 
   // ----- Auto-open via URL ?day=7 -----
@@ -561,6 +761,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Add matching hash for nicer sharing (optional)
     history.replaceState(null, "", `?day=${paramDay}#door-${paramDay}`);
+
+    refreshDoorAvailability();
 
     // If locked, show festive popup
     if (doorToOpen.dataset.locked === "true") {

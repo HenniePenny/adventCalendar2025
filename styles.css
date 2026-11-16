@@ -256,6 +256,37 @@ body.touch-device .door.opened {
   .door { min-height: 7rem; font-size: 1.6rem; }
 }
 
+/* Doors are native buttons, so they work with Tab, Enter and Space.
+   Reset the browser's button look so they keep the door design.
+   Buttons count padding and border inside their height, unlike the
+   divs the doors used to be; content-box keeps the doors' size. */
+button.door {
+  box-sizing: content-box;
+  font-family: inherit;
+  line-height: inherit;
+  text-align: center;
+  letter-spacing: normal;
+  text-transform: none;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+/* An outer ring marks the selected door without shifting the layout. */
+button.door:focus-visible {
+  outline: 3px solid #fff4cd;
+  outline-offset: 5px;
+}
+
+/* Honor reduced motion for door effects as well as the snow. */
+@media (prefers-reduced-motion: reduce) {
+  .door,
+  .door:hover,
+  body.touch-device .door.opened {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
 /* =========================================================
    CONTROLS
    ========================================================= */
@@ -545,6 +576,36 @@ h2.sr-only {
   clip: rect(0, 0, 0, 0) !important;
   white-space: nowrap !important;
   border: 0 !important;
+}
+
+/* Keyboard focus ring for the close button and the audio player */
+.modal-close:focus-visible,
+.modal-audio audio:focus-visible {
+  outline: 3px solid #286e4a;
+  outline-offset: 3px;
+}
+
+/* Invisible focus guards at both ends of the story window keep
+   Tab inside it; they take up no space. */
+[data-focus-guard] {
+  position: fixed;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+
+/* Text for screen readers only, such as the locked-door message */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
 }
 
 /* =========================================================
