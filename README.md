@@ -1,124 +1,80 @@
-# 🎄 Advent Calendar 2025
+# 🎄 Advent calendar
 
-> _A cozy, customizable digital advent calendar — perfect for any December, every year._
+> _A cozy, customizable online Advent calendar for any December, every year._
 
-![Screenshot of the Advent Calendar](assets/screenshot-placeholder.jpg)
+![The calendar: "Merry Christmas!" above 24 red doors on a blurred photo of Christmas lights](assets/screenshot-placeholder.jpg)
 
-Ho ho ho! Welcome to **Advent Calendar 2025**, a joyful little web project that lets you create your _own_ online advent calendar.
+Ho ho ho! This is a little web project for making your _own_ online Advent calendar. Fill its 24 doors with pictures, short messages, YouTube videos, or recordings, put it online, and share the link with friends, family, or your class. Each day in December, one more door opens.
 
-Whether you’re surprising friends, delighting family, or spreading cheer in your classroom, this calendar unlocks a new surprise each day in December — images, videos, or messages — all with festive sparkle.
+It is plain HTML, CSS, and JavaScript: nothing to install, no build step, and no server code. If you can edit a text file, you can make it yours.
 
----
-
-## ✨ Features
-
-- **🎁 Daily surprises** — Each door unlocks a new image, message, or YouTube video.
-- **🕰️ Date-gated magic** — Doors open only on or after their day (Dec 1–24).
-- **🔗 Direct door links:** Add `?day=7` to the calendar address to open door 7 straight away, ready to turn into a QR code.
-- **🗃️ Memory included** — The calendar remembers opened doors until you reset it, with a friendly confirmation dialog so progress isn’t wiped by accident.
-- **🧁 Customizable** — Swap in your own images, videos, or quotes — no coding skills required.
-- **❄️ Falling snow** — Gentle snowflakes float across your screen (unless your device says “no thanks” to motion).
-- **🔊 Ho Ho Ho toggle** — Optional Santa laugh when you open a door!
-- **🎧 Audio surprises:** Play a recording behind a door, such as a story, a song, or a greeting, with an optional picture.
-- **📱 Fully responsive** — Looks great on phones, tablets, and big desktop displays.
-- **🧑‍🎄 Festive flair** — Candy-cane cursor, snow-capped doors, and Christmas coloring.
+The repository is called _adventCalendar2025_ because that is the year it started, but the calendar works in any year.
 
 ---
 
-## 🛠️ Setup
+## ✨ What it does
 
-1. **Download or clone this repository:**
+- **🎁 24 doors, one surprise each:** a picture, a short message, a YouTube video, or a recording with an optional picture.
+- **🕰️ Doors open by date.** Each door unlocks at midnight on its December day, in the visitor's own time zone, even if the page has been open all night. Earlier doors stay open. A locked door answers with a playful message.
+- **🔀 A shuffled order** for each visitor, which stays the same on their device.
+- **🗃️ Remembers opened doors** on each visitor's device. A Reset button, with a confirmation step, closes all doors and shuffles them again.
+- **🔗 A link for every door,** ready to turn into a QR code for cards, gift tags, or a poster.
+- **🔊 Optional "Ho Ho Ho"** when a door is opened for the first time. Visitors switch it on themselves, and the setting is remembered.
+- **❄️ Falling snow,** which stops when the visitor's device is set to reduce motion.
+- **📱 Works on phones, tablets, and desktops.**
+- **🌐 English and German.** Visitors whose browser is set to German get German messages, labels, and buttons.
+- **♿ Keyboard and screen-reader friendly.** See [Accessibility](#-accessibility-and-compatibility).
+- **🧑‍🎄 Festive details:** a candy-cane cursor, snow-capped doors, and Christmas colors.
+
+---
+
+## 🚀 Quick start
+
+1. **Get the files.** Click the green **Code** button above and choose **Download ZIP**, then unzip it. Or clone the repository:
 
    ```bash
    git clone https://github.com/HenniePenny/adventCalendar2025.git
    ```
 
-2. **Open the project folder**, then double-click `index.html` to open it in your browser.
-   That’s it! No installation, no build process — just pure, static HTML + CSS + JS joy.
+2. **Open `index.html` in your browser** by double-clicking it.
 
-3. _(Optional)_ Host it on your favorite static site service such as **GitHub Pages**, **Netlify**, or **Vercel** to share with others.
+3. **Fill the doors** with your own surprises (see [Make it your own](#-make-it-your-own)).
 
----
+4. **Put it online** to share it (see [Publishing](#-publishing)).
 
-## 🧪 Testing your calendar
-
-While you’re building or customizing, you don’t have to wait until December 1 to peek behind the doors.
-
-Inside script.js, near the top, you’ll find:
-
-```js
-// --- TEMPORARY: pretend today's date is Dec 10 for testing ---
-today.setMonth(11); // December (0-based)
-today.setDate(12);
-```
-
-You can change the day number to preview any date.
-
-To unlock every door instantly, set:
-
-```js
-const FORCE_TESTING_MODE = true;
-```
-
-When you’re ready to go live, simply comment those lines back out and reset:
-
-```js
-const FORCE_TESTING_MODE = false;
-```
-
-Now the calendar will open each door only on its proper December day. 🎁
-
-### 📱 Testing on your live website
-
-`FORCE_TESTING_MODE` unlocks the doors for every visitor, so only use it on your own computer. To test on a real phone after your calendar is online, make a temporary copy instead:
-
-1. Copy `index.html` to `preview.html` and `script.js` to `preview-script.js`.
-2. In `preview.html`, change `script.js` to `preview-script.js`, and add this line inside `<head>` so search engines skip the page:
-   `<meta name="robots" content="noindex, nofollow">`
-3. In `preview-script.js`, set `FORCE_TESTING_MODE = true`.
-4. Upload both files and open `yoursite.com/preview.html` **in a private or incognito window**. The calendar remembers opened doors in the browser, and a private window keeps that memory separate, so doors you open while testing will not show as opened on your real calendar.
-5. Delete both files when you are done.
-
----
-
-## 🔐 How door locking works
-
-The calendar automatically unlocks each door on its correct day in **any December** based on the visitor’s local date.
-
-No configuration is needed — as long as you’re viewing the calendar during December, each day opens at midnight and earlier days stay open.
-
-Outside of December, the calendar automatically enters **testing mode**, which unlocks all doors so you can preview your content.
-
----
-
-## 🔗 Direct door links and QR codes
-
-Every door has its own link. Add `?day=` and the door number to your calendar's address:
-
-```
-https://yoursite.com/?day=7
-```
-
-When the page loads, the calendar scrolls to that door and opens it. Turn each link into a QR code, and you can put the doors on printed cards, gift tags, or a poster.
-
-- **Locked doors stay locked.** If someone scans a code before the door's day, they see the usual locked-door message, not the surprise.
-- **Any QR code generator works.** The calendar only needs the link, so make one code for each day from `?day=1` to `?day=24`.
-- **Test before you print.** Outside December, testing mode unlocks every door, so you can scan each code with your phone and check that it opens the right door.
-- **Wrong numbers are ignored.** A missing number, or one outside 1 to 24, simply loads the calendar as usual.
+> **All doors locked?** That is expected. Outside December, and before each door's day, the doors stay locked. To look behind them while you work, turn on [testing mode](#-testing).
 
 ---
 
 ## 🎨 Make it your own
 
-Everything you need lives inside the `script.js` file — look for the **`surprises`** array.
+### Easy mode: swap the files
 
-Each entry looks like this:
+To use your own pictures without touching any code, replace the files in `assets/surprises/` with your own, keeping **the same file names and file types**. For example, `berlin-sugar-love.png` must be replaced by a PNG called `berlin-sugar-love.png`. The file names for each day are listed in the `surprises` list in `script.js`.
+
+The descriptions that screen readers read out (the `alt` text) still describe the old pictures, so update them in `script.js` as well when you can.
+
+### The surprises list
+
+Every door's content lives in the `surprises` list near the middle of `script.js`. It has exactly 24 entries, in order from day 1 to day 24. To change a day's surprise, replace its entry. You can mix the four types freely.
+
+| Type | Fields | Shows |
+| --- | --- | --- |
+| `image` | `src`, `alt` | A picture |
+| `text` | `title`, `body` | A short message or quote |
+| `youtube` | `url`, `title` | An embedded YouTube video |
+| `audio` | `src` (required), `title`, `description`, `image`, `alt` | An audio player, with an optional picture above it |
 
 ```js
 {
   type: "image",
   src: "assets/surprises/my-photo.webp",
-  alt: "A cozy mug of cocoa and cookies by the fire"
+  alt: "A mug of cocoa and cookies by the fire"
+},
+{
+  type: "text",
+  title: "A thought for today",
+  body: "Every door you open is a small reason to smile."
 },
 {
   type: "youtube",
@@ -134,24 +90,22 @@ Each entry looks like this:
 }
 ```
 
-You can mix and match:
+Keep the commas between entries, and the quotation marks around each value. Always give a picture an `alt` text that says what it shows, so visitors who use screen readers know too.
 
-- `type: "image"` → use local images in your `assets/surprises` folder
-- `type: "youtube"` → embed cheerful videos
-- `type: "text"` → show short messages or quotes
-- `type: "audio"` → play a recording, with an optional picture
-
-💡 **Tip:** You don’t need to change the code logic — just replace the content inside the array.
+Put your files in the `assets/surprises/` folder. WebP pictures of about 900 × 900 px load quickly on phones.
 
 ### 🎧 Audio surprises
 
 An audio door opens a popup with the browser's own audio player, so it works with touch, keyboard, and screen readers on phones and desktops.
 
 - **Nothing plays by itself.** Visitors press Play, and can pause and skip around. The recording stops when the popup closes or another door opens.
-- **`src` is required.** `title`, `description`, `image`, and `alt` are optional.
-- **Pictures are optional.** With an `image`, the picture appears above the player and on the opened door, with a small ♫ badge. Always add an `alt` text that describes the picture.
-- **Use MP3.** It plays in every modern browser, including Safari on iPhone. For spoken recordings, 64 kbps mono keeps a two-minute story at about 1 MB, which loads quickly on phones.
-- **The Santa laugh still works.** If the "Ho Ho Ho" sound is on, it plays when the door is first opened and stops as soon as the visitor presses Play.
+- **Pictures are optional.** With an `image`, the picture appears above the player and on the opened door, with a small ♫ badge.
+- **Use MP3.** It plays in every modern browser, including Safari on iPhone. For spoken recordings, 64 kbps mono keeps a two-minute story at about 1 MB.
+- **The "Ho Ho Ho" and the recording never overlap.** The laugh stops as soon as the visitor presses Play.
+
+### Heading
+
+The "Merry Christmas!" heading is in `index.html`. Change the text between `<h1>` and `</h1>`.
 
 ### 🎨 Door colors
 
@@ -177,35 +131,103 @@ Each door carries its day number in `data-day`, so you can color one door, a few
 
 Doors without a setting keep the default colors. Pick number colors with enough contrast against each background.
 
-### Easy mode ( no coding )
+---
 
-If you don’t want to edit JavaScript, simply replace the images in the `assets/surprises` folder using the same file names.
+## 🧪 Testing
 
-Your calendar will automatically show your new pictures.
+You do not have to wait for December to see behind the doors. Near the top of `script.js` you will find two switches.
+
+**Unlock every door:**
+
+```js
+const FORCE_TESTING_MODE = true;
+```
+
+A badge in the corner shows that testing mode is on.
+
+**Pretend it is a certain day in December:** remove the `//` in front of these two lines and set the day you want. The doors then behave as they would on that day, including unlocking the next door at midnight.
+
+```js
+// today.setMonth(11);   // December (0-based)
+// today.setDate(12);
+```
+
+**Before you publish,** set `FORCE_TESTING_MODE` back to `false` and put the `//` back in front of the two date lines. Both settings apply to every visitor.
+
+### 📱 Testing on your live website
+
+To test on a real phone after your calendar is online, make a temporary copy instead of switching on testing mode for everyone:
+
+1. Copy `index.html` to `preview.html` and `script.js` to `preview-script.js`.
+2. In `preview.html`, change `script.js` to `preview-script.js`, and add this line inside `<head>` so search engines skip the page:
+   `<meta name="robots" content="noindex, nofollow">`
+3. In `preview-script.js`, set `FORCE_TESTING_MODE = true`.
+4. Upload both files and open `yoursite.com/preview.html` **in a private or incognito window**. The calendar remembers opened doors in the browser, and a private window keeps that memory separate, so doors you open while testing will not show as opened on your real calendar.
+5. Delete both files when you are done.
 
 ---
 
-## 🔔 Optional extras
+## 🌍 Publishing
 
-- **Reset button:** Clears progress and reshuffles door order, with confirmation popup.
-- **Sound toggle:** Turn the “Ho Ho Ho” effect on / off — the setting is remembered. On audio doors, the laugh stops when the recording starts.
-- **Snow effect:** Automatically adapts to screen size and disables itself if the user prefers reduced motion.
+The calendar is a static website, so any web host works, for example **GitHub Pages**, **Netlify**, **Vercel**, or your own web space.
+
+1. Check that `FORCE_TESTING_MODE` is `false` and the two test date lines start with `//`.
+2. Upload `index.html`, `styles.css`, `script.js`, `snowEffect.js`, and the `assets/` folder.
+3. Open your calendar's address. If you uploaded changes and do not see them, reload the page with Ctrl+Shift+R (Windows, Linux) or Cmd+Shift+R (Mac).
 
 ---
 
-## ♿ Accessibility & compatibility
+## 🔐 How door locking works
 
-- Works on modern browsers — Chrome, Safari, Firefox, Edge.
-- Respects “Reduce Motion” settings for accessibility.
+- Each door unlocks at midnight on its December day, by the visitor's local date and time. Doors unlock even if the page stays open, without a reload.
+- Earlier doors stay open for the rest of December.
+- Outside December, every door is locked. Use [testing mode](#-testing) to preview.
+- Each new December starts with all doors closed again, so the same calendar can be used year after year.
+
+---
+
+## 🔗 Direct door links and QR codes
+
+Every door has its own link. Add `?day=` and the door number to your calendar's address:
+
+```
+https://yoursite.com/?day=7
+```
+
+When the page loads, the calendar scrolls to that door and opens it. Turn each link into a QR code, and you can put the doors on printed cards, gift tags, or a poster.
+
+- **Locked doors stay locked.** If someone scans a code before the door's day, they see the usual locked-door message, not the surprise.
+- **Any QR code generator works.** The calendar only needs the link, so make one code for each day from `?day=1` to `?day=24`.
+- **Test before you print.** With the [preview copy](#-testing-on-your-live-website), use `preview.html?day=7` and so on, and scan each code with your phone to check that it opens the right door. Make the final codes with your real address.
+- **Wrong numbers are ignored.** A missing number, or one outside 1 to 24, simply loads the calendar as usual.
+
+---
+
+## 🗃️ What the calendar remembers
+
+The calendar keeps its memory in each visitor's browser (`localStorage`), on that device only. A visitor who switches from phone to laptop starts fresh on the laptop. If the browser blocks storage, the calendar still works but forgets opened doors when the page is closed.
+
+| Key | Purpose |
+| --- | --- |
+| `openedDoors-YYYY-12` | Doors opened this December (a new key each year) |
+| `doorOrder` | The visitor's shuffled door order |
+| `soundEnabled` | Whether the "Ho Ho Ho" is switched on |
+
+The Reset button clears the opened doors and shuffles the order again.
+
+---
+
+## ♿ Accessibility and compatibility
+
+- Works in current versions of Chrome, Safari, Firefox, and Edge.
 - Supports mouse, touch, and keyboard: every door is a button you can reach with Tab and open with Enter or Space.
-- Screen readers announce each door, for example “Door 5, locked. Opens on December 5.”, and the locked-door message.
-- The surprise popup and the reset dialog keep keyboard focus inside, close with Esc, and return focus to where you were. The reset dialog starts on Cancel, so a stray Enter cannot clear anyone’s progress.
-- Doors unlock at midnight without reloading the page.
-- Still works when the browser blocks storage (for example in some private modes); progress then lasts until the page is closed.
+- Screen readers announce each door, for example "Door 5, locked. Opens on December 5.", and the locked-door message.
+- The surprise popup and the reset dialog keep keyboard focus inside, close with Esc, and return focus to where you were. The reset dialog starts on Cancel, so a stray Enter cannot clear anyone's progress.
+- The snow and the door animations stop when the device is set to reduce motion.
 - Door labels, the close button, and the reset buttons switch to German for German browsers.
 
 🎄 **Ongoing improvements:**  
-We’re actively working to expand accessibility support to ensure this calendar is usable and enjoyable for _everyone_. Next on the roadmap: enhanced color-contrast options.
+We are working to make this calendar usable and enjoyable for _everyone_. Next on the roadmap: enhanced color-contrast options.
 
 ---
 
@@ -220,13 +242,13 @@ Built with care, curiosity, and a sprinkle of Christmas magic. 🎄
 
 A sleighful of thanks to all the creators whose work adds sparkle to this project:
 
-- **Public domain Christmas cartoons** featured via YouTube — including classics like
-  _“Christmas Comes But Once a Year”_ (1936, Fleischer Studios),
-  _“Jack Frost”_ (1934, Ub Iwerks),
-  _“Snow Foolin’”_ (1949, Famous Studios),
-  _“The Pups’ Christmas”_ (1936, Happy Harmonies), and more.
-- **Festive imagery** adapted from freely available, royalty-free sources such as [Pixabay](https://pixabay.com/), [Unsplash](https://unsplash.com/) and [Pexels](https://www.pexels.com/).
-- **Fonts** from [Google Fonts](https://fonts.google.com/) — _Henny Penny_, the happiest font around.
+- **Public domain Christmas cartoons** featured via YouTube, including classics like
+  _Christmas Comes But Once a Year_ (1936, Fleischer Studios),
+  _Jack Frost_ (1934, Ub Iwerks),
+  _Snow Foolin'_ (1949, Famous Studios),
+  _The Pups' Christmas_ (1936, Happy Harmonies), and more.
+- **Festive imagery** adapted from freely available, royalty-free sources such as [Pixabay](https://pixabay.com/), [Unsplash](https://unsplash.com/), and [Pexels](https://www.pexels.com/).
+- **The font** _Henny Penny_, the happiest font around, from [Google Fonts](https://fonts.google.com/).
 
 And of course:
 
@@ -236,8 +258,9 @@ And of course:
 
 ## 🧑‍💻 Contributing
 
-Found a bug in Santa’s code? Got a bright idea for a new festive feature?
-Fork the repo, make your tweaks, and send a pull request — the elves will thank you!
+Found a bug in Santa's code? Got a bright idea for a new festive feature? Fork the repository, make your changes, and send a pull request. The elves will thank you!
+
+Changes that help every calendar are the best fit here. If you make a calendar with your own content and look, keep those in your fork, and feel free to tell us about it.
 
 ---
 
